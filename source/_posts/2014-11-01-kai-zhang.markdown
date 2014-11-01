@@ -1,0 +1,9 @@
+---
+layout: post
+title: "開張"
+date: 2014-11-01 21:45:50 +0800
+comments: true
+categories: 
+---
+
+測試新的部落格
