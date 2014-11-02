@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Vista + IIS + Access 出現 80004005 錯誤"
+date: 2009-06-25T19:10:00+08:00
+categories:
+ - 程式
+ - Windows
+---
+
+<div class='post'>
+<blockquote></blockquote>最近有個同事遇到一個問題，開發好的程式在 Vista 上的 IIS 會沒辦法讀取 access 裡面的資料，後來上網查了一下，發現這個問題還滿常發生的，要解決也很簡單，在命令模式下執行下面三行指令即可：<div><ul><li>%windir%\system32\inetsrv\appcmd set config /section:applicationPools /[name='DefaultAppPool'].processModel.loadUserProfile:false</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant Users:(CI)(S,WD,AD,X)</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant "CREATOR OWNER":(OI)(CI)(IO</li></ul><div>看起來因為 %windir%\serviceprofiles\networkservice\AppData\Local\Temp 這目錄的權限不足所造成的問題。</div><div>
+</div><div>參考資料：</div><div><a href="http://forums.iis.net/t/1148115.aspx">Access &amp; IIS7 Error : Database Engine error '80004005' - Unspecified Error</a></div></div></div>

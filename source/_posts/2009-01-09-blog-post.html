@@ -1,0 +1,16 @@
+---
+layout: post
+title: "依條件決定呼叫的函數"
+date: 2009-01-09T21:09:00+08:00
+categories:
+ - Javascript
+---
+
+<div class='post'>
+jQuery 提供了很多好用的涵數讓我們可以少寫很多 Javascript 程式碼，像 show() 及 hide() 用來顯示或隱藏元素，及 toggle() 可以在顯示與隱藏間來回切換，但當我們要依條件決定顯示或隱藏元素時，寫法還是有點囉嗦：<br />
+<textarea class="javascript" name="code" rows="3" cols="70"><br />if (cond) <br />    $("#someDiv").show();<br />else<br />    $("#someDiv").hide();<br /></textarea><br />
+今天看到有人建議：<a href="http://www.nabble.com/show-hide-toggle:-suggestion-to-reduce-show-hide-code-td20554124s27240.html">suggestion to reduce show/hide code</a>，不知道 jQuery 會不會加，不過裡面給我發現了 Javascript 的一個奇特的程式寫法，也可以少掉一些 code ：<br />
+<textarea class="javascript" name="code" rows="3" cols="70">
+$("#someDiv")[cond ? 'show' : 'hide']();
+</textarea><br />
+只能說，javascript 真是個神奇的語言。</div>

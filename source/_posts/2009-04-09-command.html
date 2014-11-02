@@ -1,0 +1,16 @@
+---
+layout: post
+title: "運用 command 來批次改檔名"
+date: 2009-04-09T21:58:00+08:00
+categories:
+ - Windows
+---
+
+<div class='post'>
+從網路上抓某些漫畫圖片回來，其裡面的命名會是 1.jpg, 2.jpg, 10.jpg, 11.jpg, 100.jpg... 等，使用看 <a href="http://www.nyam.pe.kr/">Imagine</a> 看時，看的順序會是 1, 10, 11, 12 ... 等，而不是真正想看到順序。最近剛好看到<a href="http://plog.longwin.com.tw/my_note-unix/2009/04/07/awk-sprintf-mv-rename-filename-2009">使用 awk sprintf 修改 檔案名稱</a>，突然想到用在 Windows 環境下應該也是有處理的方式，找了一下 command 的寫法，可以用下面兩行指令來解決：
+<pre>
+for /F %G in ('dir /b ?.jpg') do ren %G 00%G
+for /F %G in ('dir /b ??.jpg') do ren %G 0%G
+</pre>
+第一行是針對一位數的 jpg 檔前面補兩個 0。
+第二行是針對二位數的 jpg 檔前面補一個 0。</div>

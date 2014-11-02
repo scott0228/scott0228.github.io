@@ -1,0 +1,47 @@
+---
+layout: post
+title: "IE8 正式版的 bug?"
+date: 2009-03-20T15:43:00+08:00
+---
+
+<div class='post'>
+base 元素可規定頁面中所有鏈接的基準 URL。
+通常情況下，瀏覽器會從當前文檔的 URL 中提取相應的元素來填寫相對 URL 中的空白。
+使用 base 標籤可以改變這一點。瀏覽器隨後將不再使用當前文檔的 URL，而使用指定的基本 URL 來解析所有的相對 URL。這其中包括 a、img、link、form 標籤中的 URL。
+
+但是在 IE8 裡面有個 bug，就算設定了 base標籤，它還是會使用當前的 URL 提取相應的元素，然後再用 base 設定的 url 去提取元素。如此一來，造成 server 不必要的負擔，不知道有沒有人有解決方式？還是這其實是我對標準的誤解？
+
+假設我有下面這個 index.html 放在 ui 的目錄：
+<textarea class="xml" name="code" rows="10" cols="70"><html>
+	<head>
+		<title>Document</title>
+		<base href="http://scott0228.blogspot.com/">
+		<link type="text/css" rel="stylesheet" media="screen" href="main.css">
+		<link type="text/css" rel="stylesheet" media="screen" href="main2.css">
+		<script type="text/javascript" src="mootools.js"></script>
+		<script type="text/javascript" src="mootools2.js"></script>
+		<script type="text/javascript" src="mootools3.js"></script>
+		<link type="text/css" rel="stylesheet" media="screen" href="main3.css">
+	</head>
+	<body>
+		<a href="scripts/">Scripts</a>
+		<img src="logo.png" alt="MD Logo" />
+	</body>
+</html>
+
+</textarea>
+當利用 IE8 去開 index.html 時，其會對 server 做以下的 request：
+<pre>
+http://scott0228.blogspot.com/ui/index.html
+http://scott0228.blogspot.com/main.css
+http://scott0228.blogspot.com/main2.css
+http://scott0228.blogspot.com/mootools.js
+http://scott0228.blogspot.com/ui/mootools2.js
+http://scott0228.blogspot.com/ui/mootools3.js
+http://scott0228.blogspot.com/ui/main3.css
+http://scott0228.blogspot.com/mootools2.js
+http://scott0228.blogspot.com/mootools3.js
+http://scott0228.blogspot.com/main3.css
+</pre>
+IE8 對於 base 的正確處理只會到第一個 script 之前，之後的 script 及 link 都會取兩次，一次是 base 的，一次是當前的 url
+目前 IE8 對於第一個 script 的 src 只取以 base 為基楚的檔案，第二個以後，及其之後的 link 都會取兩次，這樣會造成 server 的 loading 及程式的錯誤，不知道有法有辦法解決？</div>

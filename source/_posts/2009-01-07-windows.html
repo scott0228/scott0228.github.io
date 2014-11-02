@@ -1,0 +1,31 @@
+---
+layout: post
+title: "如何動態取得 Windows 系統特殊資料夾"
+date: 2009-01-07T17:16:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+<p>怎麼利用 Java 去取得 windows 系統上的特殊資料夾呢? 在 dot net 平台上，微軟有準備好<a href="http://msdn.microsoft.com/zh-tw/library/system.environment.specialfolder.aspx">Environment.SpecialFolder 列舉型別</a> 來給開發者用，而 java 平台上，目前有看到 <a href="http://code.google.com/p/winfoldersjava/">winfoldersjava</a> 可以使用，目前似乎不支援中文，用法如下：</p>
+
+<pre class="code">import java.io.File;
+
+import com.catnapgames.winfolders.WinFoldersJava;
+
+
+public class Test {
+ public static void main(String[] args) {
+  System.load(new File(&quot;&quot;).getAbsolutePath() + &quot;\\WinFoldersJava-1.0.dll&quot;);
+  System.out.println(&quot;CSIDL_PERSONAL\t\t&quot; + WinFoldersJava.getSpecialFolderPath(WinFoldersJava.CSIDL_PERSONAL));
+  System.out.println(&quot;CSIDL_LOCAL_APPDATA\t&quot; + WinFoldersJava.getSpecialFolderPath(WinFoldersJava.CSIDL_PERSONAL));
+  System.out.println(&quot;CSIDL_MYPICTURES\t&quot; + WinFoldersJava.getSpecialFolderPath(WinFoldersJava.CSIDL_MYPICTURES));
+  System.out.println(&quot;CSIDL_COMMON_APPDATA\t&quot; + WinFoldersJava.getSpecialFolderPath(WinFoldersJava.CSIDL_COMMON_APPDATA));
+  System.out.println(&quot;CSIDL_COMMON_DOCUMENTS\t&quot; + WinFoldersJava.getSpecialFolderPath(WinFoldersJava.CSIDL_COMMON_DOCUMENTS));
+  
+ }
+}</pre>
+
+<p>這程式目前對中文似乎不支援。如果只是要取得【我的文件夾】目錄的話，可以直接使用 Swing 的功能取得，中文沒問題：</p>
+
+<pre class="code">javax.swing.filechooser.FileSystemView.getFileSystemView().getDefaultDirectory()</pre></div>

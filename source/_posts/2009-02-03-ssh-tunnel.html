@@ -1,0 +1,38 @@
+---
+layout: post
+title: "SSH Tunnel"
+date: 2009-02-03T00:38:00+08:00
+categories:
+ - 網路
+ - Windows
+---
+
+<div class='post'>
+之前在客戶那，沒辦法使用 msn ，後來發現可以利用 ssh tunnel 來 proxy 連線。在 windows 平台下，我們可以使用 putty 或是 plink 來建立 ssh tunnel，因為這兩個都不支持密碼的在檔，所以我通常是使用 <a href="http://nemesis2.qx.net/pages/MyEnTunnel">MyEnTunnel </a>，它是利用 plink 來進行連線，可以存下連線資料，方便我們進行連線。
+那我們如何利用 MyEnTunnel 建立一個 socket proxy 呢？其使用部驟如下：
+<ol><li>首先我們下載 MyEnTunnel 及 plink ，然後解壓縮放在一起：
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY0zfdp_UNI/AAAAAAAAJDA/jk1Y6aMwIiE/s1600-h/ssh1.jpg"><img style="cursor: pointer; width: 320px; height: 58px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY0zfdp_UNI/AAAAAAAAJDA/jk1Y6aMwIiE/s320/ssh1.jpg" alt="" id="BLOGGER_PHOTO_ID_5299948952114647250" border="0" /></a>
+</li><li>執行 myentunnel.exe，設定連線資訊，記得勾選【Enable Dynamic SOCKS】：
+
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SY0zt_mUwZI/AAAAAAAAJDI/PO1pQjzLyhk/s1600-h/ssh2.png"><img style="cursor: pointer; width: 320px; height: 200px;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SY0zt_mUwZI/AAAAAAAAJDI/PO1pQjzLyhk/s320/ssh2.png" alt="" id="BLOGGER_PHOTO_ID_5299949201744249234" border="0" /></a>
+</li><li>點選 Connect，切換到 Status 頁即可看到是否連線成功
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY0ztzSl3vI/AAAAAAAAJDQ/loESh5m5Tog/s1600-h/ssh3.png"><img style="cursor: pointer; width: 320px; height: 200px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY0ztzSl3vI/AAAAAAAAJDQ/loESh5m5Tog/s320/ssh3.png" alt="" id="BLOGGER_PHOTO_ID_5299949198440259314" border="0" /></a>
+</li></ol>當線線成功後，我們就可以讓  firefox 或是 msn 利用此通道進行網頁的連線：
+Firefox：
+<ul><li>選擇【工具】=>【選項】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://1.bp.blogspot.com/_fZUSxw71alM/SY01uwx2aCI/AAAAAAAAJDY/lmt3snAfTU4/s1600-h/firefox1.png"><img style="cursor: pointer; width: 400px; height: 386px;" src="http://1.bp.blogspot.com/_fZUSxw71alM/SY01uwx2aCI/AAAAAAAAJDY/lmt3snAfTU4/s400/firefox1.png" alt="" id="BLOGGER_PHOTO_ID_5299951413969184802" border="0" /></a>
+</li><li>點選【進階】=>【網路】=>【設定】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SY01u5hERYI/AAAAAAAAJDg/PWk7MQY_2Fg/s1600-h/firefox2.png"><img style="cursor: pointer; width: 368px; height: 400px;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SY01u5hERYI/AAAAAAAAJDg/PWk7MQY_2Fg/s400/firefox2.png" alt="" id="BLOGGER_PHOTO_ID_5299951416314709378" border="0" /></a>
+選擇【手動設定 Proxy】將最下面的【SOCKS 主機】設定到本機端的 7070 port(對應 MyEntunnel 上所設定的 port)，然後我們就可以利用 firefox 連線到 http://myip.easylife.idv.tw/ 來驗證是否是透過 ssh server 連線了。
+
+</li></ul>MSN：
+<ol><li>【選項】=>【連線】=>【進階設定】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY03IA_oVFI/AAAAAAAAJDo/vXAimHmwX3A/s1600-h/msn1.png"><img style="cursor: pointer; width: 334px; height: 400px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY03IA_oVFI/AAAAAAAAJDo/vXAimHmwX3A/s400/msn1.png" alt="" id="BLOGGER_PHOTO_ID_5299952947330307154" border="0" /></a>
+</li><li>設定 SOCKS 為本機端及 Port 為 7070 按下測試：
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IGUSjsI/AAAAAAAAJD4/3S4MOQy-_-8/s1600-h/msn2.png"><img style="cursor: pointer; width: 344px; height: 400px;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IGUSjsI/AAAAAAAAJD4/3S4MOQy-_-8/s400/msn2.png" alt="" id="BLOGGER_PHOTO_ID_5299952948759137986" border="0" /></a>
+</li><li>如果 SOCKS 可連線，便可看到以下的訊息
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IH5muCI/AAAAAAAAJDw/1gRfhmHXa4A/s1600-h/msn3.png"><img style="cursor: pointer; width: 341px; height: 196px;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IH5muCI/AAAAAAAAJDw/1gRfhmHXa4A/s400/msn3.png" alt="" id="BLOGGER_PHOTO_ID_5299952949184084002" border="0" /></a>
+</li></ol>
+參考：<a href="http://initiative.yo2.cn/archives/448643">
+PuTTY自帶的plink.exe實現ssh繞牆技術</a>
+<a href="http://cha.homeip.net/blog/archives/2006/01/putty_ssh_tunne.html">PuTTY - SSH Tunnel 運用備忘</a></div>

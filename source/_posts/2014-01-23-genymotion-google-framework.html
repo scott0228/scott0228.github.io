@@ -1,0 +1,33 @@
+---
+layout: post
+title: "如何在 Genymotion 模擬器上新增 Google Framework"
+date: 2014-01-23T22:01:00+08:00
+---
+
+<div class='post'>
+新版的 Genymotion 因為版權問題，android 模擬器中不含 Google Framework ，目前有兩種做法：<br />
+Genymotion&nbsp;&nbsp;2.0.0 版後因正式營利，所以 2.0.0 版後的 ova 內不包括有版權的 gapps 及 ARM library，目前的做法有兩種：<br />
+<br />
+<ol>
+<li>使用舊版含 gapps 的 ova : 官方載點似乎已經找不到了，要各憑本事找</li>
+<li>在新的 ova vm 中安裝 gapps 及 ARM library</li>
+</ol>
+<div>
+安裝步驟如下：</div>
+<div>
+<ol>
+<li>下載相關檔案：<br /><a href="http://goo.gl/JBQmPa">ARM Translation Installer v1.1</a><br /><a href="http://goo.im/gapps/gapps-jb-20130813-signed.zip">Google Apps for Android 4.3</a><br /><a href="http://goo.im/gapps/gapps-jb-20130812-signed.zip">Google Apps for Android 4.2</a><br /><a href="http://goo.im/gapps/gapps-jb-20121011-signed.zip">Google Apps for Android 4.1</a></li>
+<li>開啟 Genymotion 模擬器，解鎖到 home screen</li>
+<li>將 Genymotion-ARM-Translation.zip 拖拉進 vm 的視窗中，進行安裝，裝完後將 vm 重新開機</li>
+<li>將對應的 Gapp檔案拖拉進 vm 中，進行安裝，裝完後再次重開機，就會有 Google play Store 可以使用了。</li>
+</ol>
+</div>
+<div>
+<br /></div>
+<div>
+參考：</div>
+<div>
+http://forum.gamer.com.tw/C.php?bsn=23805&amp;snA=165002</div>
+<div>
+http://stackoverflow.com/questions/17831990/how-do-you-install-google-frameworks-play-accounts-etc-on-a-genymotion-virtu</div>
+</div>

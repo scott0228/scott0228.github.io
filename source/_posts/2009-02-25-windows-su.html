@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Windows 下的 su"
+date: 2009-02-25T11:51:00+08:00
+categories:
+ - Windows
+---
+
+<div class='post'>
+最近因為用到 <a href="http://www.postgresql.org/">PostgreSQL</a> ，而 PostgresSQL 有個限制，不能以【擁有系統管理者權限的使用者】來執行，因此在 Linux 下，就需要以 su 來改變身份去執行，那 windows 下要怎麼辦呢？小弟找到了兩個方法：
+<ol><li>sysinternals 裡的 <a href="http://technet.microsoft.com/en-us/sysinternals/bb897553.aspx">psexec</a> </li><li>Windows 內建的 <a href="http://technet.microsoft.com/en-us/sysinternals/bb897553.aspx">runas</a></li></ol>小弟先在系統中建立了一個　postgres 的帳號，然後利用上述兩個軟體來執行。
+
+使用 psexec 的方法如下：
+psexec -u postgres -p postgres D:\pgsql\bin\postgres -D D:\pgsql\data
+
+使用 runas  的方法如下：
+%windir%\System32\runas.exe /user:<strong></strong><em>ComputerName</em><strong></strong>\postgres "D:\pgsql\bin\pg_ctl start -D D:\pgsql\data"
+
+使用 psexec 的好處是，可以直接將密碼放在參數上，這樣不用每次都去 keyin 密碼。而使用 runas 的話，每次都要輸入密碼，另外也可以加上 /savecred 參數來存儲存密碼（XP Home 是不能用的）。</div>

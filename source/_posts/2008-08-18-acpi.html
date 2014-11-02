@@ -1,0 +1,18 @@
+---
+layout: post
+title: "如何啟動 ACPI 來讓電腦自動關閉電源"
+date: 2008-08-18T20:21:00+08:00
+categories:
+ - Windows
+---
+
+<div class='post'>
+最近在公司為了節能減炭，計畫將一些測試用的 Server 定時開關機來減少電力的損耗，而那些電腦裡，有幾台是 Windows 2000 server  ，主機版也有支援 ACPI，不知道為什麼關機就是會出現【您可以安心關機了】的字眼而不會直接關機，這樣的 Server  造成需要有人去實際關機而不能排程關機(人是懶墮的，可以由電腦自己開關機就不要排值日生去關啊<img src="http://chhuang.googlepages.com/th_013_a.gif" border="0" />)。因此小弟就研究了一下，原來是 ACPI  的功能沒有被開啟，造成電腦不會自動關電源，只要照著以下步驟將 ACPI 的 Driver 改一下就行了(PS. 前提是主機版有支援 ACPI)：<ol><li>在【我的電腦】上按右鍵，選擇【管理】，點選【裝置管理員】，展開【電腦】，如果顯示如下【Advanced Configuration and Power  Interface (ACPI)PC】表示已經開啟此功能，否則則繼續往下做。
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SKlp6ffFiqI/AAAAAAAAGOg/jycR6BAhPlE/s1600-h/pic1.gif"><img style="margin: 0pt 10px 10px 0pt; cursor: pointer;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SKlp6ffFiqI/AAAAAAAAGOg/jycR6BAhPlE/s320/pic1.gif" alt="" id="BLOGGER_PHOTO_ID_5235832495400127138" border="0" /></a></li><li>在上面按右鍵，選【內容】，點選【驅動程式】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SKlqn5dpB4I/AAAAAAAAGOo/Gpj9Vn8frbA/s1600-h/pic2.gif"><img style="cursor: pointer;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SKlqn5dpB4I/AAAAAAAAGOo/Gpj9Vn8frbA/s320/pic2.gif" alt="" id="BLOGGER_PHOTO_ID_5235833275467499394" border="0" /></a>
+</li><li>點選【更新驅動程式】，按下一步，選擇【請顯示這個裝置目前的驅動程式清單，讓我從清單中指定驅動程式(D)】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SKlq3BHs9HI/AAAAAAAAGOw/AOMujVnwqfA/s1600-h/pic3.gif"><img style="cursor: pointer;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SKlq3BHs9HI/AAAAAAAAGOw/AOMujVnwqfA/s320/pic3.gif" alt="" id="BLOGGER_PHOTO_ID_5235833535221003378" border="0" /></a>
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://1.bp.blogspot.com/_fZUSxw71alM/SKlq8WB8I7I/AAAAAAAAGO4/acHYl623P3w/s1600-h/pic4.gif"><img style="cursor: pointer;" src="http://1.bp.blogspot.com/_fZUSxw71alM/SKlq8WB8I7I/AAAAAAAAGO4/acHYl623P3w/s320/pic4.gif" alt="" id="BLOGGER_PHOTO_ID_5235833626733323186" border="0" /></a>
+</li><li>點選下一步，點選下面的【顯示這個裝置類別的所有硬體】，然後選擇 ACPI 的 driver。
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SKlrDpDZN9I/AAAAAAAAGPA/7cqM65PXPpg/s1600-h/pic5.gif"><img style="cursor: pointer;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SKlrDpDZN9I/AAAAAAAAGPA/7cqM65PXPpg/s320/pic5.gif" alt="" id="BLOGGER_PHOTO_ID_5235833752098781138" border="0" /></a>
+</li><li>點選下一步，安裝 Driver，重開機後就大功告成了 </li></ol> <p>請注意，如果你的電腦沒有 Acpi 的功能，千萬不能裝這個 Driver，否則可能出問題。</p></div>

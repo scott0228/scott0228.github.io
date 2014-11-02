@@ -1,0 +1,63 @@
+---
+layout: post
+title: "如何利用批次檔取得系統日期時間"
+date: 2008-12-22T23:20:00+08:00
+categories:
+ - Windows
+---
+
+<div class='post'>
+<p>之前曾經有想過要利用批次檔加上 windows 的排程來定時為測試用的資料庫進行備份，只是不知道怎麼取得目前系統日期時間來使用，最近剛好看到這幾篇文章，留下來做參考：</p>  <p>取得今天日期的年、月、日：</p>  <pre class="code">for /f &quot;tokens=1-4 delims=-/ &quot; %%i IN (&quot;%date%&quot;) DO (
+    set year=%%i
+    set month=%%j
+    set day=%%k
+)</pre>
+
+<pre>取得當下時間的時、分、秒、百分之一秒</pre>
+
+<pre class="code">for /f &quot;tokens=1-4 delims=:.&quot; %%i IN (&quot;%time%&quot;) DO (
+    set hour=%%i
+    set minute=%%j
+    set second=%%k
+    set centisecond=%%l
+)</pre>
+
+<pre>組合含有日期、時間的字串：</pre>
+
+<pre class="code">SET OutputDir=%year%%month%%day%_%hour%_%minute%_%second%_%centisecond%</pre>
+
+<pre>指令取得上個月的月份(使用 SET /A，/A 可以做數值運算（arithmetic）)：</pre>
+
+<pre class="code">@echo off
+rem 把日期裡的斜線拿掉；2008/10/21→20081021
+set Today=%DATE:/=%
+ 
+set ThisYear=%Today:~0,4%
+ 
+rem 取回今天的年度月份；200810
+set ThisMonth=%Today:~4,2%
+ 
+rem 本月份減1取得上個月份
+set /A LastMonth=%ThisMonth%-1
+ 
+rem 如果是1月份的話，要把年度減1
+if &quot;%LastMonth%&quot;==&quot;0&quot; set /A ThisYear=%ThisYear%-1
+ 
+if &quot;%LastMonth%&quot;==&quot;0&quot; set LastMonth=12
+ 
+rem 如果是1月到9月時，左補零成為01~09
+if &quot;%LastMonth:~1,1%&quot;==&quot;&quot; set
+LastMonth=0%LastMonth%
+ 
+echo Year=%ThisYear%
+echo Month=%LastMonth%</pre>
+
+<p>參考：</p>
+
+<ul>
+  <li><a title="http://blog.miniasp.com/post/2007/10/How-to-get-system-date-time-in-batch-file.aspx" href="http://blog.miniasp.com/post/2007/10/How-to-get-system-date-time-in-batch-file.aspx">http://blog.miniasp.com/post/2007/10/How-to-get-system-date-time-in-batch-file.aspx</a> </li>
+
+  <li><a title="http://blog.miniasp.com/post/2008/12/How-to-get-system-date-time-in-batch-file-part-II.aspx" href="http://blog.miniasp.com/post/2008/12/How-to-get-system-date-time-in-batch-file-part-II.aspx">http://blog.miniasp.com/post/2008/12/How-to-get-system-date-time-in-batch-file-part-II.aspx</a> </li>
+
+  <li><a title="http://jdev.tw/blog/815/dos-get-month-batch" href="http://jdev.tw/blog/815/dos-get-month-batch">http://jdev.tw/blog/815/dos-get-month-batch</a> </li>
+</ul>  </div>

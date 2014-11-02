@@ -1,0 +1,21 @@
+---
+layout: post
+title: "sockstat"
+date: 2009-02-24T10:32:00+08:00
+categories:
+ - 網路
+---
+
+<div class='post'>
+之前曾經介紹過如何查看<a href="http://scott0228.blogspot.com/2009/01/port.html"> port 被占住的方式</a>，只是在 Linux 下要下的指令比較長，今天剛好到有人介紹：<a href="http://people.debian.org.tw/%7Echihchun/2009/02/23/sockstat-for-linux/">sockstat</a>，原本是在 freebsd 下用來查看的工具，現在有人將他改寫成 Linux 版，因此 Linux  下也可以使用這好用的工具了。
+<pre>
+$ sockstat
+USER     PROCESS              PID      PROTO  SOURCE ADDRESS            FOREIGN ADDRESS           STATE
+chihchun conduit.real         7902     tcp4   *:3400                    *: *                      LISTEN
+chihchun dropboxd             7989     tcp4   10.11.12.231:49912        75.126.170.58:443         CLOSE_WAIT
+chihchun pidgin               8651     tcp4   10.11.12.231:46378        66.163.181.178:5050       ESTABLISHED
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            *: *                      LISTEN
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            127.0.0.1:54522           ESTABLISHED
+chihchun ssh                  28346    tcp4   127.0.0.1:1100            *: *                      LISTEN
+chihchun ssh                  28346    tcp4   127.0.0.1:2500            *: *                      LISTEN
+</pre></div>

@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Tomcat Resource 使用的 lib 擺放位置"
+date: 2009-01-07T18:01:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+<p>在網路上看到在 Tomcat 中設置 Datasource，都需要將 jdbc driver 放到 Tomcat 的 lib 目錄下，之前在研究使用 JTA 時，才發現原來並不一定要將 jdbc driver 放在 Tomcat 的 lib 目錄下。<a href="http://scott0228.blogspot.com/2008/09/tomcat-datasource.html%22">之前說過</a> Tomcat 載入 class 的順序，當我們在 context.xml 中宣告了 Resource ，如果該 Resource 的 factory 是使用到 Tomcat lib 下的 class ，此時 classloader 就只會找 Tomcat lib 目錄下的 class 來載入。</p>
+
+<textarea class="xml" name="code" rows="10" cols="70"><?xml version="1.0" encoding="UTF-8"?><br /><context path="/kfc"><br /> <resource name="jdbc/kfc" auth="Container" type="javax.sql.DataSource" username="kfc" password="kfc" driverclassname="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@172.16.100.91:1521:kfc" maxactive="20" maxidle="4"><br /></context><br /></textarea>
+
+<p>上面的寫法，使用的是 Tomcat 預設的 Factory 來啟始 Resource，如果 jdbc driver 沒有放在 Tomcat 的 Lib 下，就會無法使用。</p>
+
+<textarea class="xml" name="code" rows="20" cols="70"><?xml version="1.0" encoding="UTF-8"?><br /><context path="/kfc" debug="0" reloadable="true" crosscontext="true"><br /> <resource name="jdbc/kfc" auth="Container" type="com.atomikos.jdbc.AtomikosDataSourceBean" factory="com.atomikos.tomcat.BeanFactory" uniqueresourcename="jdbc/kfc" xadatasourceclassname="net.sourceforge.jtds.jdbcx.JtdsDataSource" maxpoolsize="50" servername="172.16.100.91" databasename="kfc" portnumber="1433" user="kfc" password="kfc">  <br /> <transaction factory="com.atomikos.icatch.jta.UserTransactionFactory">  <br /></context><br /></textarea>
+
+<p>此寫法，當我使用 factory 是 com.atomikos.tomcat.BeanFactory，我是將其 jar 檔都打包在我的 war 檔裡，因此 Tomcat 在載入此 Resource 時，會使用的是 WEB APP 的 classloader ，因此 jdbc driver 也只要放在 web app 下即可被載入。</p></div>

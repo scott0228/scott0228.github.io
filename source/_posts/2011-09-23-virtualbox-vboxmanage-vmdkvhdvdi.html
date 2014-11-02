@@ -1,0 +1,24 @@
+---
+layout: post
+title: "利用 VirtualBox 附的 VBoxManage 將vmdk/vhd轉換為VDI格式"
+date: 2011-09-23T11:35:00+08:00
+categories:
+ - virtualbox
+---
+
+<div class='post'>
+<b>VBoxManage</b> clonehd source.vmdk target.vdi --format VDI<br />
+<br />
+<ul>
+<li><b><span class="Apple-style-span" style="font-weight: normal;">clonehd : 告訴 VBoxManage 要複制虛擬硬碟檔案</span></b></li>
+<li><b><span class="Apple-style-span" style="font-weight: normal;">source.vmdk : 來源檔案</span></b></li>
+<li><b><span class="Apple-style-span" style="font-weight: normal;">target.vdi&nbsp;: 目地檔案</span></b></li>
+<li>--format VDI : 指定目地檔案的格式，來源檔案的格式似乎會自動判斷&nbsp;</li>
+</ul>
+<div>
+轉換完後就可以在 virtualbox 中建立新的虛擬環境，並使用 target.vdi 進行開機使用了。</div>
+<br />
+參考：<br />
+&nbsp; &nbsp; http://blog.tenyi.com/2009/12/convert-from-vmdkvhd-to-vdi-format.html
+<br />
+&nbsp; &nbsp; http://nfolamp.wordpress.com/2010/06/10/converting-vmdk-files-to-vdi-using-vboxmanage/</div>

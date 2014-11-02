@@ -1,0 +1,38 @@
+---
+layout: post
+title: "好用工具：Junction ( Windows 版的 symbolic link )"
+date: 2009-02-22T20:11:00+08:00
+categories:
+ - Windows
+---
+
+<div class='post'>
+Linux 上有個 <a href="http://linux.about.com/od/commands/l/blcmdl1_ln.htm" rel="nofollow" target="_blank">ln</a> 指令可任意建立 link ( 包括 hard links 與 symbolic links )，這是個很好用的東西，在 Vista 上也有個 <a href="http://en.wikipedia.org/wiki/NTFS_symbolic_link">mklink</a> 可以用來做相同的事，不過在 Windows XP 之前的環境卻沒有內建相對應的程式，而 <a href="http://technet.microsoft.com/en-us/sysinternals/bb896768.aspx" rel="nofollow" target="_blank">Junction</a> 就是一個可以替代的工具。
+其使用說明如下：
+<pre>
+Junction v1.05 - Windows junction creator and reparse point viewer
+Copyright (C) 2000-2007 Mark Russinovich
+Systems Internals - http://www.sysinternals.com
+
+The first usage is for displaying reparse point information, and the
+second usage is for creating or deleting a NTFS junction point:
+
+usage: junction [-s] [-q] <file or="" directory="">
+    -q     Don't print error messages (quiet)
+
+    -s     Recurse subdirectories
+
+usage: junction [-d] <junction directory=""> [<junction target="">]
+    -d     Delete the specified junction
+    example: junction d:\link c:\winnt
+</junction></junction></file></pre>
+新增：
+junction c:\Profiles\User1\MyDocs "d:\tmp\My Documents"
+刪除：
+junction -d c:\Profiles\User1\MyDocs
+
+如果不是透田 junction 去刪除 link，而是直接用檔案總管去刪除 link，會造成原來的資料被一併刪除，請特別注意。
+另外， 有個 <a href="http://sourceforge.net/projects/ntfslinkext/">NTFS Link ext </a>可以讓我們使用 GUI 的方式進行 link。
+
+參考：
+<a href="http://amanda_hoic.mysinablog.com/index.php?op=ViewArticle&amp;articleId=1276558">http://amanda_hoic.mysinablog.com/index.php?op=ViewArticle&amp;articleId=1276558</a></div>

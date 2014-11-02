@@ -1,0 +1,35 @@
+---
+layout: post
+title: "Windows 2008 單一網卡架 VPN Server"
+date: 2014-07-24T21:11:00+08:00
+categories:
+ - Windows
+ - vpn
+---
+
+<div class='post'>
+因為偶而需要去大陸出差，需要一個跳板可以突破 GFW ，之前都是利用 SSH Tunnel ，不過在 ipad 上無法使用，因此找了台主機來架 VPN Server。網路上找到的範例教學大多是利用兩張網卡，研究了好久才知道 Windows 2008 是要怎樣設定，步驟如下：<br />
+<br />
+<ol>
+<li>新增路由及遠端存取<br />
+<a href="http://3.bp.blogspot.com/-l-Snu9WyKHE/U9EBw-Ro4xI/AAAAAAAAT7s/fLjd7pyAm9c/s1600/2013-12-23_130215.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-l-Snu9WyKHE/U9EBw-Ro4xI/AAAAAAAAT7s/fLjd7pyAm9c/s1600/2013-12-23_130215.png" height="474" width="640" />&nbsp;</a> </li>
+<li>選擇自定設定 <br />
+<a href="http://4.bp.blogspot.com/-JGZ0bSMxHFc/U9EBxGO6j-I/AAAAAAAAT7w/Pd_nOB25Lq8/s1600/2013-12-23_130231.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-JGZ0bSMxHFc/U9EBxGO6j-I/AAAAAAAAT7w/Pd_nOB25Lq8/s1600/2013-12-23_130231.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>選取『VPN存取』及『NAT』<br />
+<a href="http://3.bp.blogspot.com/-sO4xyzG_Unw/U9EBxSJ2qdI/AAAAAAAAT74/oajUa930uHc/s1600/2013-12-23_130254.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-sO4xyzG_Unw/U9EBxSJ2qdI/AAAAAAAAT74/oajUa930uHc/s1600/2013-12-23_130254.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>完成新增<br />
+<a href="http://1.bp.blogspot.com/-a54cZvCU7mk/U9EByMD1l8I/AAAAAAAAT8E/qYLkKUHQ2Wc/s1600/2013-12-23_130304.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-a54cZvCU7mk/U9EByMD1l8I/AAAAAAAAT8E/qYLkKUHQ2Wc/s1600/2013-12-23_130304.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>設定&nbsp; DHCP 發送位址範圍<br /><a href="http://1.bp.blogspot.com/-n-Zifmey518/U9ECoAJcR0I/AAAAAAAAT80/bd7-WeHZXkQ/s1600/2013-12-23_130425.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-n-Zifmey518/U9ECoAJcR0I/AAAAAAAAT80/bd7-WeHZXkQ/s1600/2013-12-23_130425.png" height="474" width="640" /></a>
+</li>
+<li>設定 NAT，選取區域連線 <br />
+<a href="http://1.bp.blogspot.com/-d8G54zIQxew/U9ECofMzKaI/AAAAAAAAT84/HblOjABppcE/s1600/2013-12-23_130450.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-d8G54zIQxew/U9ECofMzKaI/AAAAAAAAT84/HblOjABppcE/s1600/2013-12-23_130450.png" height="474" width="640" /></a>
+</li>
+<li>選取『連線到網際網路的公用介面』及『在這個介面上啟用NAT』<br />
+<a href="http://4.bp.blogspot.com/-wA4yBkNgKRg/U9ECoR8qBnI/AAAAAAAAT88/ptwKXl0TEZM/s1600/2013-12-23_130512.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-wA4yBkNgKRg/U9ECoR8qBnI/AAAAAAAAT88/ptwKXl0TEZM/s1600/2013-12-23_130512.png" height="474" width="640" />&nbsp;</a></li>
+<li>完成後，即可利用 PPTP 的方式 VPN 連線到此台電腦，利用此電腦的網路上網了 &nbsp;
+</li>
+</ol>
+</div>

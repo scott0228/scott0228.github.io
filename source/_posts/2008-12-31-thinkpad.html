@@ -1,0 +1,15 @@
+---
+layout: post
+title: "ThinkPad 還原"
+date: 2008-12-31T14:19:00+08:00
+categories:
+ - 軟體
+---
+
+<div class='post'>
+最近很多同事離職，在要把公司的 ThinkPad  nb 還回去時，才發現因為自己重灌過，沒辦法按 F11 鍵來還原，在網路上找到的方式大部份是利用 IBMTool 去做開機救援磁片，不過這太麻煩了。後來找到一個比較簡單的方法，就是把那個還原磁區改為 Active 就好了，這樣開機時從那磁區開機就可以還原了。
+設定這個可利用免費的<a href="http://www.partition-tool.com/"> EASEUS Partition Manager</a> 來進行。
+PS. 此方法的前提是還原磁區沒有被刪掉
+
+後記
+同事利用此方式還原時，不知道為什麼會卡在一半，後來小弟就改用我安裝在 USB 上的 Ubuntu 開機，利用 <a href="http://gparted.sourceforge.net/index.php">Gnome Partition Editor</a> 將非還原磁區的部份刪掉，再重新將還原磁區改為 boot ，重開機來還原就好了。只能說，Linux 是好物啊。</div>

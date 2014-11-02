@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Linux console 下如何解開 kernel26.img"
+date: 2011-06-17T16:38:00+08:00
+categories:
+ - Linux
+---
+
+<div class='post'>
+<ol><li>建立暫存路徑 <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">mkdir /tmp/kernel </pre> </div></div></li><li>將 kernel26.img 複制到暫存路徑，並將附檔名改為 .gz <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cp /boot/kernel26.img /tmp/kernel/kernel26.gz </pre> </div></div></li><li>到暫存目錄 /tmp/kernel 下利用 gunzip 解開 kernel26.gz <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cd /tmp/kernel gunzip kernel26.gz </pre> </div></div></li><li> 目前下會剩下 kernel26 這個檔案，再利用 cpio 解開： <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cpio -ivd --no-absolute-filenames &lt; kernel26 </pre> </div></div></li></ol></div>

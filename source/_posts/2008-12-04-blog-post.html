@@ -1,0 +1,20 @@
+---
+layout: post
+title: "文件編碼自動偵測"
+date: 2008-12-04T22:19:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+當我們拿到一個文字檔的時候，如果不知道他的編碼，就有可能顯示錯誤或是轉碼錯誤。之前看到的 solution 都不是 java 開發的，今天剛好看到，就記錄下來，以備以後不時之需：
+<ul><li><b><a name="1"><b>jchardet </b></a></b>：http://jchardet.sourceforge.net/
+看起來是乎是把 Mozilla Charset Detector 的演算法改用 java 撰寫。</li><li style="font-weight: bold;">cpdetector<span style="font-weight: normal;">：http://cpdetector.sourceforge.net/
+據說比 </span><b><a name="1"><b>jchardet </b></a></b><a style="font-weight: normal;" name="1">更</a><span style="font-weight: normal;">可靠，不過有時會出現奇怪的 exception </span></li><li style="font-weight: bold;">ROME 的 XML Charset Encoding detection 功能<span style="font-weight: normal;">：http://wiki.java.net/bin/view/Javawsxml/Rome05CharsetEncoding</span><span style="font-weight: normal;">
+</span></li></ul>以上是 java 相關的 implement ，如需其它語言可看後面的參考聯結。
+
+參考：
+http://blog.linux.org.tw/~jserv/archives/001672.html
+http://www.arachna.com/roller/spidaman/entry/character_set_encoding_detection_in
+http://william.cswiz.org/blog/archives/2008-10-28/charset-patch-part2/
+http://fredeaker.blogspot.com/2007/01/character-encoding-detection.html</div>

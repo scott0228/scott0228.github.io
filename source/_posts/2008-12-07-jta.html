@@ -1,0 +1,16 @@
+---
+layout: post
+title: "JTA 的實作"
+date: 2008-12-07T19:00:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+最近為了加速開發，整合 JPA seam 進到公司既有的產品中，為了讓 jdbc 與 jpa 共用同一個 Transaction，便再將 JTA 整合進來，因為我們開發實作是使用 tomcat 與 jetty ，因此只能找一些 open source 的 JTA 實作，目前在網路上看到的有：
+<ol><li><a href="http://jotm.objectweb.org/">JOTM</a>
+目前已經停止開發了，在跟 tomcat 整合時，使用 xapool 似乎有問題，常會取不
+</li><li><a href="http://www.atomikos.com/Main/AtomikosCommunity">Atomikos</a>
+近幾個版本改為 open source，目前正在使用，感覺還滿不錯的
+</li><li><a href="http://www.jboss.org/jbosstm/">JBossTS</a>
+沒使用過，最近剛好看到。</li></ol>改天有空再來分享它們相對的設定方式</div>

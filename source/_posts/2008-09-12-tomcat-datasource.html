@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Tomcat 的 Datasource 問題"
+date: 2008-09-12T20:27:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+最近在 Tomcat 上開發，使用 Tomcat 所提供的 Datasource 來接資料庫，可是發現測試時，在針對 CLOB 轉型時 oracle.sql.CLOB clob = (oracle.sql.CLOB)rs.getClob(1);
+一直出現 java.lang.ClassCastException: oracle.sql.CLOB 的錯誤，而用 Debug Mode 去觀察時，發現取回來的 Clob Object 確實是 oracle.sql.CLOB 的 instance，原本以為是用的 JVM 太新的關係，結果換了 JVM 也發生一樣的錯，後來才發現，原來是 tomcat ClassLoader 的問題。
+
+一般 ClassLoader 的工作流程是：
+<ol><li>收到一個載入類的的請求</li><li>請求其父ClassLoader來完成該類的載入</li><li>如果父ClassLoader無法載入，則自己試圖完成該類的載入
+</li></ol>
+而 WEB APP 的 ClassLoader 實現與眾不同：
+它先試圖從 WEB APP 自己的目錄裡載入，如果失敗則請求父 ClassLoader 的代理。
+
+而我為了使用 Datasource 來連接資料庫，因此在 Tomcat 的 lib 放裡放了 Jdbc driver ，Datasource 取資資料庫連線使用的 driver 是這個。但在 ap 的 web-inf/lib 下，我也放了 Jdbc driver ，這使得我在轉型時，ClassLoader 會取用這個 Driver 來轉型，雖然兩個本版一模一樣，但始終還是透過不同的 ClassLoader 載入的，因此沒辦法互轉，造成程式出錯。
+
+所以，在 Tomcat 上使用 Datasource 時，記得 ap 下不要再放重覆的 Driver 了，以避免造成同樣的錯誤。
+
+可參考：
+http://www.memezilla.com/2007/01/05/remove-oracle-clob-classcastexception
+http://www.blogjava.net/realsmy/archive/2007/05/04/115272.html</div>

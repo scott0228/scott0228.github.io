@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Partition Table Fix"
+date: 2009-03-11T11:34:00+08:00
+---
+
+<div class='post'>
+今天有個同事拿了顆 sata 的硬碟給我，說因為裝了 ghost 9 後造成無法開機，本來想說用 <a href="http://www.partition-manager.com/">Partition Manage</a> 來改一下開機磁區就好，結果回應該該硬碟的磁區錯誤，可是在 xp 中還是看的到磁區，真是見鬼了。後來用 <a href="http://www.ptdd.com/">Partition Table Doctor</a> 去看，才發現原來裡面的磁區已經有問題，Ghost 產生的磁區蓋到既有的開機磁區，造磁碟分割軟體沒辦法使用。而 Partition Table Doctor 需要付費才有辦法修復，後來上網找到一個小軟體：<a href="http://www.cgsecurity.org/wiki/TestDisk">TestDisk</a>，可以用來針對分割磁區檢查、救援，不論是因為手賤誤刪了磁碟分區，或是因為安裝作業系統、感染病毒而不慎毀損或遺失硬碟分區表，他都有辦法幫你救回來。
+TestDisk 可以在多種作業系統下執行，也支援多種檔案系統，有需要人可以下載試試嚕。
+使用方法：
+<ol><li>將下載回來的 TestDisk 解壓縮，找到並執行置於「win」中的「testdisk_win.exe」。</li><li>在它的歡迎訊息之下的，選擇您要如何處理 Log 檔案。</li><li>選定硬碟後，選擇「Proceed」後按「Enter」。</li><li>選擇該硬碟的檔案系統類型，一般的Windows系統請選擇第一個[ Intel ]，然後按「Enter」即可。</li><li>按下「Analyse」開始分析現有分區結構和搜尋遺失的分區。另外還有「Advanced」選項可以將分區設定成開機磁區或改變分割區類型、「Geometry」選項可以修改分區結構參數及大小、「MBR Code」選項可以將主要開機磁區代碼寫入第一分割區。</li><li>TestDisk就會幫你找出所有磁碟分區，確定無誤後，以選擇「Save」後，按下「Enter」，最後再按「Quit」離開程式</li><li>重新開機後就可看到原本消失的磁碟分區了。</li></ol>PS. 進行『磁碟救援』並無法保證絕對能完整救回您硬碟裡的資料，相反的，進行『磁碟救援』很有可能會反而使得您硬碟裡的資料一去不復返。您應該將『磁碟救援』視為最後的救援手段。非必要請勿輕易嘗試！
+
+參考：
+<a href="http://www.cgsecurity.org/wiki/TestDisk_Step_By_Step">TestDisk Step By Step</a>官網的教學，圖、（英）文並茂。
+<a href="http://www.cgsecurity.org/wiki/Data_Recovery_Examples">Data Recovery Examples</a>官網還舉了一些範例。</div>

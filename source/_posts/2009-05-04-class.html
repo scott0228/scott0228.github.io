@@ -1,0 +1,148 @@
+---
+layout: post
+title: "如何取得 class 的實體位置"
+date: 2009-05-04T11:27:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+通常，我們的開發環境與部署環境多多少少會有些不同，而我們開發測試完成後，進行部署時，有時候會有一些 method 找不到的問題，這個時候我們可能就需要找到某個 class 到底是不是我們部署的檔案，底下這個 class 是我從網路上找來的，用它就可以快速找到 class 的實體路徑了。
+
+<textarea class="java" name="code" rows="10" cols="70">
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Path {
+
+    /**
+     * 獲取一個類的class文件所在的絕對路徑。 這個類可以是JDK自身的類，也可以是用戶自定義的類，或者是第三方開發包裡的類。
+     * 只要是在本程序中可以被加載的類，都可以定位到它的class文件的絕對路徑。
+     *
+     * @param cls
+     *            一個對象的Class屬性
+     * @return 這個類的class文件位置的絕對路徑。 如果沒有這個類的定義，則返回null。
+     */
+ public static String getPathFromClass(Class cls) {
+  String path = null;
+  if (cls == null) {
+   throw new NullPointerException();
+  }
+  URL url = getClassLocationURL(cls);
+  if (url != null) {
+   path = url.getPath();
+   if ("jar".equalsIgnoreCase(url.getProtocol())) {
+    try {
+     path = new URL(path).getPath();
+    } catch (MalformedURLException e) {
+    }
+    int location = path.indexOf("!/");
+    if (location != -1) {
+     path = path.substring(0, location);
+    }
+   }
+   File file = new File(path);
+   try {
+    path = file.getCanonicalPath();
+   } catch (IOException ex) {
+    Logger.getLogger(Path.class.getName()).log(Level.SEVERE, null,
+      ex);
+   }
+  }
+  return path;
+ }
+
+    /**
+     * 這個方法可以通過與某個類的class文件的相對路徑來獲取文件或目錄的絕對路徑。 通常在程序中很難定位某個相對路徑，特別是在B/S應用中。
+     * 通過這個方法，我們可以根據我們程序自身的類文件的位置來定位某個相對路徑。
+     * 比如：某個txt文件相對於程序的Test類文件的路徑是../../resource/test.txt，
+     * 那麼使用本方法Path.getFullPathRelateClass("../../resource/test.txt",Test.class)
+     * 得到的結果是txt文件的在系統中的絕對路徑。
+     *
+     * @param relatedPath
+     *            相對路徑
+     * @param cls
+     *            用來定位的類
+     * @return 相對路徑所對應的絕對路徑
+     * @throws IOException
+     *             因為本方法將查詢文件系統，所以可能拋出IO異常
+     */
+ public static String getFullPathRelateClass(String relatedPath, Class cls)
+   {
+  String path = null;
+  if (relatedPath == null) {
+   throw new NullPointerException();
+  }
+  String clsPath = getPathFromClass(cls);
+  File clsFile = new File(clsPath);
+  String tempPath = clsFile.getParent() + File.separator + relatedPath;
+  File file = new File(tempPath);
+  try {
+   path = file.getCanonicalPath();
+  } catch (IOException ex) {
+   Logger.getLogger(Path.class.getName()).log(Level.SEVERE, null, ex);
+  }
+  return path;
+ }
+
+    /**
+     * 獲取類的class文件位置的URL。這個方法是本類最基礎的方法，供其它方法調用。
+     */
+ private static URL getClassLocationURL(final Class cls) {
+  if (cls == null) {
+   throw new IllegalArgumentException("null input: cls");
+  }
+  URL result = null;
+  final String clsAsResource = cls.getName().replace('.', '/').concat(
+    ".class");
+  final ProtectionDomain pd = cls.getProtectionDomain();        // java.lang.Class contract does not specify
+        // if 'pd' can ever be null;
+        // it is not the case for Sun's implementations,
+        // but guard against null
+        // just in case:
+  if (pd != null) {
+   final CodeSource cs = pd.getCodeSource();
+            // 'cs' can be null depending on
+            // the classloader behavior:
+   if (cs != null) {
+    result = cs.getLocation();
+   }
+   if (result != null) {
+                // Convert a code source location into
+                // a full class file location
+                // for some common cases:
+    if ("file".equals(result.getProtocol())) {
+     try {
+      if (result.toExternalForm().endsWith(".jar")
+        || result.toExternalForm().endsWith(".zip")) {
+       result = new URL("jar:".concat(
+         result.toExternalForm()).concat("!/")
+         .concat(clsAsResource));
+      } else if (new File(result.getFile()).isDirectory()) {
+       result = new URL(result, clsAsResource);
+      }
+     } catch (MalformedURLException ignore) {
+     }
+    }
+   }
+  }
+
+  if (result == null) {
+            // Try to find 'cls' definition as a resource;
+            // this is not
+            // document．d to be legal, but Sun's
+            // implementations seem to //allow this:
+   final ClassLoader clsLoader = cls.getClassLoader();
+   result = clsLoader != null ? clsLoader.getResource(clsAsResource)
+     : ClassLoader.getSystemResource(clsAsResource);
+  }
+  return result;
+ }
+}
+</textarea></div>

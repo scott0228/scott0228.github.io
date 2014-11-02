@@ -1,0 +1,45 @@
+---
+layout: post
+title: "PDF 簡轉繁"
+date: 2014-09-21T11:02:00+08:00
+---
+
+<div class='post'>
+現在一些技術文件，簡體中文比正體中文多很多，因為實在看不慣簡體字，因此通常會將簡體字轉正體字再看。在瀏灠器上可以使用同文堂， PDF 就沒有可以在瀏灠時直接做繁簡轉換的程式，因此找了一個工具，先把 PDF 內容轉成正體字，再放到 PDF Reader 裡開啟。<br />
+<h1 id="使用工具環境">
+使用工具環境：</h1>
+<ul>
+<li>Mac OSX</li>
+<li>python 2</li>
+<li>easy_install</li>
+<li><a href="http://brew.sh/">brew</a></li>
+<li><a href="https://github.com/tjwei/translatePDF">translatePDF</a> <br />
+<ul>
+<li><a href="http://pdfrw.googlecode.com/svn/trunk/">pdfrw</a></li>
+<li><a href="http://sourceforge.net/projects/fonttools/">fonttools</a></li>
+<li><a href="https://github.com/chardet/chardet">chardet</a></li>
+<li><a href="https://code.google.com/p/opencc/wiki/Install">opencc</a></li>
+<li><a href="https://github.com/android/platform_frameworks_base/raw/master/data/fonts/DroidSansFallbackFull.ttf">DroidSansFallbackFull.ttf</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="安裝步驟">
+安裝步驟</h1>
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">sudo</span> easy_install pdfrw
+<span class="hljs-built_in">sudo</span> easy_install fonttools
+<span class="hljs-built_in">sudo</span> easy_install chardet
+brew install opencc
+
+ruby <span class="hljs-operator">-e</span> <span class="hljs-string">"<span class="hljs-variable">$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)</span>”
+brew install opencc
+sudo mkdir -p /usr/share/fonts/truetype/droid/
+sudo curl https://raw.githubusercontent.com/android/platform_frameworks_base/master/data/fonts/DroidSansFallbackFull.ttf -o /usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf
+git clone https://github.com/tjwei/translatePDF.git
+cd translatePDF</span></code></pre>
+<h2 id="在-translatepdf-目錄下執行以下指令即可轉換-pdf-的內容了">
+在 translatePDF 目錄下，執行以下指令即可轉換 pdf 的內容了：</h2>
+<pre class="prettyprint"><code class=" hljs avrasm">python2<span class="hljs-number">.7</span> tpdfrw<span class="hljs-preprocessor">.py</span> /Users/scott/Downloads/Architect<span class="hljs-preprocessor">.pdf</span></code></pre>
+<pre class="prettyprint"><code class=" hljs avrasm"><span class="hljs-preprocessor">
+</span></code></pre>
+註： <br />
+如 pdf 檔被鎖定的話，是無法轉換的。</div>

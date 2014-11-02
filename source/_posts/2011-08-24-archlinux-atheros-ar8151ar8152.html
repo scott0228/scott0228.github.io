@@ -1,0 +1,38 @@
+---
+layout: post
+title: "如何在 Archlinux 下安裝 ATHEROS AR8151/AR8152 網路卡驅動程式"
+date: 2011-08-24T08:34:00+08:00
+categories:
+ - network
+ - Linux
+---
+
+<div class='post'>
+小弟使用的 Linux 版本為：Archlinux 2010.05 ，因為這個版本內建並不支援 ATHEROS AR8151/AR8152 網路卡，而 <a href="https://wiki.archlinux.org/index.php/Acer_Aspire_5745g">archlinux 的官方文件也說明不支援</a>，因此需要自行編譯。  其步驟如下： <br />
+<ol><li>首先，要先下載 <a href="http://code.google.com/p/kyosls/downloads/detail?name=AR81Family-linux-v1.0.1.14.tar.gz&amp;can=2&amp;q=">AR81Family-Linux-v1.0.1.14.tar.gz </a>。<br />
+<span style="font-weight: bold;">wget http://kyosls.googlecode.com/files/AR81Family-linux-v1.0.1.14.tar.gz</span> </li>
+<li>解壓縮 <span style="font-weight: bold;"><br />
+tar -xzvf AR81Family-linux-v1.0.1.14.tar.gz ./</span></li>
+<li>到 src 目錄編譯並安裝(編譯安裝的驅動位於/lib/modules/版本-generic/kernel/drivers/net/atl1e 目錄下)<br />
+<span style="font-weight: bold;">cd src</span><br />
+<span style="font-weight: bold;">make install</span> </li>
+<li>找入驅動<br />
+<span style="font-weight: bold;">modprobe atl1e</span> </li>
+<li>查看是否正確<br />
+<span style="font-weight: bold;">lsmod|grep atl1e</span><br />
+正常的話可以看到<br />
+atl1e                  57012  0<br />
+<span style="font-weight: bold;">dmesg|grep Network</span><br />
+正常的話可以看到<br />
+Atheros(R) AR8121/AR8113/AR8114/AR8131/AR8132/AR8152 PCI-E Ethernet Network Driver - version 1.0.1.14 </li>
+<li>啟動 eth0<br />
+<span style="font-weight: bold;">ifconfig eth0 up</span></li>
+<li>如果一切都正常，再把 atl1e 加上 /etc/rc.conf 的 modules 中即可。 </li>
+</ol>如果在第三步驟 make 時發生：Linux kernel source not configured:missing autoconf.h  <br />
+解決方式為：<br />
+<div style="font-weight: bold;">cd /usr/src/版本/include/linux<br />
+ln -s ../generated/autoconf.h .<br />
+ln -s ../generated/utsrelease.h .</div><div style="font-weight: bold;"><br />
+</div>參考資料<br />
+http://blog.csdn.net/maosanwan/article/details/6059826<br />
+http://code.google.com/p/kyosls/downloads/list </div>

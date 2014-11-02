@@ -1,0 +1,19 @@
+---
+layout: post
+title: "查看 port 被哪個程式占住了"
+date: 2009-01-11T23:47:00+08:00
+categories:
+ - 網路
+ - Linux
+ - Windows
+---
+
+<div class='post'>
+<p>一直以來，我都懶的去記 windows 的指令，而是使用 <a href="http://www.nirsoft.net/utils/cports.html">CurrPorts</a> 這方便的工具來查，今天剛好在網路上看到記令，就把它記下來嚕，雖然比較麻煩，但是在沒有工具的情況下還是不錯用的： </p>  <p><strong>netstat –ano     
+</strong>a：表示列出所有連線中或 listening的連線。   
+n：表示使用數字形態列出，即 http 會以 80 顯示，ftp 會以 21 顯示。   
+o：則為列出該程式的 PID。</p>  <p><a href="http://lh3.ggpht.com/_fZUSxw71alM/SWoUdlbGtDI/AAAAAAAAJBk/74mLnX9u0Ok/s1600-h/Noname%5B3%5D.jpg"><img title="Noname" style="border-right: 0px; border-top: 0px; display: inline; border-left: 0px; border-bottom: 0px" height="291" alt="Noname" src="http://lh5.ggpht.com/_fZUSxw71alM/SWoUfMnWJ1I/AAAAAAAAJBo/nAiTt5J1IKQ/Noname_thumb%5B1%5D.jpg?imgmax=800" width="437" border="0" /></a> </p>  <p></p>  <p>知道 PID 之後，接著就可以使用【工作管理員<strong>】</strong>或是【tasklist】查看該 PID 是由哪一支程式所執行。</p>  <p>在 Linux 底下則是要用下面的指令：</p>  <p><strong>netstat -tulnp </strong></p><p><strong><span class="Apple-style-span" style="font-weight: normal; ">t：顯示 TCP
+u：顯示 UDP
+l：只顯示 listening 的 processes
+n：不要解析 IP address names 或 port numbers
+p：顯示 listening ports 的 process 名稱</span></strong></p><p>也可以使用： </p><p><strong>lsof -i</strong></p></div>

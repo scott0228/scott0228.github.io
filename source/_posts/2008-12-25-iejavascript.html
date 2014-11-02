@@ -1,0 +1,32 @@
+---
+layout: post
+title: "讓IE執行Javascript更快速"
+date: 2008-12-25T21:17:00+08:00
+---
+
+<div class='post'>
+<p>只要加上一行，就可以讓IE更快的執行Javascript。</p>  <pre class="code">/*@cc_on _d=document;eval('var document=_d')@*/</pre>
+
+<p>測式範例 </p>
+
+<p>Before </p>
+
+<pre class="code">var date = new Date();
+for (var i = 0; i &lt; 100000; i++) document; 
+alert(new Date() - date); // 643</pre>
+After 
+
+<pre class="code">/*@cc_on _d=document;eval('var document=_d')@*/
+var date = new Date();
+for (var i = 0; i &lt; 100000; i++) document; 
+alert(new Date() - date); // 145</pre>
+
+<h5>解說</h5>
+
+<p>對 Internet Explorer 來說，要使用 document ，必須經過 window 。而上面那一行是讓 document 成為一個獨立的物件，不必透過 window ，因此速度就提昇了。</p>
+
+<p>參考：</p>
+
+<p><a title="http://d.hatena.ne.jp/amachang/20071010/1192012056" href="http://d.hatena.ne.jp/amachang/20071010/1192012056">http://d.hatena.ne.jp/amachang/20071010/1192012056</a></p>
+
+<p><a title="http://gis.iwant-in.net/blog/?p=90" href="http://gis.iwant-in.net/blog/?p=90">http://gis.iwant-in.net/blog/?p=90</a></p>  </div>

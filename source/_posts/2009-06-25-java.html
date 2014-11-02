@@ -1,0 +1,64 @@
+---
+layout: post
+title: "Java 如何偵測目前記憶體可能不足"
+date: 2009-06-25T19:19:00+08:00
+categories:
+ - 程式
+ - java
+---
+
+<div class='post'>
+今天有個同事說，他在操作 Netbeans 時，Netbeans 竟然提示他記憶體可能不足：<div><img src="http://4.bp.blogspot.com/_fZUSxw71alM/SkNdkI3-FPI/AAAAAAAAJqE/PP97Cicd0PI/s400/netbeans.png" style="cursor:pointer; cursor:hand;width: 400px; height: 215px;" border="0" alt="" id="BLOGGER_PHOTO_ID_5351223657685193970" /></div><div>不知道 Netbeans 是怎麼做的。後來上網查了一下， JDK 1.5 後提供了 java.lang.management.MemoryMXBean，可以讓我們偵測目前記憶體的用量及狀態：
+<textarea class="java" name="code" rows="10" cols="70">
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.CompilationMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryManagerMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+public class JDKMBean {
+
+	public static <T> void printMXBean(Class<T> t, Object object) {
+		Method[] methods = t.getMethods();
+		T instance = (T) object;
+		System.out.printf("%n---%s---%n", t.getName());
+		for (Method m : methods) {
+			if (m.getName().startsWith("get")) {
+				try {
+					Object rtValue = m.invoke(instance, new Object[0]);
+					System.out.printf("%s:%s%n", m.getName().substring(3),
+							rtValue);
+				} catch (IllegalArgumentException e1) {
+				} catch (IllegalAccessException e) {
+				} catch (InvocationTargetException e) {
+				}
+			}
+		}
+	}
+
+	public static <T> void printMXBeans(Class<T> t, List<T> list) {
+		for (T bean : list) {
+			printMXBean(t, bean);
+		}
+	}
+
+	public static void main(String[] args) {
+		JDKMBean.printMXBean(OperatingSystemMXBean.class, ManagementFactory.getOperatingSystemMXBean());
+		JDKMBean.printMXBean(CompilationMXBean.class, ManagementFactory.getCompilationMXBean());
+		JDKMBean.printMXBean(ClassLoadingMXBean.class, ManagementFactory.getClassLoadingMXBean());
+		JDKMBean.printMXBean(MemoryMXBean.class, ManagementFactory.getMemoryMXBean());
+		JDKMBean.printMXBeans(MemoryManagerMXBean.class, ManagementFactory.getMemoryManagerMXBeans());
+		JDKMBean.printMXBeans(MemoryPoolMXBean.class, ManagementFactory.getMemoryPoolMXBeans());
+	}
+}
+</textarea>
+上面這程式可以列出目前記憶體的使用狀態。<br/>
+
+參考資料：<br/>
+<a href="http://stackoverflow.com/questions/235560/how-do-you-detect-low-memory-situations-within-the-java-virtual-machine">How do you detect low memory situations within the java virtual machine?</a><br/>
+<a href="http://llying.javaeye.com/blog/384054">J2SE5.0新特性之監控與管理</a></div>

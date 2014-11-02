@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Java 程式如何透過 Proxy 連線"
+date: 2011-01-17T09:24:00+08:00
+---
+
+<div class='post'>
+最近因為一些工作上的需要，連線上網都需要穿透公司防火牆的限制。目前是使用 ssh tunnel 的方式加上 proxycap (windows) 或 proxychains (Linux) 穿透，但是 proxycap 或 proxychains 無法應用在 java 程式上，因此找了一下 java 程式使用 proxy 的方法：
+<ol><li>Http Proxy:
+在 java 執行參數加上
+-Dhttp.proxyHost=<span style="color: rgb(255, 0, 0);">proxyServer</span> -Dhttp.proxyPort=<span style="color: rgb(255, 0, 0);">proxyPort
+<span style="font-weight: bold; color: rgb(0, 0, 0);">或是程式中加上：</span></span>
+System.setProperty("http.proxyHost", "<span style="color: rgb(255, 0, 0);">proxyServer</span>");
+System.setPropery("http.proxyPort", "<span style="color: rgb(255, 0, 0);">proxyPort</span>");<code>
+</code>
+</li><li>Socks Proxy:
+在 java 執行參數加上
+-DsocksProxyHost=<span style="color: rgb(255, 0, 0);">proxyServer</span> -DsocksProxyPort=<span style="color: rgb(255, 0, 0);">proxyPort
+</span><span style="color: rgb(255, 0, 0);"><span style="font-weight: bold; color: rgb(0, 0, 0);">或是程式中加上：</span></span>
+System.setProperty("socksProxyHost", "<span style="color: rgb(255, 0, 0);">proxyServer</span>");
+System.setPropery("socksProxyPort", "<span style="color: rgb(255, 0, 0);">proxyPort</span>");<code></code></li></ol>紅字的部份就替換為真正的 proxy server 。
+Postgres JDBC 連線亦可透過同樣的方法處理。
+
+針對 proxy 需要認證的部份，可參考：
+http://www.rgagnon.com/javadetails/java-0085.html
+
+參考：
+http://download.oracle.com/javase/1.4.2/docs/guide/net/properties.html
+http://efreedom.com/Question/1-3433737/Java-Proxies-Connection-Postgres</div>

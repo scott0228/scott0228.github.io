@@ -1,0 +1,19 @@
+---
+layout: post
+title: "如何開啟 Mac OS X 的 tftp server"
+date: 2012-06-29T09:42:00+08:00
+---
+
+<div class='post'>
+執行以下兩個指令就會啟動 OSX 內建的 tftp server 了：<br />
+<br />
+sudo launchctl load -F /System/Library/LaunchDaemons/tftp.plist<br />
+sudo launchctl start com.apple.tftpd<br />
+<br />
+tftp 預設的文件目錄為：<br />
+/private/tftpboot<br />
+<br />
+可以修改&nbsp;/System/Library/LaunchDaemons/tftp.plist 來改變目錄位置(要重啟 tftp server)。<br />
+<br />
+<br />
+<a href="http://www.weezey.com/2011/07/using-os-x-built-in-tftp-server.html">參考來源</a></div>

@@ -1,0 +1,10 @@
+---
+layout: post
+title: "VirtualBox 4.0: VERR_SUPLIB_OWNER_NOT_ROOT error"
+date: 2011-01-10T20:55:00+08:00
+---
+
+<div class='post'>
+最近把 VirtualBox 升級到 4.0 ，結果發現原來可以跑的 Windows XP VM 不能跑了，一執行就產生 VERR_SUPLIB_OWNER_NOT_ROOT 的錯誤，上網查了一下，原來是 virtualbox 安裝目錄的權限需要是 root 擁有，解決方式如下：<div><ol><li>找到 vm 裡的 VBox.log ，查看裡面詳細 log：
+pdmR3LoadR0U: pszName="VMMR0.r0" rc=VERR_SUPLIB_OWNER_NOT_ROOT szErr="The owner is not root: '<span class="Apple-style-span" >/usr/lib'</span>"</li><li>log 裡看到 /usr/lib 的目錄擁有者不是 root ，把此目錄改為 root 擁有：
+chown root /usr/lib</li><li>修改完成後即可啟動 vm 了。</li></ol><div><div>參考：<a href="http://permalink.gmane.org/gmane.comp.emulators.virtualbox.user/1608">http://permalink.gmane.org/gmane.comp.emulators.virtualbox.user/1608</a></div></div></div></div>

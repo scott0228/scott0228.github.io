@@ -1,0 +1,8 @@
+---
+layout: post
+title: "Notepad++ Regular Expression 的使用"
+date: 2009-04-14T22:11:00+08:00
+---
+
+<div class='post'>
+<p>今天有個前同事問我，要怎麼在 excel 中讓住址排序可以按照 1號 2號 3號 ..100 號排下來，因為我對 excel 不熟，所以只想到幫所有的號補 0 來處理。那要讓號補 0 ，最方便的方式便是用 Regular Expression 來取出並代之 。剛好小弟之前沒用過 Notepad++ 的 Regular Expression 取代功能，今天就來玩玩看。</p>  <p>在 Notepad++ 中，他的搜尋模式有三種：一般(Normal)、增強模式(Extended)、用類型表式(Regular Expression)，我們使用的是第三種【用類型表式(Regular Expression)】。</p>  <p>下圖是將個位數前面補 0 ，尋找目標：路(\d)號，取代成：路0\1號，並勾選【用類型表式(Regular Expression)】，按下取代後，一位數的數值前面就補 0 了。</p>  <p><a href="http://lh5.ggpht.com/_fZUSxw71alM/SeSZcheugfI/AAAAAAAAJHo/nUlDF8eaoh8/s1600-h/p1%5B3%5D.png"><img title="p1" style="border-right: 0px; border-top: 0px; display: inline; border-left: 0px; border-bottom: 0px" height="598" alt="p1" src="http://lh6.ggpht.com/_fZUSxw71alM/SeSZfHdVMDI/AAAAAAAAJHs/vGev3OcCdsY/p1_thumb%5B1%5D.png?imgmax=800" width="807" border="0" /></a> </p>  <p>接下來再尋找目標：路(\d\d)號，取代成：路0\1號，並勾選【用類型表式(Regular Expression)】，按下取代後，所有的數值就會變為三位數了。</p>  <p>在 Notepad 中，要取 () 內容的方式是前面加上 \，上面的【\1】表示我們要取第一個() 的內容。</p>  <p>參考：</p>  <p><a title="http://ozansafi.wordpress.com/2008/12/11/notepad-regular-expression-usage/" href="http://ozansafi.wordpress.com/2008/12/11/notepad-regular-expression-usage/">http://ozansafi.wordpress.com/2008/12/11/notepad-regular-expression-usage/</a></p>  <p><a title="http://www.slideshare.net/anjesh/the-power-of-regular-expression-use-in-notepad" href="http://www.slideshare.net/anjesh/the-power-of-regular-expression-use-in-notepad">http://www.slideshare.net/anjesh/the-power-of-regular-expression-use-in-notepad</a></p>  </div>

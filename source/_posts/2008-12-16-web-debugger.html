@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Web Debugger"
+date: 2008-12-16T22:20:00+08:00
+categories:
+ - Windows
+ - 軟體
+---
+
+<div class='post'>
+因為開發 Web application 的原故，常需要去監控 Http 連線內容， request 與 reponse，最早之前是使用海盜版的 <a href="http://www.httpwatch.com/">HttpWatch</a>，後來發現微軟有提供了一個地方產品：<a href="http://www.fiddlertool.com/">fiddler</a>，也可以用來分析 http 封包。
+這程式其實算是一個 http proxy ，當我們啟動後，他會監聽 8888 port 當 proxy ，並且自動把 windows 的 http 及 https 的 proxy 指到本機的 8888 port，因此它就可以監聽所有的 http request 及 response。有這這程式，我們就可以容易的為 ajax 的程式除錯，或是查看 http head 、request parameter、reponse content  的內容是不是正確。如果 Firefox 要透過它來進行除錯，就要手動設定 proxy 指到本機端的 8888 port 了。
+
+另外，因為預設 localhost 是不透過 proxy 來進行連線的，因此再本機測試的時候，可以加個點來讓瀏灠器透過 proxy 連線，如：
+http://localhost.:8080/
+
+目前這類相關 http debug 的產品看到的有：
+
+IE base：
+<ol><li><a href="http://www.ieinspector.com/httpanalyzer/index.html">IEInspector </a></li><li><a href="http://www.httpwatch.com/">HttpWatch</a></li></ol>Firefox base：
+<ol><li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/3829">Live HTTP Headers</a></li><li><a href="http://jdgiotta.googlepages.com/guidedoghomepage">HTTPGuideDog</a></li><li style="text-align: left;"><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6647">HttpFox</a> 與 httpwatch 相當類似，還滿好用的
+</li></ol></div>

@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Titanium sdk 如何利用 andriodvm 來加速測試開發"
+date: 2013-02-03T11:33:00+08:00
+categories:
+ - java
+ - android
+ - titanium
+---
+
+<div class='post'>
+最近利用 Titanium studio 來開發 android app ，發現 android 模擬器真是非常的慢，上網找了一下資料發現 <a href="http://androvm.org/">AndroidVM</a>&nbsp;這個好物，它利用 <a href="https://www.virtualbox.org/">VirtualBox</a> 來執行，整個速度真是快的不得了。<br />
+<br />
+安裝檔案：<br />
+<br />
+<ol>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+<li><a href="http://androvm.org/blog/download/">AndroidVM</a><br />vbox86p : 手機版, 預設解析度 480×800 <br />vbox86t : Tablet 版，預設解析度 1024×600 <br />vbox86tp : Tablet 版，但有電話的功能，預設解析度 1024×600 <br />gapps : 代表包含 Google 相關服務 (有 Google Play) <br />houdini: 代表包含 Arm emulation (AndroidVM 是跑在 x86 上，所以反過來需要去模擬 Arm)</li>
+</ol>
+<div>
+安裝步驟可參考：<a href="http://www.javaworld.com.tw/roller/ingramchen/entry/android_development_with_androvm">Android Development with AndroVM</a></div>
+<div>
+<br /></div>
+<div>
+那在 Titanium Studio 中要如何直接部署它並且在上面 Debug 呢？</div>
+<div>
+首先，連結 androidVM<br />
+<br />
+要修改 Titanium SDK 的 source code：</div>
+<div>
+<b style="color: #333333; font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;">~/Library/Application Support/Titanium/mobilesdk/osx/</b><b style="font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;"><span style="color: red;">2.1.4.GA</span></b><b style="color: #333333; font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;">/android/builder.py</b></div>
+<script src="https://gist.github.com/cacbce9e96357dc5b4f6.js"></script>
+將 run_adb(self, *args) 的第三行&nbsp;<span style="background-color: ghostwhite; color: #999988; font-family: Consolas, 'Liberation Mono', Courier, monospace; font-size: 13px; font-style: italic; line-height: 22px; text-indent: 10px; white-space: pre;">command.extend(self.device_args) </span>註解掉，即可利用 Titanium Studio 的 Android Device 功能直接佈署到 device 中進行測試及除錯了。<br />
+如果要查看 AndroidVM 中 Titanium 的 log，可以在 Console 環境下執行：<br /><span style="font-family: Consolas, Bitstream Vera Sans Mono, Courier New, Courier, monospace; font-size: x-small;"><span style="line-height: 15.1875px; white-space: pre-wrap;">adb logcat | grep -G '\(TiAPI\)\|\(TiApp\)'</span></span><br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-NJN7v2hW06c/UQ3Z2rwPERI/AAAAAAAAROE/WTuVXye3GTY/s1600/2013-02-03_1130.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-NJN7v2hW06c/UQ3Z2rwPERI/AAAAAAAAROE/WTuVXye3GTY/s1600/2013-02-03_1130.png" /></a></div>
+<code class="bash string" style="background-image: none !important; border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border: 0px !important; bottom: auto !important; box-sizing: content-box !important; color: rgb(0, 51, 102) !important; float: none !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 13px; height: auto !important; left: auto !important; line-height: 15.1875px; margin: 0px !important; min-height: auto !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; white-space: pre-wrap; width: auto !important;"><br /></code></div>

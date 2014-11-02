@@ -1,0 +1,39 @@
+---
+layout: post
+title: "在 apache 中隱藏你的 server 資訊"
+date: 2011-01-25T11:47:00+08:00
+categories:
+ - 網路
+---
+
+<div class='post'>
+一般我們安裝完 apache httpd 後，預設錯誤頁面會將 server 的版本資訊顯示出來，這樣是非常危險的，如果剛好那個版本有漏洞就容易遭到駭客入侵。
+那如何把這些資訊隱藏呢，只要調整 httpd 的一個設定即可，在 httpd.conf 中把 ServerTokens 的值改為 Prod：
+ServerTokens Prod
+
+<span class="postbody">以下是在 httpd.conf 中的設定值，及 Apache 在 header 的回應
+
+ServerTokens Full
+Server:</span><span> Apache/2.2.15 (Unix) mod_ssl/2.2.15 OpenSSL/1.0.0a DAV/2</span>
+<span class="postbody">
+ServerTokens OS
+Server: </span><span>Apache/2.2.15 (Unix)</span>
+<span class="postbody">
+ServerTokens Minor
+Server: </span><span>Apache/2.2</span>
+<span class="postbody">
+ServerTokens Minimal
+Server: </span><span>Apache/2.2.15</span>
+<span class="postbody">
+ServerTokens Major
+Server: </span><span>Apache/2</span>
+<span>
+</span><span class="postbody"> ServerTokens Prod
+Server: Apache
+
+<span style="font-weight: bold">所以設定成  <span style="color:red;">ServerTokens Prod</span> 應該是比較好的選擇</span></span>
+
+
+
+參考資料
+http://www.backup.idv.tw/viewtopic.php?t=821</div>

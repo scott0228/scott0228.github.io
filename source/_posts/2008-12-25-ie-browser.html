@@ -1,0 +1,16 @@
+---
+layout: post
+title: "在 IE 中把 Browser 強制關閉的方法"
+date: 2008-12-25T21:11:00+08:00
+---
+
+<div class='post'>
+<p>Browser 都因為安全性的問題不允許強制關閉主視窗，但自己透過 window.open() 開啟的視窗可以控制強制關閉。 </p>  <p>不過還是找的到方法處理：</p>  <p><strong>IE 6 </strong></p>  <pre class="code">window.opener=null;    
+window.close();  </pre>
+
+<p><strong>IE 7 </strong></p>
+
+<pre class="code">window.open('','_parent','');
+window.close(); </pre>
+
+<p>參考：<a title="http://blog.miniasp.com/post/2008/01/How-to-force-close-the-browser-window-in-IE.aspx" href="http://blog.miniasp.com/post/2008/01/How-to-force-close-the-browser-window-in-IE.aspx">http://blog.miniasp.com/post/2008/01/How-to-force-close-the-browser-window-in-IE.aspx</a></p>  </div>

@@ -1,0 +1,28 @@
+---
+layout: post
+title: "如何取得目前運行的 Java Process"
+date: 2008-12-28T00:43:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+<p>在 JDK 1.6 中，有一個 JConsole 的工具，可以用來監看目前運行中 Java Process 的狀況。其在啟動時候，會列出目前運行的 Java process 來給使用者選擇要監控哪個 process。如果我們也希望取到該 List ，要如何處理呢？今天剛好在網路上看到，就留下來做記錄。</p>  <pre class="code">import sun.tools.jconsole.*;
+import java.util.*;
+public class Main {
+  public static void main(String[] args) {
+    Map map = LocalVirtualMachine.getAllVirtualMachines();
+    Iterator iter = map.values().iterator();
+    LocalVirtualMachine vm = null;
+    while (iter.hasNext()) {
+        vm = (LocalVirtualMachine)iter.next();
+        System.out.println(vm.displayName());
+    }
+  }
+}</pre>
+
+<p>classpath 必需加上 jconsole.jar 和 tools.jar 兩個 jar</p>
+
+<p>參考：</p>
+
+<p><a title="http://w3hjava.com/uncategorized/handling-java-code-from-another-java-code/" href="http://w3hjava.com/uncategorized/handling-java-code-from-another-java-code/">http://w3hjava.com/uncategorized/handling-java-code-from-another-java-code/</a></p>  </div>

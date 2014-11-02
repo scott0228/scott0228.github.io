@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Eclipse 中 將Java Project 轉換為Dynamic Web Project"
+date: 2009-04-30T16:22:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+因為工作的關係，常常要將一些舊的 WSAD 專案轉新 Dynamic Web Project，之前都是產生一個 Dynamic Web Project，然後把投定檔 copy 過來，今天剛好看到設定方式，記錄一下：
+<ol><li> 修改專案的 .project 文件，在
+<textarea class="java" name="code" rows="10" cols="70">
+<natures>
+      …
+</natures>
+</textarea>
+之間添加下列三行配置
+<textarea class="java" name="code" rows="10" cols="70">
+<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
+<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
+</textarea>
+</li><li>專案重新整理。</li><li>打開【project properties】，會看到新增了很多選擇項，點中【Project Facets】，按下圖設定：
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://1.bp.blogspot.com/_fZUSxw71alM/SfliTeAsVlI/AAAAAAAAJTY/KfbcgCOAYF4/s1600-h/wtp.png"><img style="cursor: pointer; width: 400px; height: 279px;" src="http://1.bp.blogspot.com/_fZUSxw71alM/SfliTeAsVlI/AAAAAAAAJTY/KfbcgCOAYF4/s400/wtp.png" alt="" id="BLOGGER_PHOTO_ID_5330399720582698578" border="0" /></a></li><li>完成後，就變成一個【動態 Web 專案】了。</li></ol>參考：
+http://www.blogjava.net/vcok/archive/2009/04/28/267815.html</div>

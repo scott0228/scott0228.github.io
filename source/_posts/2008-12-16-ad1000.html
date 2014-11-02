@@ -1,0 +1,18 @@
+---
+layout: post
+title: "突破AD查詢1000條限制"
+date: 2008-12-16T23:10:00+08:00
+---
+
+<div class='post'>
+以前專案曾經連 AD 遇過這個問題，記錄一下。
+http://support.microsoft.com/kb/315071
+
+<h3 id="tocHeadRef">啟動 Ntdsutil.exe</h3><script type="text/javascript">         loadTOCNode(2, 'summary');       </script>
+ Ntdsutil.exe 位於 Windows 2000 安裝 CD-ROM 上的 [支援工具] 資料夾中。  <ol><li>請按一下 <b>[開始]</b>，再按一下 <b>[執行]</b>。</li><li>在 <b>[開啟]</b> 文字方塊中，輸入 <span class="userInput">ntdsutil</span>，然後按 ENTER 鍵。如果要隨時檢視說明，請在命令提示字元下輸入 <span class="userInput">?</span> 。</li></ol>
+<h3 id="tocHeadRef">檢視目前的原則設定</h3><script type="text/javascript">         loadTOCNode(2, 'summary');       </script><ol><li>在 Ntdsutil.exe 命令提示字元下，輸入 <span class="userInput">LDAP policies</span>，然後按 ENTER 鍵。</li><li>在 LDAP 原則命令提示字元下，輸入 <span class="userInput">connections</span>，然後按 ENTER 鍵。</li><li>在伺服器連線命令提示字元下，輸入 <span class="userInput">connect to server <<i>伺服器的 DNS 名稱</i>></span>，然後按 ENTER 鍵。如果要連線至目前您正在使用的伺服器。</li><li>在伺服器連線命令提示字元下，輸入 <span class="userInput">q</span>，然後按 ENTER 鍵以返回前一個功能表。</li><li>在 LDAP 原則命令提示字元下，輸入 <span class="userInput">Show Values</span>，然後按 ENTER 鍵。</li><li>如果它們存在的話，便會顯示原則。</li></ol>
+<h3 id="tocHeadRef">修改原則設定</h3><script type="text/javascript">         loadTOCNode(2, 'summary');       </script><ol><li>在 Ntdsutil.exe 命令提示字元下，輸入 <span class="userInput">LDAP policies</span>，然後按 ENTER 鍵。</li><li>在 LDAP 原則命令提示字元下，輸入 <span class="userInput">Set <<i>設定</i>> to <<i>變數</i>%></span>，然後按 ENTER 鍵。例如： <span class="userInput">Set MaxPoolThreads to 8</span>。
+
+如果您將另一個處理器加入伺服器，則這個設定會變更。</li><li>您可以使用 <span class="userInput">Show Values</span> 指令，確認變更。
+
+如果要儲存變更，請使用 <b>Commit Changes</b>。</li><li>當您完成時，請鍵入 <span class="userInput">q</span>，然後按 ENTER 鍵。</li><li>如果要結束 Ntdsutil.exe，請在命令提示字元下輸入 <span class="userInput">q</span>，然後按 ENTER 鍵。</li></ol></div>

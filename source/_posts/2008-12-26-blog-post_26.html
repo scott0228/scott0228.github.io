@@ -1,0 +1,10 @@
+---
+layout: post
+title: "好的測試應該具備哪些特質？"
+date: 2008-12-26T14:06:00+08:00
+categories:
+ - test
+---
+
+<div class='post'>
+<p>什麼樣的測試算是好測試？我們又該怎麼知道如何編寫好測試？ </p>  <p><a href="http://tech.groups.yahoo.com/group/testdrivendevelopment/message/29010">Kent Beck</a>斷定，好的測試應該具備下列條件： </p>  <ul>   <li>互相隔離的（不受其他測試的表現形式、是否存在、執行結果的影響） </li>    <li>自動化的 </li>    <li>編寫快 </li>    <li>運行快 </li>    <li>獨一無二（為開發人員提供自信，而不會由其他測試提供信息，與其他測試不相關） </li> </ul>  <p><a href="http://tech.groups.yahoo.com/group/testdrivendevelopment/message/29045">Roy Osherove</a> 補充：好的測試有三個基本屬性：</p>  <ul>   <li>可維護</li>    <li>值得信賴</li>    <li>易於理解。 </li> </ul>  <p><a href="http://tech.groups.yahoo.com/group/testdrivendevelopment/message/28386">Mike Hill</a>的列表要更長： </p>  <ul>   <li>它會很短，通常只有十來行代碼。 </li>    <li>它不會測試運行程序內部的對象，但是會測試為了測試目的而構建的應用內部的對象。 </li>    <li>它只會調用很小的一部分代碼，通常是某個函數的某一分支。 </li>    <li>它是灰盒的形式編寫的。也就是說，它運作的方式像是黑盒，但是有時又會利用白盒的長處。（一般來說，這是避免組合問題的重要因素。） </li>    <li>測試要符合生產代碼的編碼標準，比如，團隊目前對於優秀編碼的最佳看法。 </li>    <li>應用的眾多小測試構成了一個「提交關卡」。這就是說，開發人員可以在所有小測試通過的情況下提交代碼，否則（強烈建議、甚至不惜手段）阻止他們提交。 </li>    <li>測試應對接受測試的對象有完全的控制權，因此應是自包含的。也就是說，它不會依賴不屬於測試代碼及其依賴圖的任何其他對象。 </li>    <li>它的運行時間非常短。 </li>    <li>它會先於要測試的代碼變更之前編寫。 </li>    <li>通過一系列slip-and-fake技巧，它會避免使用所有「糟糕」的collaborator。 </li> </ul>  <p>Mike和Ron Jeffries提醒我們：TDD的核心價值是要簡化設計、提升開發效率；代碼質量的提升和bug數量的減少是因此而帶來的重要好處。 </p>  <p><a href="http://codebetter.com/blogs/jeremy.miller/archive/2005/07/20/qualities-of-a-good-unit-test.aspx">Jeremy Miller</a>補充了良好單元測試應該具備： </p>  <ul>   <li>與順序無關，並且是隔離的。運行測試的軟件可以按照以任何順序運行。 </li>    <li>意圖明確。最好的單元測試應該能夠告訴閱讀者，一個對象的API是如何準備被調用的。 </li>    <li>易於設置。 </li> </ul>  <p>最後，<a href="http://blogs.zdnet.com/Burnette/?p=179">Ed Burnette</a> 寫到：要讓你的單元測試在任何方面都可以重複；測試邊界條件，並且要一直保持測試的通過率是100%。 </p>  <p>原文：   <br /><a title="http://www.infoq.com/news/2008/10/qualities_good_test" href="http://www.infoq.com/news/2008/10/qualities_good_test">http://www.infoq.com/news/2008/10/qualities_good_test</a></p>  </div>

@@ -1,0 +1,21 @@
+---
+layout: post
+title: "如何利用 script 來自動切換 OSX 的網路位置"
+date: 2012-07-25T19:41:00+08:00
+categories:
+ - mac
+---
+
+<div class='post'>
+OSX 有個很方便的功能，可以針對不同的網路環境設定位置 profile，利用切換網路位置來快速調整網路設定。雖然說很方便，但是，每次都要進到網路設定去改，還是有點麻煩。<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-D3KBL3BwMTs/UA_d3Rvnt2I/AAAAAAAARBU/zsncoxdBdNE/s1600/ishot-1.png" imageanchor="1" style="clear: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-D3KBL3BwMTs/UA_d3Rvnt2I/AAAAAAAARBU/zsncoxdBdNE/s1600/ishot-1.png" /></a></div>
+<br />
+<span style="background-color: white;">還好 OSX 有指令可以用來調整，因此我們可以利用指令取得目前使用的無線網路 SSID 來辨斷要切換到哪個網路位置去：</span><br />
+<br />
+<script src="https://gist.github.com/3175681.js?file=autolocation.sh">
+</script>
+
+參考：<br />
+http://hints.macworld.com/article.php?story=2005010613401823<br />
+http://stackoverflow.com/questions/4481005/get-wireless-ssid-through-shell-script-on-mac-os-x</div>

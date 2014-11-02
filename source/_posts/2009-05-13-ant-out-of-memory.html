@@ -1,0 +1,11 @@
+---
+layout: post
+title: "執行 ant 發生 out of memory"
+date: 2009-05-13T13:15:00+08:00
+categories:
+ - java
+---
+
+<div class='post'>
+當我們執行 ant 時，有時候會發生 Out Of Memory，此時只需要在環境變數上加上一個變數即可，ant 執行的 jvm 會去使用這個參數：
+set ANT_OPTS=-Xmx1024m</div>

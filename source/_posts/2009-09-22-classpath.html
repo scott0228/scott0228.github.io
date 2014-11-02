@@ -1,0 +1,18 @@
+---
+layout: post
+title: "批次檔設定 classpath"
+date: 2009-09-22T11:23:00+08:00
+categories:
+ - java
+ - Windows
+---
+
+<div class='post'>
+windows 的批次檔以利用 for 來對目錄中的檔案進行處理，但是 for 在取得環境變數只會在一開始取，因此，如果當我們將批次檔寫成：<div><div>    set CLASSPATH=</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">% CLASSPATH%</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>並不會建立目前目錄中所有檔案的清單，相反的只會將 CLASSPATH 變數設為最後一個找到的檔案。因為 % CLASSPATH% 只有在 FOR 敘述第一次被讀入時才展開，此時 CLASSPATH 變數是空的。所以我們實際執行的 FOR 迴圈是:</div><div>    for %i in (*) do set LIST= %i</div><div>
+</div><div>可是當我照著微軟的說明，將 % 改為 ! ，還是得不到正確的結果：</div><div><div>    set CLASSPATH =</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">! CLASSPATH!</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>這部份我還沒找到為什麼不行。後來，在網路上找了一下，發現只要呼叫外部的批次檔或是其它 label 就不會有問題了：</div><div>    set CLASSPATH =</div><div>    FOR /f %%I IN ('dir /b *.jar') DO <span class="Apple-style-span"  style="color:#FF0000;">call :cpappend</span> %%I</div><div><div>    echo %CLASSPATH%</div><div>    goto end</div><div>
+</div><div>    :cpappend</div><div>    set CLASSPATH=%CLASSPATH%;%1</div><div>    :end</div><div>
+</div><div>
+</div></div><div>
+</div></div></div></div>

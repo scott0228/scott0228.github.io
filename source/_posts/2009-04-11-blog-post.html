@@ -1,0 +1,41 @@
+---
+layout: post
+title: "數字拆解問題"
+date: 2009-04-11T22:27:00+08:00
+categories:
+ - 程式
+---
+
+<div class='post'>
+<span style="color: rgb(0, 0, 0);" >最近在找工作，有家公司寄了一個題目給我，要我作答，題目不難，有興趣可以看看：
+
+<span style="color: rgb(0, 0, 153);">#數字拆解</span>
+<span style="color: rgb(0, 0, 153);">題目是這樣的：</span>
+<span style="color: rgb(0, 0, 153);">3 = 2+1 = 1+1+1 所以3有三種拆法</span>
+<span style="color: rgb(0, 0, 153);">4 = 3 + 1 = 2 + 2 = 2 + 1 + 1 = 1 + 1 + 1 + 1 共五種</span>
+<span style="color: rgb(0, 0, 153);">5 = 4 + 1 = 3 + 2 = 3 + 1 + 1 = 2 + 2 + 1 = 2 + 1 + 1 + 1 = 1 + 1 +1 +1 +1</span>
+  
+<span style="color: rgb(0, 0, 153);">共七種</span>
+<span style="color: rgb(0, 0, 153);">依此類推，請問一個指定數字NUM的拆解方法個數有多少個？</span>
+
+<span style="color: rgb(0, 0, 153);">#建議方案(也可使用其他方法)</span>
+<span style="color: rgb(0, 0, 153);">6 = 5 + [1] = 4 + [1+1] = 3 + [1+1+1] = 2 + [1+1+1+1] = 1 + [1+1+1+1]</span>
+<span style="color: rgb(0, 0, 153);">                        = 2 + [2+1+1]</span>
+<span style="color: rgb(0, 0, 153);">            = 3 + [2+1]</span>
+<span style="color: rgb(0, 0, 153);">    4 + [2] = 2 + [2+2]</span></span>
+<span style="color: rgb(0, 0, 153);">      </span><span style="color: rgb(0, 0, 153);" >3 + [3]
+*括弧內數字為固定數字,最大數字繼續拆解
+*拆解過程中,數字須由大到小
+
+#請計算出Num=40共多少解法,需花多少時間(<wbr>須印出所有合法解法)
+ num = 40, count = 37337, time = 1.188</span>
+
+想不到他的最後答案竟然是錯的，還真是有一點點心機。過兩天再把答案 po 上來。</div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>小虫</div>
+<div class='content'>
+作者已經移除這則留言。</div>
+</div>
+</div>
