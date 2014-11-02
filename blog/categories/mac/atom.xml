@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mac | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何在 OSX 中開啟多個  Eclipse]]></title>
+    <link href="http://scott0228.github.io/blog/2012/11/19/osx-eclipse/"/>
+    <updated>2012-11-19T08:34:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/11/19/osx-eclipse</id>
+    <content type="html"><![CDATA[<div class='post'>
+<br />
+在 OSX 環境中，預設 Eclipse 只能開啟一個，當我們需要同時間開啟兩個 workspace 時，就需要以指令的方式去開啟另外一個 Eclipse instance：<br />
+<br />
+<ol>
+<li>開啟 Terminal&nbsp;</li>
+<li>切換到 Eclipse 安裝路徑<br />cd /Application/eclipse<br /></li>
+<li>下指令開啟 Eclipse<br />./eclipse &amp;<br />或是<br />open -n Eclipse.app</li>
+</ol>
+<br />
+參考：<br />
+http://stackoverflow.com/questions/118243/open-multiple-eclipse-workspaces-on-the-mac</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何利用 script 來自動切換 OSX 的網路位置]]></title>
+    <link href="http://scott0228.github.io/blog/2012/07/25/script-osx/"/>
+    <updated>2012-07-25T19:41:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/07/25/script-osx</id>
+    <content type="html"><![CDATA[<div class='post'>
+OSX 有個很方便的功能，可以針對不同的網路環境設定位置 profile，利用切換網路位置來快速調整網路設定。雖然說很方便，但是，每次都要進到網路設定去改，還是有點麻煩。<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-D3KBL3BwMTs/UA_d3Rvnt2I/AAAAAAAARBU/zsncoxdBdNE/s1600/ishot-1.png" imageanchor="1" style="clear: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-D3KBL3BwMTs/UA_d3Rvnt2I/AAAAAAAARBU/zsncoxdBdNE/s1600/ishot-1.png" /></a></div>
+<br />
+<span style="background-color: white;">還好 OSX 有指令可以用來調整，因此我們可以利用指令取得目前使用的無線網路 SSID 來辨斷要切換到哪個網路位置去：</span><br />
+<br />
+<script src="https://gist.github.com/3175681.js?file=autolocation.sh">
+</script>
+
+參考：<br />
+http://hints.macworld.com/article.php?story=2005010613401823<br />
+http://stackoverflow.com/questions/4481005/get-wireless-ssid-through-shell-script-on-mac-os-x</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Git 與 subversion 透過 http proxy]]></title>
+    <link href="http://scott0228.github.io/blog/2011/09/23/git-subversion-http-proxy/"/>
+    <updated>2011-09-23T11:53:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/09/23/git-subversion-http-proxy</id>
+    <content type="html"><![CDATA[<div class='post'>
+小弟公司對外都要透過 proxy 才能存取，而我又常需要抓取外部 svn 或 github 中的程式碼下來參考，因此研究了一下如何設定 proxy 讓 git 與 svn 使用。<br />
+<br />
+<br />
+環境：<br />
+<ul>
+<li>MacBook Pro with OSX Lion 10.7.1</li>
+<li>svn, version 1.6.16</li>
+<li>git version 1.7.4.4</li>
+</ul>
+Subversion<br />
+<br />
+編輯 ~/.subversion/servers 檔案，設定 globe 的&nbsp;http-proxy-host 與&nbsp;http-proxy-port<br />
+<textarea clas="code" style="height: 82px; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; width: 639px;">http-proxy-exceptions = 10.60.36.157
+http-proxy-host = 10.60.36.146
+http-proxy-port = 3128
+</textarea><br />
+在 svn checkout 時改用 http 或 https 協定即可：<br />
+svn checkout <span class="Apple-style-span" style="color: red;">http</span>://flot.googlecode.com/svn/trunk/ flot-read-only<br />
+<br />
+Git<br />
+<br />
+設定好環境變數 http_proxy 與 https_proxy 即可。<br />
+<textarea clas="code" style="height: 53px; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; width: 640px;">export http_proxy=http://10.60.36.146:3128
+export https_proxy=http://10.60.36.146:3128
+</textarea>
+<br />
+<br />
+在 git clone 時改用 http 或 https 協定即可：<br />
+<br />
+git clone <span class="Apple-style-span" style="color: red;">http</span>://github.com/carlhuda/janus.git ~/.vim<br />
+<br />
+<br />
+參考<br />
+http://realchecko.blogspot.com/2007/05/git-over-http-proxy.html<br />
+<br /></div>
+
+]]></content>
+  </entry>
+  
+</feed>

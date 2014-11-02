@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小虫的胡言亂語</title>
+  <meta name="author" content="Scott Yang">
+
+  
+  <meta name="description" content="最近因為一些工作上的需要，連線上網都需要穿透公司防火牆的限制。目前是使用 ssh tunnel 的方式加上 proxycap (windows) 或 proxychains (Linux) 穿透，但是 proxycap 或 proxychains 無法應用在 java 程式上，因此找了一下 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://scott0228.github.io/posts/3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="小虫的胡言亂語" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7310858-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小虫的胡言亂語</a></h1>
+  
+    <h2>小虫的各種記錄.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:scott0228.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/01/17/java-proxy/">Java 程式如何透過 Proxy 連線</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-17T09:24:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2011/01/17/java-proxy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近因為一些工作上的需要，連線上網都需要穿透公司防火牆的限制。目前是使用 ssh tunnel 的方式加上 proxycap (windows) 或 proxychains (Linux) 穿透，但是 proxycap 或 proxychains 無法應用在 java 程式上，因此找了一下 java 程式使用 proxy 的方法：
+<ol><li>Http Proxy:
+在 java 執行參數加上
+-Dhttp.proxyHost=<span style="color: rgb(255, 0, 0);">proxyServer</span> -Dhttp.proxyPort=<span style="color: rgb(255, 0, 0);">proxyPort
+<span style="font-weight: bold; color: rgb(0, 0, 0);">或是程式中加上：</span></span>
+System.setProperty(&#8220;http.proxyHost&#8221;, &#8221;<span style="color: rgb(255, 0, 0);">proxyServer</span>&#8221;);
+System.setPropery(&#8220;http.proxyPort&#8221;, &#8221;<span style="color: rgb(255, 0, 0);">proxyPort</span>&#8221;);<code>
+</code>
+</li><li>Socks Proxy:
+在 java 執行參數加上
+-DsocksProxyHost=<span style="color: rgb(255, 0, 0);">proxyServer</span> -DsocksProxyPort=<span style="color: rgb(255, 0, 0);">proxyPort
+</span><span style="color: rgb(255, 0, 0);"><span style="font-weight: bold; color: rgb(0, 0, 0);">或是程式中加上：</span></span>
+System.setProperty(&#8220;socksProxyHost&#8221;, &#8221;<span style="color: rgb(255, 0, 0);">proxyServer</span>&#8221;);
+System.setPropery(&#8220;socksProxyPort&#8221;, &#8221;<span style="color: rgb(255, 0, 0);">proxyPort</span>&#8221;);<code></code></li></ol>紅字的部份就替換為真正的 proxy server 。
+Postgres JDBC 連線亦可透過同樣的方法處理。
+
+針對 proxy 需要認證的部份，可參考：
+http://www.rgagnon.com/javadetails/java-0085.html
+
+參考：
+http://download.oracle.com/javase/1.4.2/docs/guide/net/properties.html
+http://efreedom.com/Question/1-3433737/Java-Proxies-Connection-Postgres</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/01/10/virtualbox-40-verrsuplibownernotroot/">VirtualBox 4.0: VERR_SUPLIB_OWNER_NOT_ROOT Error</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-10T20:55:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2011/01/10/virtualbox-40-verrsuplibownernotroot/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近把 VirtualBox 升級到 4.0 ，結果發現原來可以跑的 Windows XP VM 不能跑了，一執行就產生 VERR_SUPLIB_OWNER_NOT_ROOT 的錯誤，上網查了一下，原來是 virtualbox 安裝目錄的權限需要是 root 擁有，解決方式如下：<div><ol><li>找到 vm 裡的 VBox.log ，查看裡面詳細 log：
+pdmR3LoadR0U: pszName=&#8221;VMMR0.r0&#8221; rc=VERR_SUPLIB_OWNER_NOT_ROOT szErr=&#8221;The owner is not root: &#8217;<span class="Apple-style-span" >/usr/lib&#8217;</span>&#8221;</li><li>log 裡看到 /usr/lib 的目錄擁有者不是 root ，把此目錄改為 root 擁有：
+chown root /usr/lib</li><li>修改完成後即可啟動 vm 了。</li></ol><div><div>參考：<a href="http://permalink.gmane.org/gmane.comp.emulators.virtualbox.user/1608">http://permalink.gmane.org/gmane.comp.emulators.virtualbox.user/1608</a></div></div></div></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/09/22/classpath/">批次檔設定 Classpath</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-22T11:23:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/09/22/classpath/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+windows 的批次檔以利用 for 來對目錄中的檔案進行處理，但是 for 在取得環境變數只會在一開始取，因此，如果當我們將批次檔寫成：<div><div>    set CLASSPATH=</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">% CLASSPATH%</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>並不會建立目前目錄中所有檔案的清單，相反的只會將 CLASSPATH 變數設為最後一個找到的檔案。因為 % CLASSPATH% 只有在 FOR 敘述第一次被讀入時才展開，此時 CLASSPATH 變數是空的。所以我們實際執行的 FOR 迴圈是:</div><div>    for %i in (*) do set LIST= %i</div><div>
+</div><div>可是當我照著微軟的說明，將 % 改為 ! ，還是得不到正確的結果：</div><div><div>    set CLASSPATH =</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">! CLASSPATH!</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>這部份我還沒找到為什麼不行。後來，在網路上找了一下，發現只要呼叫外部的批次檔或是其它 label 就不會有問題了：</div><div>    set CLASSPATH =</div><div>    FOR /f %%I IN (&#8216;dir /b *.jar&#8217;) DO <span class="Apple-style-span"  style="color:#FF0000;">call :cpappend</span> %%I</div><div><div>    echo %CLASSPATH%</div><div>    goto end</div><div>
+</div><div>    :cpappend</div><div>    set CLASSPATH=%CLASSPATH%;%1</div><div>    :end</div><div>
+</div><div>
+</div></div><div>
+</div></div></div></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/08/27/chrome-extension/">Chrome 簡繁自動轉換 Extension</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-08-27T15:00:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/08/27/chrome-extension/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<div><span class="Apple-style-span"  style="font-size:medium;">之前曾經在重灌狂人的 blog 上看到在</span><a href="http://briian.com/?p=6312"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換的書籤</span></a><span class="Apple-style-span"  style="font-size:medium;">，在 chrome 上用也是可行，不過總覺的還要多按個紐很麻煩，而且沒辦法處理 google reader ，因此就把那書籤裡面的 script 小修改做成了 chrome 的 extension，這樣就方便許多，看網頁會自動轉成繁體字。</span></div><div><span class="Apple-style-span"  style="font-size:medium;">
+</span></div><div><span class="Apple-style-span"  style="font-size:medium;">安裝方式：</span></div><div><ul><li><span class="Apple-style-span"  style="font-size:medium;">將 chrome 的捷徑加上 </span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="color:#333399;"><span class="Apple-style-span"  style="font-size:medium;">&#8211;enable-extensions</span></span></span><span class="Apple-style-span"  style=" color: rgb(153, 153, 153); font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;"> </span></span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">來啟動 extension 功能</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">重新啟動 chome</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">下載 </span><a href="http://scott0228.googlepages.com/convert_traditional_chinese.crx"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換 extension</span></a><span class="Apple-style-span"  style="font-size:medium;"> 並安裝它</span></span></li></ul><div><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">之後網頁就會自動轉成繁體了。</span></span></div></div></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/08/19/linux/">查詢Linux 系統版本</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-08-19T22:44:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/08/19/linux/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近常碰到 Linux 的機器，有時候想要查說目前的 Linux 用的是哪個版本，可以用下面的指令：
+#cat /etc/*-release
+
+在 CentOS 5 會出現類似下面的結果：
+CentOS release 5 (Final)
+
+在 Red Hat 7.3 會出現類似下面的結果：
+Red Hat Linux release 7.3 (Valhalla)
+
+如果是要查核心的版本，可以用下面的指令：
+uname -a</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/06/25/java/">Java 如何偵測目前記憶體可能不足</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-25T19:19:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/06/25/java/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+今天有個同事說，他在操作 Netbeans 時，Netbeans 竟然提示他記憶體可能不足：<div><img src="http://4.bp.blogspot.com/_fZUSxw71alM/SkNdkI3-FPI/AAAAAAAAJqE/PP97Cicd0PI/s400/netbeans.png" style="cursor:pointer; cursor:hand;width: 400px; height: 215px;" border="0" alt="" id="BLOGGER_PHOTO_ID_5351223657685193970" /></div><div>不知道 Netbeans 是怎麼做的。後來上網查了一下， JDK 1.5 後提供了 java.lang.management.MemoryMXBean，可以讓我們偵測目前記憶體的用量及狀態：
+<textarea class="java" name="code" rows="10" cols="70">
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.CompilationMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryManagerMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+public class JDKMBean {
+
+	public static <T> void printMXBean(Class<T> t, Object object) {
+		Method[] methods = t.getMethods();
+		T instance = (T) object;
+		System.out.printf(&#8220;%n&#8212;%s&#8212;%n&#8221;, t.getName());
+		for (Method m : methods) {
+			if (m.getName().startsWith(&#8220;get&#8221;)) {
+				try {
+					Object rtValue = m.invoke(instance, new Object[0]);
+					System.out.printf(&#8220;%s:%s%n&#8221;, m.getName().substring(3),
+							rtValue);
+				} catch (IllegalArgumentException e1) {
+				} catch (IllegalAccessException e) {
+				} catch (InvocationTargetException e) {
+				}
+			}
+		}
+	}
+
+	public static <T> void printMXBeans(Class<T> t, List<T> list) {
+		for (T bean : list) {
+			printMXBean(t, bean);
+		}
+	}
+
+	public static void main(String[] args) {
+		JDKMBean.printMXBean(OperatingSystemMXBean.class, ManagementFactory.getOperatingSystemMXBean());
+		JDKMBean.printMXBean(CompilationMXBean.class, ManagementFactory.getCompilationMXBean());
+		JDKMBean.printMXBean(ClassLoadingMXBean.class, ManagementFactory.getClassLoadingMXBean());
+		JDKMBean.printMXBean(MemoryMXBean.class, ManagementFactory.getMemoryMXBean());
+		JDKMBean.printMXBeans(MemoryManagerMXBean.class, ManagementFactory.getMemoryManagerMXBeans());
+		JDKMBean.printMXBeans(MemoryPoolMXBean.class, ManagementFactory.getMemoryPoolMXBeans());
+	}
+}
+</textarea>
+上面這程式可以列出目前記憶體的使用狀態。<br/>
+
+參考資料：<br/>
+<a href="http://stackoverflow.com/questions/235560/how-do-you-detect-low-memory-situations-within-the-java-virtual-machine">How do you detect low memory situations within the java virtual machine?</a><br/>
+<a href="http://llying.javaeye.com/blog/384054">J2SE5.0新特性之監控與管理</a></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/06/25/vista-iis-access-80004005/">Vista + IIS + Access 出現 80004005 錯誤</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-25T19:10:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/06/25/vista-iis-access-80004005/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<blockquote></blockquote>最近有個同事遇到一個問題，開發好的程式在 Vista 上的 IIS 會沒辦法讀取 access 裡面的資料，後來上網查了一下，發現這個問題還滿常發生的，要解決也很簡單，在命令模式下執行下面三行指令即可：<div><ul><li>%windir%\system32\inetsrv\appcmd set config /section:applicationPools /[name=&#8217;DefaultAppPool&#8217;].processModel.loadUserProfile:false</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant Users:(CI)(S,WD,AD,X)</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant &#8220;CREATOR OWNER&#8221;:(OI)(CI)(IO</li></ul><div>看起來因為 %windir%\serviceprofiles\networkservice\AppData\Local\Temp 這目錄的權限不足所造成的問題。</div><div>
+</div><div>參考資料：</div><div><a href="http://forums.iis.net/t/1148115.aspx">Access &amp; IIS7 Error : Database Engine error &#8216;80004005&#8217; - Unspecified Error</a></div></div></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/06/08/windows-time-windows/">運用 Windows Time 讓 Windows 進行時間同步</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-08T21:27:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/06/08/windows-time-windows/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<span class="Apple-style-span"  style="font-size:medium;">一般我們要進行時間的同步，可以使用 </span><a href="http://www.stdtime.gov.tw/chinese/home.htm"><span class="Apple-style-span"  style="font-size:medium;">NTPClock</span></a><span class="Apple-style-span"  style="font-size:medium;"> 來進行同步。今天發現原來 Windows 有指令可以直接進行電腦時間的同步：</span><div><span class="Apple-style-span"  style="font-size:medium;"></span><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">:: 設定要同步的 NTP Server</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">w32tm /config /update /manualpeerlist:ntp.ntu.edu.tw</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">:: 開始進行同步</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">w32tm /resync</span></span></div><div><span class="Apple-style-span"   style="font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;color:#FF8000;"><span class="Apple-style-span" style=" letter-spacing: 2px; line-height: 20px;"><b><span class="Apple-style-span"  style="color: rgb(0, 0, 0);   font-weight: normal; letter-spacing: normal; line-height: normal; font-family:Georgia, fantasy;"><span class="Apple-style-span"  style="font-size:medium;">如此一來，就不用再去特別下載 NTPClock 了。</span></span></b></span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">
+</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">註：</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">Windows Time 這個服務要開啟才能用</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">
+</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">參考來源：</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><a href="http://www.dotblogs.com.tw/tigerlin/archive/2009/06/08/8726.aspx"><span class="Apple-style-span"  style="font-size:medium;">w32tm 應用：簡單的 Script 讓 Windows 進行時間同步</span></a></span></div></div></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/06/06/oracle/">如何查詢 Oracle 的版本</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-06T10:05:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/06/06/oracle/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<span class="Apple-style-span" style="color: rgb(51, 51, 51); font-size: 13px; line-height: 20px; ">下面兩個語法都可以達到此需求：<ul><li>select * from v$version</li><li>select * from product_component_version</li></ul></span></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/06/05/chrome-extension/">Chrome Extension</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-05T22:06:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/06/05/chrome-extension/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近因為用 Firefox 常會有卡住的現像，因此改用 Google Chrome 來當我預設的瀏灠器。Chrome 實際用起來還滿不錯的，不過就是沒有像 firefox 那麼多 extension 可以使用。上網找了一下，目前比較急迫的三個需求都有辦法解決了：
+<ol><li><a href="http://www.adsweep.org/">AdSweep</a>：擋廣告，這是 chrome extension，需要在 chrome 的捷徑後加上 &#8211;enable-extensions 才可使用</li><li><a href="http://userscripts.org/scripts/show/43548">plurk 表情</a>：user script，需要在 chrome 的捷徑後加上 &#8211;enable-user-scripts 才可使用</li><li><a href="javascript:(function(){var s=document.getElementById('tongwenlet_tw');if(s!=null){document.body.removeChild(s);}var s=document.createElement('script');s.language='javascript';s.type='text/javascript';s.src='http://tongwen.openfoundry.org/NewTongWen/tools/bookmarklet_tw.js';s.id='tongwenlet_tw';document.body.appendChild(s); })();">簡繁轉換</a>，<a href="javascript:(function(){var s=document.getElementById('tongwenlet_cn');if(s!=null){document.body.removeChild(s);}var s=document.createElement('script');s.language='javascript';s.type='text/javascript';s.src='http://tongwen.openfoundry.org/NewTongWen/tools/bookmarklet_cn.js';s.id='tongwenlet_cn';document.body.appendChild(s); })();">繁簡轉換</a>：加到書簽或拉到書簽工具列即可。</li><li>GDI++：在 chrome 的捷徑後加上 &#8211;no-sandbox 即可讓 GDI++ rander Chrome 了。</li></ol></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="4">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="2">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/android' style='font-size: 105.21739130434783%'>android(2)</a> <a href='/blog/categories/css' style='font-size: 102.6086956521739%'>css(1)</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>database(2)</a> <a href='/blog/categories/dot-net' style='font-size: 102.6086956521739%'>dot net(1)</a> <a href='/blog/categories/eclipse' style='font-size: 105.21739130434783%'>eclipse(2)</a> <a href='/blog/categories/git' style='font-size: 102.6086956521739%'>git(1)</a> <a href='/blog/categories/groovy' style='font-size: 102.6086956521739%'>groovy(1)</a> <a href='/blog/categories/html' style='font-size: 102.6086956521739%'>html(1)</a> <a href='/blog/categories/ios' style='font-size: 105.21739130434783%'>ios(2)</a> <a href='/blog/categories/ipad' style='font-size: 102.6086956521739%'>ipad(1)</a> <a href='/blog/categories/java' style='font-size: 160.0%'>java(23)</a> <a href='/blog/categories/javascript' style='font-size: 107.82608695652173%'>javascript(3)</a> <a href='/blog/categories/jquery' style='font-size: 102.6086956521739%'>jquery(1)</a> <a href='/blog/categories/linux' style='font-size: 110.43478260869566%'>linux(4)</a> <a href='/blog/categories/mac' style='font-size: 107.82608695652173%'>mac(3)</a> <a href='/blog/categories/network' style='font-size: 102.6086956521739%'>network(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.6086956521739%'>oracle(1)</a> <a href='/blog/categories/soft' style='font-size: 102.6086956521739%'>soft(1)</a> <a href='/blog/categories/svn' style='font-size: 102.6086956521739%'>svn(1)</a> <a href='/blog/categories/test' style='font-size: 102.6086956521739%'>test(1)</a> <a href='/blog/categories/titanium' style='font-size: 102.6086956521739%'>titanium(1)</a> <a href='/blog/categories/usb,-bing-du' style='font-size: 102.6086956521739%'>usb、病毒(1)</a> <a href='/blog/categories/virtualbox' style='font-size: 102.6086956521739%'>virtualbox(1)</a> <a href='/blog/categories/vnc' style='font-size: 102.6086956521739%'>vnc(1)</a> <a href='/blog/categories/vpn' style='font-size: 102.6086956521739%'>vpn(1)</a> <a href='/blog/categories/web' style='font-size: 102.6086956521739%'>web(1)</a> <a href='/blog/categories/windows' style='font-size: 131.30434782608697%'>windows(12)</a> <a href='/blog/categories/xcode' style='font-size: 102.6086956521739%'>xcode(1)</a> <a href='/blog/categories/xp' style='font-size: 102.6086956521739%'>xp(1)</a> <a href='/blog/categories/dan-che' style='font-size: 105.21739130434783%'>單車(2)</a> <a href='/blog/categories/huan-dao' style='font-size: 102.6086956521739%'>環島(1)</a> <a href='/blog/categories/cheng-shi' style='font-size: 110.43478260869566%'>程式(4)</a> <a href='/blog/categories/wang-lu' style='font-size: 115.65217391304348%'>網路(6)</a> <a href='/blog/categories/ruan-ti' style='font-size: 128.69565217391303%'>軟體(11)</a> </span>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/02/blog-shi-yong-ruan-ti/">Blog 使用軟體</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/01/kai-zhang/">開張</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/21/pdf/">PDF 簡轉繁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/05/sql-server-deadlock/">如何追查 SQL Server 的 Deadlock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/24/windows-2008-vpn-server/">Windows 2008 單一網卡架 VPN Server</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Scott Yang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'scott0228';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

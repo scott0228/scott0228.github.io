@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: eclipse | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/eclipse/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何在 OSX 中開啟多個  Eclipse]]></title>
+    <link href="http://scott0228.github.io/blog/2012/11/19/osx-eclipse/"/>
+    <updated>2012-11-19T08:34:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/11/19/osx-eclipse</id>
+    <content type="html"><![CDATA[<div class='post'>
+<br />
+在 OSX 環境中，預設 Eclipse 只能開啟一個，當我們需要同時間開啟兩個 workspace 時，就需要以指令的方式去開啟另外一個 Eclipse instance：<br />
+<br />
+<ol>
+<li>開啟 Terminal&nbsp;</li>
+<li>切換到 Eclipse 安裝路徑<br />cd /Application/eclipse<br /></li>
+<li>下指令開啟 Eclipse<br />./eclipse &amp;<br />或是<br />open -n Eclipse.app</li>
+</ol>
+<br />
+參考：<br />
+http://stackoverflow.com/questions/118243/open-multiple-eclipse-workspaces-on-the-mac</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Eclipse 常用 plugin]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/04/eclipse-plugin/"/>
+    <updated>2008-12-04T22:04:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/04/eclipse-plugin</id>
+    <content type="html"><![CDATA[<div class='post'>
+<ul><li><a href="http://m2eclipse.sonatype.org/">M2Eclipse</a>：Maven 的 plugin ，讓我們可以在 eclipse 整合 maven 開發。</li><li><a href="http://subclipse.tigris.org/">subclipse</a>：整個 svn 來進行程式碼管控
+</li><li><a href="http://eclipse-tools.sourceforge.net/implementors/">Implementors</a>：方更 trace 程式，當我們程式有多種 implement 時，可以利用這個 plug in 來追踨進 method 的實作者。</li><li><a href="http://findbugs.sourceforge.net/manual/eclipse.html">FindBug</a>：程式碼靜態分析，找出可能的錯誤或是不好的寫法。
+</li><li><a href="http://eclipse-cs.sourceforge.net/">CheckStyle</a>：同上。</li><li><a href="http://www.guh-software.de/jinto_en.html" target="_blank">JInto</a>：多國語言訊息編輯。</li><li><a href="http://www.sqlexplorer.org/" target="_blank">SQL Explorer</a>：查詢資料庫。</li><li><a href="http://myregexp.com/eclipsePlugin.html" target="_blank">Regex Util</a>：正規表達式。</li><li><a href="http://code.google.com/p/visualswing4eclipse/">visualswing4eclipse</a>：好用的 swing design 工具，跟 netbeans 的 matisse 有的拼。</li><li><a href="http://www.cloudgarden.com/jigloo/" target="_blank">Jigloo</a>：GUI builder。</li><li><a href="http://andrei.gmxhome.de/anyedit/index.html">AnyEdit</a>：為 eclipse 中的右鍵增加了不少實用的功能，如：跟外部檔案比較、space 跟tab 的轉換之類的。</li><li><a href="http://bastian-bergerhoff.com/eclipse/features/web/QuickREx/toc.html">QuickRex</a>：正規表達式的工具。
+</li></ul></div>
+
+]]></content>
+  </entry>
+  
+</feed>

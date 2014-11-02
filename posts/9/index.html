@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小虫的胡言亂語</title>
+  <meta name="author" content="Scott Yang">
+
+  
+  <meta name="description" content="Tomcat 本來內建的 connection pool 是 dbcp，但據說有一堆 bug 沒解，因此想說要把 DBCP 換成 c3p0 以避免這些問題。剛好在網路上看到這個解法，就將它記下來嚕。 首先當然是要先把 c3p0 的 jar 檔及 jdbc driver 放到 tomcat 的 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://scott0228.github.io/posts/9/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="小虫的胡言亂語" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7310858-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小虫的胡言亂語</a></h1>
+  
+    <h2>小虫的各種記錄.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:scott0228.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/10/26/tomcat-jndi-c3p0-connection-pool_26/">如何在 Tomcat 中運用 JNDI 的方式取得 C3P0 的 Connection Pool</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-26T17:46:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/10/26/tomcat-jndi-c3p0-connection-pool_26/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>Tomcat 本來內建的 connection pool 是 dbcp，但據說有一堆 bug 沒解，因此想說要把 DBCP 換成 c3p0 以避免這些問題。剛好在網路上看到這個解法，就將它記下來嚕。</p>  <p>首先當然是要先把 c3p0 的 jar 檔及 jdbc driver 放到 tomcat 的 lib 目錄下。</p>  <h4>Tomcat 5.0</h4>  <p>在 Tomcat 的目錄下 conf/server.xml ，找到 &lt;Context&gt; 修改其內容： </p>  <p>&lt;Resource name=&quot;jdbc/pooledDS&quot; auth=&quot;Container&quot; type=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot; /&gt; &lt;ResourceParams name=&quot;jdbc/pooledDS&quot;&gt;   <br />&#160;&#160; &lt;parameter&gt;     <br />&#160;&#160;&#160;&#160;&#160; &lt;name&gt;factory&lt;/name&gt;    <br />&#160;&#160;&#160;&#160;&#160; &lt;value&gt;org.apache.naming.factory.BeanFactory&lt;/value&gt;     <br />&#160;&#160; &lt;/parameter&gt;    <br />&#160;&#160; &lt;parameter&gt;    <br />&#160;&#160;&#160;&#160;&#160; &lt;name&gt;driverClass&lt;/name&gt;     <br />&#160;&#160;&#160;&#160;&#160; &lt;value&gt;org.postgresql.Driver&lt;/value&gt;&#160; <br />&#160;&#160; &lt;/parameter&gt;    <br />&#160;&#160; &lt;parameter&gt;    <br />&#160;&#160;&#160;&#160;&#160; &lt;name&gt;jdbcUrl&lt;/name&gt;     <br />&#160;&#160;&#160;&#160;&#160; &lt;value&gt;jdbc:postgresql://localhost/c3p0-test&lt;/value&gt;&#160; <br />&#160;&#160; &lt;/parameter&gt;     <br />&#160;&#160; &lt;parameter&gt;     <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;name&gt;user&lt;/name&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;value&gt;swaldman&lt;/value&gt;    <br />&#160;&#160;&#160; &lt;/parameter&gt;    <br />&#160;&#160;&#160; &lt;parameter&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;name&gt;password&lt;/name&gt;     <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;value&gt;test&lt;/value&gt;    <br />&#160;&#160;&#160; &lt;/parameter&gt;     <br />&#160;&#160;&#160; &lt;parameter&gt;     <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;name&gt;minPoolSize&lt;/name&gt;     <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;value&gt;5&lt;/value&gt;    <br />&#160;&#160;&#160; &lt;/parameter&gt;     <br />&#160;&#160;&#160; &lt;parameter&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;name&gt;maxPoolSize&lt;/name&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;value&gt;15&lt;/value&gt;    <br />&#160;&#160;&#160; &lt;/parameter&gt;    <br />&#160;&#160;&#160; &lt;parameter&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;name&gt;acquireIncrement&lt;/name&gt;    <br />&#160;&#160;&#160;&#160;&#160;&#160; &lt;value&gt;5&lt;/value&gt;    <br />&#160;&#160;&#160; &lt;/parameter&gt;     <br />&lt;/ResourceParams&gt;</p>  <h4>Tomcat 5.5/6.0</h4>  <p>在 Tomcat 的目錄下 conf/server.xml ，找到 &lt;GlobalNamingResources&gt; 加上其內容： </p>  <p>&lt;Resource auth=&quot;Container&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; description=&quot;DB Connection&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; driverClass=&quot;com.mysql.jdbc.Driver&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; maxPoolSize=&quot;4&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; minPoolSize=&quot;2&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; acquireIncrement=&quot;1&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; name=&quot;jdbc/TestDB&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; user=&quot;test&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; password=&quot;ready2go&quot;    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; factory=&quot;org.apache.naming.factory.BeanFactory&quot;     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; type=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; jdbcUrl=&quot;jdbc:mysql://localhost:3306/test?autoReconnect=true&quot; /&gt;</p>  <h4>Web.xml</h4>  <p>標準 J2EE 的程式中，需要在 web.xml 中做以下設定：</p>  <p>&lt;resource-ref&gt;    <br />&#160;&#160; &lt;res-ref-name&gt;jdbc/pooledDS&lt;/res-ref-name&gt;    <br />&#160;&#160; &lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;    <br />&#160;&#160; &lt;res-auth&gt;Container&lt;/res-auth&gt;    <br /> &lt;/resource-ref&gt;</p>  <h4>如何利用程式取得 DataSource</h4>  <p>InitialContext ic = new InitialContext(); DataSource ds = (DataSource) ic.lookup(&quot;java:comp/env/jdbc/pooledDS&quot;);</p>  <p>原文參考：<a title="http://www.mchange.com/projects/c3p0/index.html#tomcat-specific" href="http://www.mchange.com/projects/c3p0/index.html#tomcat-specific">http://www.mchange.com/projects/c3p0/index.html#tomcat-specific</a></p>  </div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/10/19/blog-post/">隨身碟病毒</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-10-19T20:56:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/10/19/blog-post/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近很多朋友都中 Kavo 系列的病毒，上網找了一下，有人寫好了刪毒程式，在此記錄一下。
+http://reinfors.googlepages.com/main.html
+
+其功能說明：
+<p>EFix有下列功能：</p><ol><li>修復因病毒造成隱藏檔選項無法開啟和磁碟雙擊顯示找不到程式的錯誤
+</li><li>修正工作管理員無法開啟的問題 (因登錄檔關閉造成的話)
+（4.68版後才有，前面沒有）
+</li><li>關閉自動撥放功能 (<span style="color: rgb(255, 0, 0);">此功能在Ver4.56後取消</span>)</li><li>簡易的病毒檔案刪除 (像KAVO KXVO JVVO TASO AMVO AVPO那一類的，還有部分病毒下載器，如auto.exe等等)</li><li>會產生掃瞄報告供解毒人員分析</li><li>可利用文字腳本方式刪除檔案及登錄值，使用方式請看<a href="http://reinfors.googlepages.com/escript">此篇</a></li></ol><p> EFix Lite有下列功能：</p><ol><li>修復因病毒造成隱藏檔選項無法開啟和磁碟雙擊顯示找不到程式的錯誤</li><li>目前已知的KAVO系列病毒清除 </li></ol><p>磁碟無法開啟的意思是如下圖顯示：</p></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/09/12/tomcat-datasource/">Tomcat 的 Datasource 問題</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-12T20:27:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/09/12/tomcat-datasource/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近在 Tomcat 上開發，使用 Tomcat 所提供的 Datasource 來接資料庫，可是發現測試時，在針對 CLOB 轉型時 oracle.sql.CLOB clob = (oracle.sql.CLOB)rs.getClob(1);
+一直出現 java.lang.ClassCastException: oracle.sql.CLOB 的錯誤，而用 Debug Mode 去觀察時，發現取回來的 Clob Object 確實是 oracle.sql.CLOB 的 instance，原本以為是用的 JVM 太新的關係，結果換了 JVM 也發生一樣的錯，後來才發現，原來是 tomcat ClassLoader 的問題。
+
+一般 ClassLoader 的工作流程是：
+<ol><li>收到一個載入類的的請求</li><li>請求其父ClassLoader來完成該類的載入</li><li>如果父ClassLoader無法載入，則自己試圖完成該類的載入
+</li></ol>
+而 WEB APP 的 ClassLoader 實現與眾不同：
+它先試圖從 WEB APP 自己的目錄裡載入，如果失敗則請求父 ClassLoader 的代理。
+
+而我為了使用 Datasource 來連接資料庫，因此在 Tomcat 的 lib 放裡放了 Jdbc driver ，Datasource 取資資料庫連線使用的 driver 是這個。但在 ap 的 web-inf/lib 下，我也放了 Jdbc driver ，這使得我在轉型時，ClassLoader 會取用這個 Driver 來轉型，雖然兩個本版一模一樣，但始終還是透過不同的 ClassLoader 載入的，因此沒辦法互轉，造成程式出錯。
+
+所以，在 Tomcat 上使用 Datasource 時，記得 ap 下不要再放重覆的 Driver 了，以避免造成同樣的錯誤。
+
+可參考：
+http://www.memezilla.com/2007/01/05/remove-oracle-clob-classcastexception
+http://www.blogjava.net/realsmy/archive/2007/05/04/115272.html</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/09/01/vpc-internet-explorer/">利用 VPC 測試 Internet Explorer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-01T20:09:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/09/01/vpc-internet-explorer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+上一篇有寫到要測試不同版本的 IE ，有兩種方法，今天又發現微軟提供第三種方法，就是利用他所併購的 VPC 軟體來測試：
+
+1. 首先我們要到下面網址先下載免費的 Virtual PC 來安裝
+http://www.microsoft.com/windows/products/winfamily/virtualpc/default.mspx
+2. 到<span class="fullpost"><a href="http://go.microsoft.com/fwlink?LinkID=70868" target="_blank">Internet Explorer Application Compatibility VPC Image</a>下載</span><span class="fullpost">內含IE6、IE7、IE8等不同版本的 Windows XP 或 Windows Vista 映像檔，目前有下列幾個版本</span>
+<ol><li>IE6-XPSP3_VPC.exe（421.7 MB）：內含Windows XP SP3及IE6 VHD映像檔。 </li><li>IE7-VIS1.exe、IE7-VIS2.rar、IE7-VIS3.rar（3個檔案合計約1990.5 MB）： 內含Vista及IE7 VHD映像檔（下載這3個檔案並放在相同目錄，再執行IE7-VIS1.exe即可解壓縮）。
+</li><li>IE7-XPSP2_VPC.exe（456.8 MB）：內含Windows XP SP2及IE7 VHD映像檔。
+</li><li>IE8B2-XPSP3_VPC.exe（464.6 MB）：內含Windows XP SP3及IE8 Beta 2 VHD映像檔。</li>
+</ol></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/08/30/ie/">多版本 IE</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-30T21:52:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/08/30/ie/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+身為一個 Web application 的開發者，常常需要測試不同版本的 Brower 來了解本身開發的程式是否相容，尤其是 IE 在不同版本有不同的問題，一定要針對每個版本進行測試。但微軟只允許我們系統中只有一個版本的 IE ，那要怎麼解決呢？有以下兩種選擇：
+<ol><li><a href="http://www.my-debugbar.com/wiki/IETester/HomePage">IE Tester</a></li><li><a href="http://finalbuilds.edskes.net/iecollection.htm">Internet Explorer Collection</a></li></ol>利用上述個程式，我們便可針有不同版本的 IE 進行測試了。
+
+參考連結：
+http://www.ghacks.net/2008/08/30/use-multiple-internet-explorer-versions-simultaneously/</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/08/22/windows-2000/">破解 Windows 2000 的帳號密碼</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-22T14:20:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/08/22/windows-2000/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<span class="fullpost">最近因為一些 Windows 2000 Server 的密碼被別的同事改掉，造成沒辦法進去系統進行維護，剛好在網路上看到 </span><span class="fullpost"></span><a href="http://www.infoworld.com/archives/t.jsp?N=s&amp;V=107881" target="_blank">2008 Best of Open Source Software Awards</a> ，裡面有<span class="fullpost"> <a href="http://sourceforge.net/projects/ophcrack/" target="_blank">Ophcrack</a> 這個軟體可以找出目前系統的帳號及密碼，剛好可以解決我這個問題嚕，有需要的可以去下載試試，只要燒他的開機光碟然後拿到那台電腦開機就好了。
+
+</span>參考連結：
+http://www.goodman-lai.idv.tw/2008/08/infoworld-2008.html</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/08/18/acpi/">如何啟動 ACPI 來讓電腦自動關閉電源</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-18T20:21:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/08/18/acpi/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近在公司為了節能減炭，計畫將一些測試用的 Server 定時開關機來減少電力的損耗，而那些電腦裡，有幾台是 Windows 2000 server  ，主機版也有支援 ACPI，不知道為什麼關機就是會出現【您可以安心關機了】的字眼而不會直接關機，這樣的 Server  造成需要有人去實際關機而不能排程關機(人是懶墮的，可以由電腦自己開關機就不要排值日生去關啊<img src="http://chhuang.googlepages.com/th_013_a.gif" border="0" />)。因此小弟就研究了一下，原來是 ACPI  的功能沒有被開啟，造成電腦不會自動關電源，只要照著以下步驟將 ACPI 的 Driver 改一下就行了(PS. 前提是主機版有支援 ACPI)：<ol><li>在【我的電腦】上按右鍵，選擇【管理】，點選【裝置管理員】，展開【電腦】，如果顯示如下【Advanced Configuration and Power  Interface (ACPI)PC】表示已經開啟此功能，否則則繼續往下做。
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SKlp6ffFiqI/AAAAAAAAGOg/jycR6BAhPlE/s1600-h/pic1.gif"><img style="margin: 0pt 10px 10px 0pt; cursor: pointer;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SKlp6ffFiqI/AAAAAAAAGOg/jycR6BAhPlE/s320/pic1.gif" alt="" id="BLOGGER_PHOTO_ID_5235832495400127138" border="0" /></a></li><li>在上面按右鍵，選【內容】，點選【驅動程式】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SKlqn5dpB4I/AAAAAAAAGOo/Gpj9Vn8frbA/s1600-h/pic2.gif"><img style="cursor: pointer;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SKlqn5dpB4I/AAAAAAAAGOo/Gpj9Vn8frbA/s320/pic2.gif" alt="" id="BLOGGER_PHOTO_ID_5235833275467499394" border="0" /></a>
+</li><li>點選【更新驅動程式】，按下一步，選擇【請顯示這個裝置目前的驅動程式清單，讓我從清單中指定驅動程式(D)】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SKlq3BHs9HI/AAAAAAAAGOw/AOMujVnwqfA/s1600-h/pic3.gif"><img style="cursor: pointer;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SKlq3BHs9HI/AAAAAAAAGOw/AOMujVnwqfA/s320/pic3.gif" alt="" id="BLOGGER_PHOTO_ID_5235833535221003378" border="0" /></a>
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://1.bp.blogspot.com/_fZUSxw71alM/SKlq8WB8I7I/AAAAAAAAGO4/acHYl623P3w/s1600-h/pic4.gif"><img style="cursor: pointer;" src="http://1.bp.blogspot.com/_fZUSxw71alM/SKlq8WB8I7I/AAAAAAAAGO4/acHYl623P3w/s320/pic4.gif" alt="" id="BLOGGER_PHOTO_ID_5235833626733323186" border="0" /></a>
+</li><li>點選下一步，點選下面的【顯示這個裝置類別的所有硬體】，然後選擇 ACPI 的 driver。
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SKlrDpDZN9I/AAAAAAAAGPA/7cqM65PXPpg/s1600-h/pic5.gif"><img style="cursor: pointer;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SKlrDpDZN9I/AAAAAAAAGPA/7cqM65PXPpg/s320/pic5.gif" alt="" id="BLOGGER_PHOTO_ID_5235833752098781138" border="0" /></a>
+</li><li>點選下一步，安裝 Driver，重開機後就大功告成了 </li></ol> <p>請注意，如果你的電腦沒有 Acpi 的功能，千萬不能裝這個 Driver，否則可能出問題。</p></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/03/08/blog-post_08/">我的練習曲-今天要出發了</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-03-08T00:26:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/03/08/blog-post_08/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>預計早上八點從汐止火車站出發，我竟然整理東西到現在還沒睡覺，不知道會不會騎車騎到睡著，XD</p>  <p>先預祝我環島成功囉!! 晚安</p>  </div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/03/04/blog-post_04/">我的練習曲 - 預計行程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-03-04T20:39:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/03/04/blog-post_04/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>Day1 南港 =&gt; 基隆 =&gt; 礁溪  100 公里左右  
+Day2 礁溪 =&gt; 蘇澳     約 50 公里   
+Day3 蘇澳 =&gt; 新城     約 90km   
+Day4 新城 =&gt; 花蓮     30 km   
+Day5 花蓮 =&gt; 玉里     100 km   
+Day6 玉里 =&gt; 台東知本  100 km   
+Day7 台東知本 =&gt; 屏東楓港    88．45 km   
+Day8 屏東楓港 =&gt; 墾丁 50   
+Day9 墾丁 =&gt; 屏東楓港  50 km   
+Day10 屏東楓港 =&gt; 高雄路竹(芃朋家)  100 km   
+Day11 高雄路竹 =&gt; 台南新營(Cedric 同學)   
+Day12 台南新營 =&gt; 彰化溪洲(我家)   
+Day13 彰化溪州 =&gt; 苗栗頭份(Nancy 家)    100 km   
+Day14 苗栗頭份 =&gt; 中壢    90 km   
+Day15 中壢 =&gt; 台北    50 km</p></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/03/04/blog-post/">五指山環島行前會</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-03-04T00:30:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/03/04/blog-post/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>本週本來要去玉山重新體驗一下山上生活的，但是因為封了山，沒辦法去，嘉明湖的時間我又不能配合，只好引恨留在家裡當宅男嚕XD。好在下星期就要開始環島了， Lopo 說要行前會，Cedric 說要去<a href="http://cedricshih.blogspot.com/2008/02/0302.html">五指山</a>開，因此就成就了這次的行程。</p>  <p>原本的目標行程： </p>  <p><a href="http://lh6.google.com/scott0228/R8wnUNBpb7I/AAAAAAAACcw/vWYu6e23-Ls/orgmap6"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="505" alt="原計畫路程" src="http://lh3.google.com/scott0228/R8wnWdBpb8I/AAAAAAAACc4/TrFyNjIrsBw/orgmap_thumb4" width="740" border="0" /></a> </p>  <p>但是因為我們 GPS 還沒搞懂怎麼用，加上路沒有記的很清楚，結果多跑了一個【金龍禪寺】，前面坡度還滿徒的XD：</p>  <p><a href="http://lh3.google.com/scott0228/R8wnYdBpb9I/AAAAAAAACdA/B7XkzbpYYx0/realmap7"><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="505" alt="實際路程" src="http://lh5.google.com/scott0228/R8wna9Bpb-I/AAAAAAAACdI/8WLPd9C1bH0/realmap_thumb5" width="738" border="0" /></a> </p>  <p>沒錯，就是旁邊那個 4 讓我們多爬了一段，雖然直接從那上去也是可以啦，但是為了怕迷路，加上原來只有準備走原路線的地圖，只好再騎回原路線往上爬嚕。</p>  <p>在上山的路上，遇到兩位走路的小姐，走的速度竟然可以跟我們騎腳踏車比，真是太慚愧了；在長青路跟五指山產業道路交界休息時，遇到一個老伯，已經六十多歲了，他六十三歲第一次買車就是去環島，而且帶帳蓬只花了十二天，我們這些年青人竟然安排了十五天去環島，真是太令我汗顏了。另外他也介紹了一條一天來回的台北騎車路線，就從五指山上去，下金山再從淡水回來，沿路還找朋友聊天喝酒，一天來回，這對我來說，怎麼可能嘛，相比之下，我真的遜掉了，唉。</p>  <p><a href="http://lh6.google.com/scott0228/R8wndNBpb_I/AAAAAAAACdQ/OBg3nS6SdHM/P1020198%5B7%5D"><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="184" alt="上山遇到的老伯" src="http://lh4.google.com/scott0228/R8wnftBpcAI/AAAAAAAACdY/KraiHBBpaWk/P1020198_thumb%5B5%5D" width="244" border="0" /></a>&#160; <br />上山遇到的老伯，騎的滿快的</p>  <p><a href="http://lh6.google.com/scott0228/R8wnhNBpcBI/AAAAAAAACdg/B16NGqI-rRE/P1020199%5B2%5D"><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="184" alt="P1020199" src="http://lh3.google.com/scott0228/R8wnidBpcCI/AAAAAAAACdo/0jKz1ZJXiLE/P1020199_thumb" width="244" border="0" /></a>     <br />Mark 熱心讚助的 PDA 加上在上山喝的熱可可</p>  <p><a href="http://lh3.google.com/scott0228/R8wnmdBpcDI/AAAAAAAACdw/F7MLuv3Apig/P1020197%5B2%5D"><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="244" alt="P1020197" src="http://lh6.google.com/scott0228/R8wnoNBpcEI/AAAAAAAACd4/3zEegjAH2UE/P1020197_thumb" width="184" border="0" /></a>     <br />路上的山櫻花</p>  <p><a href="http://lh6.google.com/scott0228/R8wnpNBpcFI/AAAAAAAACeA/rzPp2R_VbfM/P1020206%5B2%5D"><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="184" alt="P1020206" src="http://lh6.google.com/scott0228/R8wnrNBpcGI/AAAAAAAACeI/oYjTMpCZZvc/P1020206_thumb" width="244" border="0" /> <img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="184" alt="P1020207" src="http://lh6.google.com/scott0228/R8wnsNBpcHI/AAAAAAAACeQ/ATqbQvnIVE4/P1020207_thumb" width="244" border="0" /></a> <a href="http://lh3.google.com/scott0228/R8wntdBpcII/AAAAAAAACeY/4s7GRLp5Rfc/P1020213%5B2%5D"><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="184" alt="P1020213" src="http://lh4.google.com/scott0228/R8wnutBpcJI/AAAAAAAACeg/1h1cQD6y1hY/P1020213_thumb" width="244" border="0" /></a>     <br />山上的夜景，滿美的，可惜天氣不是很好，視線不佳。如果帶女朋友上來看，應該相當不錯，可惜我沒女朋友啊XD。</p>  </div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="10">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="8">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/android' style='font-size: 105.21739130434783%'>android(2)</a> <a href='/blog/categories/css' style='font-size: 102.6086956521739%'>css(1)</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>database(2)</a> <a href='/blog/categories/dot-net' style='font-size: 102.6086956521739%'>dot net(1)</a> <a href='/blog/categories/eclipse' style='font-size: 105.21739130434783%'>eclipse(2)</a> <a href='/blog/categories/git' style='font-size: 102.6086956521739%'>git(1)</a> <a href='/blog/categories/groovy' style='font-size: 102.6086956521739%'>groovy(1)</a> <a href='/blog/categories/html' style='font-size: 102.6086956521739%'>html(1)</a> <a href='/blog/categories/ios' style='font-size: 105.21739130434783%'>ios(2)</a> <a href='/blog/categories/ipad' style='font-size: 102.6086956521739%'>ipad(1)</a> <a href='/blog/categories/java' style='font-size: 160.0%'>java(23)</a> <a href='/blog/categories/javascript' style='font-size: 107.82608695652173%'>javascript(3)</a> <a href='/blog/categories/jquery' style='font-size: 102.6086956521739%'>jquery(1)</a> <a href='/blog/categories/linux' style='font-size: 110.43478260869566%'>linux(4)</a> <a href='/blog/categories/mac' style='font-size: 107.82608695652173%'>mac(3)</a> <a href='/blog/categories/network' style='font-size: 102.6086956521739%'>network(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.6086956521739%'>oracle(1)</a> <a href='/blog/categories/soft' style='font-size: 102.6086956521739%'>soft(1)</a> <a href='/blog/categories/svn' style='font-size: 102.6086956521739%'>svn(1)</a> <a href='/blog/categories/test' style='font-size: 102.6086956521739%'>test(1)</a> <a href='/blog/categories/titanium' style='font-size: 102.6086956521739%'>titanium(1)</a> <a href='/blog/categories/usb,-bing-du' style='font-size: 102.6086956521739%'>usb、病毒(1)</a> <a href='/blog/categories/virtualbox' style='font-size: 102.6086956521739%'>virtualbox(1)</a> <a href='/blog/categories/vnc' style='font-size: 102.6086956521739%'>vnc(1)</a> <a href='/blog/categories/vpn' style='font-size: 102.6086956521739%'>vpn(1)</a> <a href='/blog/categories/web' style='font-size: 102.6086956521739%'>web(1)</a> <a href='/blog/categories/windows' style='font-size: 131.30434782608697%'>windows(12)</a> <a href='/blog/categories/xcode' style='font-size: 102.6086956521739%'>xcode(1)</a> <a href='/blog/categories/xp' style='font-size: 102.6086956521739%'>xp(1)</a> <a href='/blog/categories/dan-che' style='font-size: 105.21739130434783%'>單車(2)</a> <a href='/blog/categories/huan-dao' style='font-size: 102.6086956521739%'>環島(1)</a> <a href='/blog/categories/cheng-shi' style='font-size: 110.43478260869566%'>程式(4)</a> <a href='/blog/categories/wang-lu' style='font-size: 115.65217391304348%'>網路(6)</a> <a href='/blog/categories/ruan-ti' style='font-size: 128.69565217391303%'>軟體(11)</a> </span>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/02/blog-shi-yong-ruan-ti/">Blog 使用軟體</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/01/kai-zhang/">開張</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/21/pdf/">PDF 簡轉繁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/05/sql-server-deadlock/">如何追查 SQL Server 的 Deadlock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/24/windows-2008-vpn-server/">Windows 2008 單一網卡架 VPN Server</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Scott Yang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'scott0228';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

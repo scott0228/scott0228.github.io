@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xp | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/xp/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[查詢 IP 對應的電腦]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/10/ip/"/>
+    <updated>2008-12-10T16:56:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/10/ip</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span style="font-family:新細明體;">前陣子在公司常被別的電腦攻擊，而防毒軟體或防火牆只知道攻擊者的 IP 而不知道實際的電腦名稱，因而不好找到攻擊者的電腦請他修復。最近剛好找到 xp 的指令可以查，留個記錄：
+
+nbtstat：</span> <p><span style="font-family:新細明體;">nbtstat -a  電腦名稱：查該電腦所提供的網路共享資源名稱，與網路卡硬體位址</span></p> <p><span style="font-family:新細明體;">nbtstat -A IP：查該電腦所提供的網路共享資源名稱，與網路卡硬體位址</span></p> <p><span style="font-family:新細明體;">nbtstat -n ：查本機電腦所提供的網路共享資源名稱</span></p> <p><span style="font-family:新細明體;">nbstat -s  ：列出目前與本機電腦建立網站連線的遠端電腦名稱與資料量大小。</span></p> <p><span style="font-family:新細明體;">nbstat -S ：列出目前與本機電腦建立網站連線的遠端電腦IP名稱與資料量大小。</span></p><p>參考：http://www1.cpshs.hcc.edu.tw/leson/netadm/nbtstat.htm
+</p></div>
+
+]]></content>
+  </entry>
+  
+</feed>

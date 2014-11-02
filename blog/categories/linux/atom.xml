@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何在 Archlinux 下安裝 ATHEROS AR8151/AR8152 網路卡驅動程式]]></title>
+    <link href="http://scott0228.github.io/blog/2011/08/24/archlinux-atheros-ar8151ar8152/"/>
+    <updated>2011-08-24T08:34:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/08/24/archlinux-atheros-ar8151ar8152</id>
+    <content type="html"><![CDATA[<div class='post'>
+小弟使用的 Linux 版本為：Archlinux 2010.05 ，因為這個版本內建並不支援 ATHEROS AR8151/AR8152 網路卡，而 <a href="https://wiki.archlinux.org/index.php/Acer_Aspire_5745g">archlinux 的官方文件也說明不支援</a>，因此需要自行編譯。  其步驟如下： <br />
+<ol><li>首先，要先下載 <a href="http://code.google.com/p/kyosls/downloads/detail?name=AR81Family-linux-v1.0.1.14.tar.gz&amp;can=2&amp;q=">AR81Family-Linux-v1.0.1.14.tar.gz </a>。<br />
+<span style="font-weight: bold;">wget http://kyosls.googlecode.com/files/AR81Family-linux-v1.0.1.14.tar.gz</span> </li>
+<li>解壓縮 <span style="font-weight: bold;"><br />
+tar -xzvf AR81Family-linux-v1.0.1.14.tar.gz ./</span></li>
+<li>到 src 目錄編譯並安裝(編譯安裝的驅動位於/lib/modules/版本-generic/kernel/drivers/net/atl1e 目錄下)<br />
+<span style="font-weight: bold;">cd src</span><br />
+<span style="font-weight: bold;">make install</span> </li>
+<li>找入驅動<br />
+<span style="font-weight: bold;">modprobe atl1e</span> </li>
+<li>查看是否正確<br />
+<span style="font-weight: bold;">lsmod|grep atl1e</span><br />
+正常的話可以看到<br />
+atl1e                  57012  0<br />
+<span style="font-weight: bold;">dmesg|grep Network</span><br />
+正常的話可以看到<br />
+Atheros(R) AR8121/AR8113/AR8114/AR8131/AR8132/AR8152 PCI-E Ethernet Network Driver - version 1.0.1.14 </li>
+<li>啟動 eth0<br />
+<span style="font-weight: bold;">ifconfig eth0 up</span></li>
+<li>如果一切都正常，再把 atl1e 加上 /etc/rc.conf 的 modules 中即可。 </li>
+</ol>如果在第三步驟 make 時發生：Linux kernel source not configured:missing autoconf.h  <br />
+解決方式為：<br />
+<div style="font-weight: bold;">cd /usr/src/版本/include/linux<br />
+ln -s ../generated/autoconf.h .<br />
+ln -s ../generated/utsrelease.h .</div><div style="font-weight: bold;"><br />
+</div>參考資料<br />
+http://blog.csdn.net/maosanwan/article/details/6059826<br />
+http://code.google.com/p/kyosls/downloads/list </div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux console 下如何解開 kernel26.img]]></title>
+    <link href="http://scott0228.github.io/blog/2011/06/17/linux-console-kernel26img/"/>
+    <updated>2011-06-17T16:38:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/06/17/linux-console-kernel26img</id>
+    <content type="html"><![CDATA[<div class='post'>
+<ol><li>建立暫存路徑 <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">mkdir /tmp/kernel </pre> </div></div></li><li>將 kernel26.img 複制到暫存路徑，並將附檔名改為 .gz <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cp /boot/kernel26.img /tmp/kernel/kernel26.gz </pre> </div></div></li><li>到暫存目錄 /tmp/kernel 下利用 gunzip 解開 kernel26.gz <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cd /tmp/kernel gunzip kernel26.gz </pre> </div></div></li><li> 目前下會剩下 kernel26 這個檔案，再利用 cpio 解開： <div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent"> <pre class="code-java">cpio -ivd --no-absolute-filenames &lt; kernel26 </pre> </div></div></li></ol></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[查詢Linux 系統版本]]></title>
+    <link href="http://scott0228.github.io/blog/2009/08/19/linux/"/>
+    <updated>2009-08-19T22:44:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/08/19/linux</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近常碰到 Linux 的機器，有時候想要查說目前的 Linux 用的是哪個版本，可以用下面的指令：
+#cat /etc/*-release
+
+在 CentOS 5 會出現類似下面的結果：
+CentOS release 5 (Final)
+
+在 Red Hat 7.3 會出現類似下面的結果：
+Red Hat Linux release 7.3 (Valhalla)
+
+如果是要查核心的版本，可以用下面的指令：
+uname -a</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[查看 port 被哪個程式占住了]]></title>
+    <link href="http://scott0228.github.io/blog/2009/01/11/port/"/>
+    <updated>2009-01-11T23:47:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/01/11/port</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>一直以來，我都懶的去記 windows 的指令，而是使用 <a href="http://www.nirsoft.net/utils/cports.html">CurrPorts</a> 這方便的工具來查，今天剛好在網路上看到記令，就把它記下來嚕，雖然比較麻煩，但是在沒有工具的情況下還是不錯用的： </p>  <p><strong>netstat –ano     
+</strong>a：表示列出所有連線中或 listening的連線。   
+n：表示使用數字形態列出，即 http 會以 80 顯示，ftp 會以 21 顯示。   
+o：則為列出該程式的 PID。</p>  <p><a href="http://lh3.ggpht.com/_fZUSxw71alM/SWoUdlbGtDI/AAAAAAAAJBk/74mLnX9u0Ok/s1600-h/Noname%5B3%5D.jpg"><img title="Noname" style="border-right: 0px; border-top: 0px; display: inline; border-left: 0px; border-bottom: 0px" height="291" alt="Noname" src="http://lh5.ggpht.com/_fZUSxw71alM/SWoUfMnWJ1I/AAAAAAAAJBo/nAiTt5J1IKQ/Noname_thumb%5B1%5D.jpg?imgmax=800" width="437" border="0" /></a> </p>  <p></p>  <p>知道 PID 之後，接著就可以使用【工作管理員<strong>】</strong>或是【tasklist】查看該 PID 是由哪一支程式所執行。</p>  <p>在 Linux 底下則是要用下面的指令：</p>  <p><strong>netstat -tulnp </strong></p><p><strong><span class="Apple-style-span" style="font-weight: normal; ">t：顯示 TCP
+u：顯示 UDP
+l：只顯示 listening 的 processes
+n：不要解析 IP address names 或 port numbers
+p：顯示 listening ports 的 process 名稱</span></strong></p><p>也可以使用： </p><p><strong>lsof -i</strong></p></div>
+
+]]></content>
+  </entry>
+  
+</feed>

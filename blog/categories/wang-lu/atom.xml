@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 網路 | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/wang-lu/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在 apache 中隱藏你的 server 資訊]]></title>
+    <link href="http://scott0228.github.io/blog/2011/01/25/apache-server/"/>
+    <updated>2011-01-25T11:47:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/01/25/apache-server</id>
+    <content type="html"><![CDATA[<div class='post'>
+一般我們安裝完 apache httpd 後，預設錯誤頁面會將 server 的版本資訊顯示出來，這樣是非常危險的，如果剛好那個版本有漏洞就容易遭到駭客入侵。
+那如何把這些資訊隱藏呢，只要調整 httpd 的一個設定即可，在 httpd.conf 中把 ServerTokens 的值改為 Prod：
+ServerTokens Prod
+
+<span class="postbody">以下是在 httpd.conf 中的設定值，及 Apache 在 header 的回應
+
+ServerTokens Full
+Server:</span><span> Apache/2.2.15 (Unix) mod_ssl/2.2.15 OpenSSL/1.0.0a DAV/2</span>
+<span class="postbody">
+ServerTokens OS
+Server: </span><span>Apache/2.2.15 (Unix)</span>
+<span class="postbody">
+ServerTokens Minor
+Server: </span><span>Apache/2.2</span>
+<span class="postbody">
+ServerTokens Minimal
+Server: </span><span>Apache/2.2.15</span>
+<span class="postbody">
+ServerTokens Major
+Server: </span><span>Apache/2</span>
+<span>
+</span><span class="postbody"> ServerTokens Prod
+Server: Apache
+
+<span style="font-weight: bold">所以設定成  <span style="color:red;">ServerTokens Prod</span> 應該是比較好的選擇</span></span>
+
+
+
+參考資料
+http://www.backup.idv.tw/viewtopic.php?t=821</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome 簡繁自動轉換 Extension]]></title>
+    <link href="http://scott0228.github.io/blog/2009/08/27/chrome-extension/"/>
+    <updated>2009-08-27T15:00:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/08/27/chrome-extension</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div><span class="Apple-style-span"  style="font-size:medium;">之前曾經在重灌狂人的 blog 上看到在</span><a href="http://briian.com/?p=6312"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換的書籤</span></a><span class="Apple-style-span"  style="font-size:medium;">，在 chrome 上用也是可行，不過總覺的還要多按個紐很麻煩，而且沒辦法處理 google reader ，因此就把那書籤裡面的 script 小修改做成了 chrome 的 extension，這樣就方便許多，看網頁會自動轉成繁體字。</span></div><div><span class="Apple-style-span"  style="font-size:medium;">
+</span></div><div><span class="Apple-style-span"  style="font-size:medium;">安裝方式：</span></div><div><ul><li><span class="Apple-style-span"  style="font-size:medium;">將 chrome 的捷徑加上 </span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="color:#333399;"><span class="Apple-style-span"  style="font-size:medium;">&#8211;enable-extensions</span></span></span><span class="Apple-style-span"  style=" color: rgb(153, 153, 153); font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;"> </span></span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">來啟動 extension 功能</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">重新啟動 chome</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">下載 </span><a href="http://scott0228.googlepages.com/convert_traditional_chinese.crx"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換 extension</span></a><span class="Apple-style-span"  style="font-size:medium;"> 並安裝它</span></span></li></ul><div><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">之後網頁就會自動轉成繁體了。</span></span></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sockstat]]></title>
+    <link href="http://scott0228.github.io/blog/2009/02/24/sockstat/"/>
+    <updated>2009-02-24T10:32:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/02/24/sockstat</id>
+    <content type="html"><![CDATA[<div class='post'>
+之前曾經介紹過如何查看<a href="http://scott0228.blogspot.com/2009/01/port.html"> port 被占住的方式</a>，只是在 Linux 下要下的指令比較長，今天剛好到有人介紹：<a href="http://people.debian.org.tw/%7Echihchun/2009/02/23/sockstat-for-linux/">sockstat</a>，原本是在 freebsd 下用來查看的工具，現在有人將他改寫成 Linux 版，因此 Linux  下也可以使用這好用的工具了。
+<pre>
+$ sockstat
+USER     PROCESS              PID      PROTO  SOURCE ADDRESS            FOREIGN ADDRESS           STATE
+chihchun conduit.real         7902     tcp4   *:3400                    *: *                      LISTEN
+chihchun dropboxd             7989     tcp4   10.11.12.231:49912        75.126.170.58:443         CLOSE_WAIT
+chihchun pidgin               8651     tcp4   10.11.12.231:46378        66.163.181.178:5050       ESTABLISHED
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            *: *                      LISTEN
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            127.0.0.1:54522           ESTABLISHED
+chihchun ssh                  28346    tcp4   127.0.0.1:1100            *: *                      LISTEN
+chihchun ssh                  28346    tcp4   127.0.0.1:2500            *: *                      LISTEN
+</pre></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Tunnel]]></title>
+    <link href="http://scott0228.github.io/blog/2009/02/03/ssh-tunnel/"/>
+    <updated>2009-02-03T00:38:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/02/03/ssh-tunnel</id>
+    <content type="html"><![CDATA[<div class='post'>
+之前在客戶那，沒辦法使用 msn ，後來發現可以利用 ssh tunnel 來 proxy 連線。在 windows 平台下，我們可以使用 putty 或是 plink 來建立 ssh tunnel，因為這兩個都不支持密碼的在檔，所以我通常是使用 <a href="http://nemesis2.qx.net/pages/MyEnTunnel">MyEnTunnel </a>，它是利用 plink 來進行連線，可以存下連線資料，方便我們進行連線。
+那我們如何利用 MyEnTunnel 建立一個 socket proxy 呢？其使用部驟如下：
+<ol><li>首先我們下載 MyEnTunnel 及 plink ，然後解壓縮放在一起：
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY0zfdp_UNI/AAAAAAAAJDA/jk1Y6aMwIiE/s1600-h/ssh1.jpg"><img style="cursor: pointer; width: 320px; height: 58px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY0zfdp_UNI/AAAAAAAAJDA/jk1Y6aMwIiE/s320/ssh1.jpg" alt="" id="BLOGGER_PHOTO_ID_5299948952114647250" border="0" /></a>
+</li><li>執行 myentunnel.exe，設定連線資訊，記得勾選【Enable Dynamic SOCKS】：
+
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SY0zt_mUwZI/AAAAAAAAJDI/PO1pQjzLyhk/s1600-h/ssh2.png"><img style="cursor: pointer; width: 320px; height: 200px;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SY0zt_mUwZI/AAAAAAAAJDI/PO1pQjzLyhk/s320/ssh2.png" alt="" id="BLOGGER_PHOTO_ID_5299949201744249234" border="0" /></a>
+</li><li>點選 Connect，切換到 Status 頁即可看到是否連線成功
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY0ztzSl3vI/AAAAAAAAJDQ/loESh5m5Tog/s1600-h/ssh3.png"><img style="cursor: pointer; width: 320px; height: 200px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY0ztzSl3vI/AAAAAAAAJDQ/loESh5m5Tog/s320/ssh3.png" alt="" id="BLOGGER_PHOTO_ID_5299949198440259314" border="0" /></a>
+</li></ol>當線線成功後，我們就可以讓  firefox 或是 msn 利用此通道進行網頁的連線：
+Firefox：
+<ul><li>選擇【工具】=>【選項】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://1.bp.blogspot.com/_fZUSxw71alM/SY01uwx2aCI/AAAAAAAAJDY/lmt3snAfTU4/s1600-h/firefox1.png"><img style="cursor: pointer; width: 400px; height: 386px;" src="http://1.bp.blogspot.com/_fZUSxw71alM/SY01uwx2aCI/AAAAAAAAJDY/lmt3snAfTU4/s400/firefox1.png" alt="" id="BLOGGER_PHOTO_ID_5299951413969184802" border="0" /></a>
+</li><li>點選【進階】=>【網路】=>【設定】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://3.bp.blogspot.com/_fZUSxw71alM/SY01u5hERYI/AAAAAAAAJDg/PWk7MQY_2Fg/s1600-h/firefox2.png"><img style="cursor: pointer; width: 368px; height: 400px;" src="http://3.bp.blogspot.com/_fZUSxw71alM/SY01u5hERYI/AAAAAAAAJDg/PWk7MQY_2Fg/s400/firefox2.png" alt="" id="BLOGGER_PHOTO_ID_5299951416314709378" border="0" /></a>
+選擇【手動設定 Proxy】將最下面的【SOCKS 主機】設定到本機端的 7070 port(對應 MyEntunnel 上所設定的 port)，然後我們就可以利用 firefox 連線到 http://myip.easylife.idv.tw/ 來驗證是否是透過 ssh server 連線了。
+
+</li></ul>MSN：
+<ol><li>【選項】=>【連線】=>【進階設定】
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://4.bp.blogspot.com/_fZUSxw71alM/SY03IA_oVFI/AAAAAAAAJDo/vXAimHmwX3A/s1600-h/msn1.png"><img style="cursor: pointer; width: 334px; height: 400px;" src="http://4.bp.blogspot.com/_fZUSxw71alM/SY03IA_oVFI/AAAAAAAAJDo/vXAimHmwX3A/s400/msn1.png" alt="" id="BLOGGER_PHOTO_ID_5299952947330307154" border="0" /></a>
+</li><li>設定 SOCKS 為本機端及 Port 為 7070 按下測試：
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IGUSjsI/AAAAAAAAJD4/3S4MOQy-_-8/s1600-h/msn2.png"><img style="cursor: pointer; width: 344px; height: 400px;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IGUSjsI/AAAAAAAAJD4/3S4MOQy-_-8/s400/msn2.png" alt="" id="BLOGGER_PHOTO_ID_5299952948759137986" border="0" /></a>
+</li><li>如果 SOCKS 可連線，便可看到以下的訊息
+<a onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}" href="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IH5muCI/AAAAAAAAJDw/1gRfhmHXa4A/s1600-h/msn3.png"><img style="cursor: pointer; width: 341px; height: 196px;" src="http://2.bp.blogspot.com/_fZUSxw71alM/SY03IH5muCI/AAAAAAAAJDw/1gRfhmHXa4A/s400/msn3.png" alt="" id="BLOGGER_PHOTO_ID_5299952949184084002" border="0" /></a>
+</li></ol>
+參考：<a href="http://initiative.yo2.cn/archives/448643">
+PuTTY自帶的plink.exe實現ssh繞牆技術</a>
+<a href="http://cha.homeip.net/blog/archives/2006/01/putty_ssh_tunne.html">PuTTY - SSH Tunnel 運用備忘</a></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[查看 port 被哪個程式占住了]]></title>
+    <link href="http://scott0228.github.io/blog/2009/01/11/port/"/>
+    <updated>2009-01-11T23:47:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/01/11/port</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>一直以來，我都懶的去記 windows 的指令，而是使用 <a href="http://www.nirsoft.net/utils/cports.html">CurrPorts</a> 這方便的工具來查，今天剛好在網路上看到記令，就把它記下來嚕，雖然比較麻煩，但是在沒有工具的情況下還是不錯用的： </p>  <p><strong>netstat –ano     
+</strong>a：表示列出所有連線中或 listening的連線。   
+n：表示使用數字形態列出，即 http 會以 80 顯示，ftp 會以 21 顯示。   
+o：則為列出該程式的 PID。</p>  <p><a href="http://lh3.ggpht.com/_fZUSxw71alM/SWoUdlbGtDI/AAAAAAAAJBk/74mLnX9u0Ok/s1600-h/Noname%5B3%5D.jpg"><img title="Noname" style="border-right: 0px; border-top: 0px; display: inline; border-left: 0px; border-bottom: 0px" height="291" alt="Noname" src="http://lh5.ggpht.com/_fZUSxw71alM/SWoUfMnWJ1I/AAAAAAAAJBo/nAiTt5J1IKQ/Noname_thumb%5B1%5D.jpg?imgmax=800" width="437" border="0" /></a> </p>  <p></p>  <p>知道 PID 之後，接著就可以使用【工作管理員<strong>】</strong>或是【tasklist】查看該 PID 是由哪一支程式所執行。</p>  <p>在 Linux 底下則是要用下面的指令：</p>  <p><strong>netstat -tulnp </strong></p><p><strong><span class="Apple-style-span" style="font-weight: normal; ">t：顯示 TCP
+u：顯示 UDP
+l：只顯示 listening 的 processes
+n：不要解析 IP address names 或 port numbers
+p：顯示 listening ports 的 process 名稱</span></strong></p><p>也可以使用： </p><p><strong>lsof -i</strong></p></div>
+
+]]></content>
+  </entry>
+  
+</feed>

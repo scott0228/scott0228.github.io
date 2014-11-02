@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome 簡繁自動轉換 Extension]]></title>
+    <link href="http://scott0228.github.io/blog/2009/08/27/chrome-extension/"/>
+    <updated>2009-08-27T15:00:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/08/27/chrome-extension</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div><span class="Apple-style-span"  style="font-size:medium;">之前曾經在重灌狂人的 blog 上看到在</span><a href="http://briian.com/?p=6312"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換的書籤</span></a><span class="Apple-style-span"  style="font-size:medium;">，在 chrome 上用也是可行，不過總覺的還要多按個紐很麻煩，而且沒辦法處理 google reader ，因此就把那書籤裡面的 script 小修改做成了 chrome 的 extension，這樣就方便許多，看網頁會自動轉成繁體字。</span></div><div><span class="Apple-style-span"  style="font-size:medium;">
+</span></div><div><span class="Apple-style-span"  style="font-size:medium;">安裝方式：</span></div><div><ul><li><span class="Apple-style-span"  style="font-size:medium;">將 chrome 的捷徑加上 </span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="color:#333399;"><span class="Apple-style-span"  style="font-size:medium;">&#8211;enable-extensions</span></span></span><span class="Apple-style-span"  style=" color: rgb(153, 153, 153); font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;"> </span></span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">來啟動 extension 功能</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">重新啟動 chome</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">下載 </span><a href="http://scott0228.googlepages.com/convert_traditional_chinese.crx"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換 extension</span></a><span class="Apple-style-span"  style="font-size:medium;"> 並安裝它</span></span></li></ul><div><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">之後網頁就會自動轉成繁體了。</span></span></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Improve your jQuery - 25 excellent tips]]></title>
+    <link href="http://scott0228.github.io/blog/2009/01/09/improve-your-jquery-25-excellent-tips/"/>
+    <updated>2009-01-09T21:33:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/01/09/improve-your-jquery-25-excellent-tips</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近開發網頁，都儘量使用 jQuery 來減少程式碼的撰寫，今天剛好看到網路上這篇文章，值得推薦：<a href="http://www.tvidesign.co.uk/blog/improve-your-jquery-25-excellent-tips.aspx#tip2">Improve your jQuery - 25 excellent tips</a>，裡面有一些小技巧讓你的程式跑的更快。</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[依條件決定呼叫的函數]]></title>
+    <link href="http://scott0228.github.io/blog/2009/01/09/blog-post/"/>
+    <updated>2009-01-09T21:09:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/01/09/blog-post</id>
+    <content type="html"><![CDATA[<div class='post'>
+jQuery 提供了很多好用的涵數讓我們可以少寫很多 Javascript 程式碼，像 show() 及 hide() 用來顯示或隱藏元素，及 toggle() 可以在顯示與隱藏間來回切換，但當我們要依條件決定顯示或隱藏元素時，寫法還是有點囉嗦：<br />
+<textarea class="javascript" name="code" rows="3" cols="70"><br />if (cond) <br />    $(&#8220;#someDiv&#8221;).show();<br />else<br />    $(&#8220;#someDiv&#8221;).hide();<br /></textarea><br />
+今天看到有人建議：<a href="http://www.nabble.com/show-hide-toggle:-suggestion-to-reduce-show-hide-code-td20554124s27240.html">suggestion to reduce show/hide code</a>，不知道 jQuery 會不會加，不過裡面給我發現了 Javascript 的一個奇特的程式寫法，也可以少掉一些 code ：<br />
+<textarea class="javascript" name="code" rows="3" cols="70">
+$(&#8220;#someDiv&#8221;)[cond ? &#8216;show&#8217; : &#8216;hide&#8217;]();
+</textarea><br />
+只能說，javascript 真是個神奇的語言。</div>
+
+]]></content>
+  </entry>
+  
+</feed>

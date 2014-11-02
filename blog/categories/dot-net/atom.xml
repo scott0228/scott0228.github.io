@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: dot net | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/dot-net/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[利用Microsoft Office Document Image Writer的ActiveX元件做OCR]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/16/microsoft-office-document-image/"/>
+    <updated>2008-12-16T20:30:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/16/microsoft-office-document-image</id>
+    <content type="html"><![CDATA[<div class='post'>
+http://www.javaworld.com.tw/roller/qing/entry/%E5%88%A9%E7%94%A8microsoft_office_document_image_writer%E7%9A%84activex%E5%85%83%E4%BB%B6%E5%81%9Aocr
+網路上看到，留作記錄，改天再來試試</div>
+
+]]></content>
+  </entry>
+  
+</feed>

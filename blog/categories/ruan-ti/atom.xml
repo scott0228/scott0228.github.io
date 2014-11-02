@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 軟體 | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/ruan-ti/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome Extension]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/05/chrome-extension/"/>
+    <updated>2009-06-05T22:06:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/05/chrome-extension</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近因為用 Firefox 常會有卡住的現像，因此改用 Google Chrome 來當我預設的瀏灠器。Chrome 實際用起來還滿不錯的，不過就是沒有像 firefox 那麼多 extension 可以使用。上網找了一下，目前比較急迫的三個需求都有辦法解決了：
+<ol><li><a href="http://www.adsweep.org/">AdSweep</a>：擋廣告，這是 chrome extension，需要在 chrome 的捷徑後加上 &#8211;enable-extensions 才可使用</li><li><a href="http://userscripts.org/scripts/show/43548">plurk 表情</a>：user script，需要在 chrome 的捷徑後加上 &#8211;enable-user-scripts 才可使用</li><li><a href="javascript:(function(){var s=document.getElementById('tongwenlet_tw');if(s!=null){document.body.removeChild(s);}var s=document.createElement('script');s.language='javascript';s.type='text/javascript';s.src='http://tongwen.openfoundry.org/NewTongWen/tools/bookmarklet_tw.js';s.id='tongwenlet_tw';document.body.appendChild(s); })();">簡繁轉換</a>，<a href="javascript:(function(){var s=document.getElementById('tongwenlet_cn');if(s!=null){document.body.removeChild(s);}var s=document.createElement('script');s.language='javascript';s.type='text/javascript';s.src='http://tongwen.openfoundry.org/NewTongWen/tools/bookmarklet_cn.js';s.id='tongwenlet_cn';document.body.appendChild(s); })();">繁簡轉換</a>：加到書簽或拉到書簽工具列即可。</li><li>GDI++：在 chrome 的捷徑後加上 &#8211;no-sandbox 即可讓 GDI++ rander Chrome 了。</li></ol></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ThinkPad 還原]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/31/thinkpad/"/>
+    <updated>2008-12-31T14:19:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/31/thinkpad</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近很多同事離職，在要把公司的 ThinkPad  nb 還回去時，才發現因為自己重灌過，沒辦法按 F11 鍵來還原，在網路上找到的方式大部份是利用 IBMTool 去做開機救援磁片，不過這太麻煩了。後來找到一個比較簡單的方法，就是把那個還原磁區改為 Active 就好了，這樣開機時從那磁區開機就可以還原了。
+設定這個可利用免費的<a href="http://www.partition-tool.com/"> EASEUS Partition Manager</a> 來進行。
+PS. 此方法的前提是還原磁區沒有被刪掉
+
+後記
+同事利用此方式還原時，不知道為什麼會卡在一半，後來小弟就改用我安裝在 USB 上的 Ubuntu 開機，利用 <a href="http://gparted.sourceforge.net/index.php">Gnome Partition Editor</a> 將非還原磁區的部份刪掉，再重新將還原磁區改為 boot ，重開機來還原就好了。只能說，Linux 是好物啊。</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[幾個可在遠端桌面中使用的快速鍵]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/25/blog-post_25/"/>
+    <updated>2008-12-25T23:02:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/25/blog-post_25</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>在公司裡每天都在不同的遠端桌面(Remote Desktop)上工作，但是很多按鍵在非全螢幕下都是不能用的，若要在非全螢幕的情況下使用的話，就必須用另一組快速鍵來操作。</p>  <table cellspacing="0" cellpadding="3" width="626" border="1"><tbody>     <tr>       <th width="163">本機</th>        <th width="219">遠端桌面</th>        <th width="233">說明</th>     </tr>      <tr>       <td width="165">CTRL + ALT + DEL</td>        <td width="219"><strong>CTRL + ALT + END</strong></td>        <td width="233">         <p>顯示 [Windows 安全性] 對話方塊</p>       </td>     </tr>      <tr>       <td width="167">-</td>        <td width="219">         <p><strong>CTRL + ALT + BREAK</strong></p>       </td>        <td width="233">         <p>在視窗和全螢幕顯示模式間切換。</p>       </td>     </tr>      <tr>       <td width="169">Win Key 或 CTRL + ESC</td>        <td width="219">         <p>ALT + HOME</p>       </td>        <td width="233">         <p>顯示 [開始] 功能表。</p>       </td>     </tr>      <tr>       <td width="170">ALT + TAB</td>        <td width="219">         <p>ALT + PAGE UP</p>       </td>        <td width="233">從左到右切換視窗</td>     </tr>      <tr>       <td width="172">PrintScreen</td>        <td width="219">         <p>CTRL + ALT + 數字鍵上的加號(+)</p>       </td>        <td width="233">將遠端的整個螢幕畫面複製回本機。</td>     </tr>      <tr>       <td width="172">ALT + PrintScreen</td>        <td width="219">         <p>CTRL + ALT + 數字鍵上的減號(-)</p>       </td>        <td width="233">將遠端的作用中的螢幕畫面複製回本機。</td>     </tr>   </tbody></table>  <p>參考：    <br /><a href="http://windowshelp.microsoft.com/Windows/zh-HK/Help/663a7dd9-c125-47cf-8fdc-42d2757b5f611028.mspx">在遠端桌面連線中可以使用哪些快速鍵？</a></p>  </div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用 Fiddler2 無法截取到封包的問題]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/25/fiddler2/"/>
+    <updated>2008-12-25T22:47:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/25/fiddler2</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>之前在公司使用 Fiddler2 的時候，監控封包都沒什麼問題，在家裡的 eee-pc 上剛裝好時，好像也可以用，只是後來不知道為什麼，就是截取不到封包，今天上網查資料，才發現原來是因為 Fiddler 預設只會監控區域連線，而我使用撥接 ADSL 上網，它就沒有監控到，要解決這個問題透過以下方式解決：</p>  <p>在 Fiddler2 的 Options 中的 Connections 裡：<a href="http://lh6.ggpht.com/_fZUSxw71alM/SVOcwSWxRdI/AAAAAAAAI_o/MYBSQih6QBg/s1600-h/Noname%5B7%5D.jpg">     <br /><img title="Noname" style="border-right: 0px; border-top: 0px; display: inline; border-left: 0px; border-bottom: 0px" height="395" alt="Noname" src="http://lh6.ggpht.com/_fZUSxw71alM/SVOc-_ofjSI/AAAAAAAAI_s/OiHh4zvn8XQ/Noname_thumb%5B3%5D.jpg?imgmax=800" width="554" border="0" /></a>&#160; <br />選取 Monitor all connections 讓 Fiddler 監控所有的連線。</p>  <p>另外網路上還有看到修改 <strong>HKCU\Software\Microsoft\Fiddler2</strong> 機碼的方式來處理，不過我沒試過，有興趣的可以試試。</p>  <p><a title="http://blog.miniasp.com/post/2008/10/Fiddler2-can-not-capture-packets-when-using-3G-networking.aspx" href="http://blog.miniasp.com/post/2008/10/Fiddler2-can-not-capture-packets-when-using-3G-networking.aspx">http://blog.miniasp.com/post/2008/10/Fiddler2-can-not-capture-packets-when-using-3G-networking.aspx</a></p>  <p><a title="http://www.fiddler2.com/Fiddler/help/hookup.asp#Q-VPN" href="http://www.fiddler2.com/Fiddler/help/hookup.asp#Q-VPN">http://www.fiddler2.com/Fiddler/help/hookup.asp#Q-VPN</a></p>  </div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Web Debugger]]></title>
+    <link href="http://scott0228.github.io/blog/2008/12/16/web-debugger/"/>
+    <updated>2008-12-16T22:20:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/12/16/web-debugger</id>
+    <content type="html"><![CDATA[<div class='post'>
+因為開發 Web application 的原故，常需要去監控 Http 連線內容， request 與 reponse，最早之前是使用海盜版的 <a href="http://www.httpwatch.com/">HttpWatch</a>，後來發現微軟有提供了一個地方產品：<a href="http://www.fiddlertool.com/">fiddler</a>，也可以用來分析 http 封包。
+這程式其實算是一個 http proxy ，當我們啟動後，他會監聽 8888 port 當 proxy ，並且自動把 windows 的 http 及 https 的 proxy 指到本機的 8888 port，因此它就可以監聽所有的 http request 及 response。有這這程式，我們就可以容易的為 ajax 的程式除錯，或是查看 http head 、request parameter、reponse content  的內容是不是正確。如果 Firefox 要透過它來進行除錯，就要手動設定 proxy 指到本機端的 8888 port 了。
+
+另外，因為預設 localhost 是不透過 proxy 來進行連線的，因此再本機測試的時候，可以加個點來讓瀏灠器透過 proxy 連線，如：
+http://localhost.:8080/
+
+目前這類相關 http debug 的產品看到的有：
+
+IE base：
+<ol><li><a href="http://www.ieinspector.com/httpanalyzer/index.html">IEInspector </a></li><li><a href="http://www.httpwatch.com/">HttpWatch</a></li></ol>Firefox base：
+<ol><li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/3829">Live HTTP Headers</a></li><li><a href="http://jdgiotta.googlepages.com/guidedoghomepage">HTTPGuideDog</a></li><li style="text-align: left;"><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6647">HttpFox</a> 與 httpwatch 相當類似，還滿好用的
+</li></ol></div>
+
+]]></content>
+  </entry>
+  
+</feed>

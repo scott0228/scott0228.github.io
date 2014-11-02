@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: database | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/database/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何追查 SQL Server 的 Deadlock]]></title>
+    <link href="http://scott0228.github.io/blog/2014/09/05/sql-server-deadlock/"/>
+    <updated>2014-09-05T14:05:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2014/09/05/sql-server-deadlock</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div>
+</div>
+<div>
+</div>
+<div class="markdown-here-wrapper" data-md-url="https://www.blogger.com/blogger.g?blogID=8800113#editor/target=post;postID=7125866231519020765;onPublishedMenu=posts;onClosedMenu=posts;postNum=0;src=link">
+<div style="margin: 1.2em 0px !important;">
+最近有個客戶常遇到 SQL Server 的 Deadlock 問題，查了一下，追踨 Deadlock 有兩個做法（實際應該是一樣的）：</div>
+<ol style="margin: 1.2em 0px; padding-left: 2em;">
+<li style="margin: 0.5em 0px;">使用 SQL Server Profiler 去記錄</li>
+<li style="margin: 0.5em 0px;">直接下 SQL 新增追踨 </li>
+</ol>
+<h2 id="-sql-" style="border-bottom-color: rgb(238, 238, 238); border-bottom-style: solid; border-bottom-width: 1px; font-size: 1.4em; font-weight: bold; margin: 1.3em 0px 1em; padding: 0px;">
+以下是使用 SQL 指令追踨的方法：</h2>
+<ol style="margin: 1.2em 0px; padding-left: 2em;">
+<li style="margin: 0.5em 0px;">建立追踨 Deadlock (假定追踨檔是要存在 D:\DbLog\ 下) <pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;"> -- 運行下述語句後，每當SQL Server中發生死鎖事件，都會自動往文件e:\DbLog\deadlockdetect.trc 中插入一條記錄。
+ -- 定義參數 
+ declare @rc int
+ declare @TraceID int
+ declare @maxfilesize bigint
+ set @maxfilesize = 5
+ -- 初始化跟蹤 
+ exec @rc = sp_trace_create @TraceID output, 0, N'E:\DbLog\deadlockdetect', @maxfilesize, NULL
+ --    此處的e:\dblog\deadlockdetect是文件名（可自行修改），SQL會自動在後面加上.trc的擴展名 
+ if (@rc != 0) goto error 
+ -- 設置跟蹤事件 
+ declare @on bit
+ set @on = 1
+ --下述語句中的148指的是locks:deadlock graph事件(參見sys.trace_events),12指的是spid列(參見    sys.trace_columns) 
+ exec sp_trace_setevent @TraceID, 148, 1, @on
+ exec sp_trace_setevent @TraceID, 148, 4, @on
+ exec sp_trace_setevent @TraceID, 148, 11, @on
+ exec sp_trace_setevent @TraceID, 148, 12, @on
+ exec sp_trace_setevent @TraceID, 148, 14, @on
+ exec sp_trace_setevent @TraceID, 148, 26, @on
+ exec sp_trace_setevent @TraceID, 148, 41, @on
+ exec sp_trace_setevent @TraceID, 148, 51, @on
+ exec sp_trace_setevent @TraceID, 148, 60, @on
+ exec sp_trace_setevent @TraceID, 148, 64, @on
+ -- 啟動跟蹤 
+ exec sp_trace_setstatus @TraceID, 1
+ -- 記錄下跟蹤ID，以備後面使用 
+ select TraceID = @TraceID
+ goto finish 
+ error: 
+ select ErrorCode=@rc
+ finish: 
+ go
+</code></pre>
+</li>
+<li style="margin: 0.5em 0px;"><div style="margin: 0.5em 0px !important; margin: 1.2em 0px !important;">
+當發生 Deadlock 後，去查看 deadlockdetect.trc 是哪些 SQL 有問題 (結果中的TextData列即以XML的形式返回死鎖的詳細信息。 )  </div>
+<pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;"> select fn_trace_gettable('e:\DbLog\deadlockdetect.trc', 1)
+</code></pre>
+</li>
+<li style="margin: 0.5em 0px;"><div style="margin: 0.5em 0px !important; margin: 1.2em 0px !important;">
+查詢、暫停和停止服務器端跟蹤<br />查詢目前有哪些 Traces 正在執行</div>
+<pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;"> SELECT * FROM sys.traces
+</code></pre>
+<div style="margin: 0.5em 0px !important; margin: 1.2em 0px !important;">
+暫停某個 Trace</div>
+<pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;"> -- 第一個參數表示TraceID,即步驟1中的輸出參數(或是從 sys.traces 查詢得到)。第二個參數表示將狀態改為0，即暫停
+ exec sp_trace_setstatus 2, 0
+</code></pre>
+<div style="margin: 0.5em 0px !important; margin: 1.2em 0px !important;">
+中止某個 Trace</div>
+<pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;"> -- 第一個參數表示TraceID,即步驟1中的輸出參數(或是從 sys.traces 查詢得到)。第二個參數表示將狀態改為2，即停止
+ exec sp_trace_setstatus 2, 2
+</code></pre>
+</li>
+<li style="margin: 0.5em 0px;"><div style="margin: 0.5em 0px !important; margin: 1.2em 0px !important;">
+在 Deadlock 的情況下，也可以直接查詢目前正在執行的 SQL</div>
+<pre style="font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; font-size: 1em; line-height: 1.2em; margin: 1.2em 0px;"><code style="background-color: #f8f8f8; background: rgb(248, 248, 255); border-bottom-left-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom-right-radius: 3px; border-top-left-radius: 3px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-top-right-radius: 3px; border: 1px solid rgb(204, 204, 204); border: 1px solid rgb(234, 234, 234); color: #333333; display: block !important; display: block; display: inline; font-family: Consolas, Inconsolata, Courier, monospace; font-size: 0.85em; margin: 0px 0.15em; overflow: auto; padding: 0.5em 0.7em; padding: 0.5em; padding: 0px 0.3em; white-space: pre-wrap; white-space: pre;">SELECT sqltext.TEXT,req.session_id,
+ req.status,
+ req.command,
+ req.cpu_time,
+ req.total_elapsed_time,
+ s.host_name,
+ s.login_time,
+ s.login_name
+FROM sys.dm_exec_requests req
+ CROSS APPLY sys.dm_exec_sql_text(sql_handle) AS sqltext
+ INNER JOIN sys.dm_exec_sessions s ON req.session_id = s.session_id
+where DB_NAME(req.database_id) = '資料庫名稱'
+</code></pre>
+</li>
+</ol>
+<div style="font-size: 0em; height: 0; margin: 0; padding: 0;" title="MDH:PGRpdj7mnIDov5HmnInlgIvlrqLmiLbluLjpgYfliLAgU1FMIFNlcnZlciDnmoQgRGVhZGxvY2sg
+5ZWP6aGM77yM5p+l5LqG5LiA5LiL77yM6L+96LioIERlYWRsb2NrIOacieWFqeWAi+WBmuazle+8
+iOWvpumam+aHieipsuaYr+S4gOaoo+eahO+8ie+8mjwvZGl2PjxkaXY+MS4g5L2/55SoIFNRTCBT
+ZXJ2ZXIgUHJvZmlsZXIg5Y676KiY6YyEPC9kaXY+PGRpdj4yLiDnm7TmjqXkuIsgU1FMIOaWsOWi
+nui/vei4qCZuYnNwOzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+IyMg5Lul5LiL5piv5L2/55So
+IFNRTCDmjIfku6Tov73ouKjnmoTmlrnms5XvvJo8L2Rpdj48ZGl2PjEuIOW7uueri+i/vei4qCBE
+ZWFkbG9jayAo5YGH5a6a6L+96Lio5qqU5piv6KaB5a2Y5ZyoIEQ6XERiTG9nXCDkuIspJm5ic3A7
+PC9kaXY+PGRpdj5gYGA8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgLS0g6YGL6KGM5LiL6L+w6Kqe
+5Y+l5b6M77yM5q+P55W2U1FMIFNlcnZlcuS4reeZvOeUn+atu+mOluS6i+S7tu+8jOmDveacg+iH
+quWLleW+gOaWh+S7tmU6XERiTG9nXGRlYWRsb2NrZGV0ZWN0LnRyYyDkuK3mj5LlhaXkuIDmop3o
+qJjpjITjgII8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgLS0g5a6a576p5Y+D5pW4Jm5ic3A7PC9k
+aXY+PGRpdj48c3BhbiBjbGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpw
+cmUiPgk8L3NwYW4+ZGVjbGFyZSBAcmMgaW50PC9kaXY+PGRpdj48c3BhbiBjbGFzcz0iQXBwbGUt
+dGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+ZGVjbGFyZSBAVHJhY2VJ
+RCBpbnQ8L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRl
+LXNwYWNlOnByZSI+CTwvc3Bhbj5kZWNsYXJlIEBtYXhmaWxlc2l6ZSBiaWdpbnQ8L2Rpdj48ZGl2
+PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwv
+c3Bhbj5zZXQgQG1heGZpbGVzaXplID0gNTwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRh
+Yi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPi0tIOWIneWni+WMlui3n+i5
+pCZuYnNwOzwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hp
+dGUtc3BhY2U6cHJlIj4JPC9zcGFuPmV4ZWMgQHJjID0gc3BfdHJhY2VfY3JlYXRlIEBUcmFjZUlE
+IG91dHB1dCwgMCwgTidFOlxEYkxvZ1xkZWFkbG9ja2RldGVjdCcsIEBtYXhmaWxlc2l6ZSwgTlVM
+TDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3Bh
+Y2U6cHJlIj4JPC9zcGFuPi0tPHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hp
+dGUtc3BhY2U6cHJlIj4JPC9zcGFuPuatpOiZleeahGU6XGRibG9nXGRlYWRsb2NrZGV0ZWN05piv
+5paH5Lu25ZCN77yI5Y+v6Ieq6KGM5L+u5pS577yJ77yMU1FM5pyD6Ieq5YuV5Zyo5b6M6Z2i5Yqg
+5LiKLnRyY+eahOaTtOWxleWQjSZuYnNwOzwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRh
+Yi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPmlmIChAcmMgIT0gMCkgZ290
+byBlcnJvciZuYnNwOzwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHls
+ZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPi0tIOioree9rui3n+i5pOS6i+S7tiZuYnNwOzwv
+ZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6
+cHJlIj4JPC9zcGFuPmRlY2xhcmUgQG9uIGJpdDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxl
+LXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPnNldCBAb24gPSAxPC9k
+aXY+PGRpdj48c3BhbiBjbGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpw
+cmUiPgk8L3NwYW4+LS3kuIvov7Doqp7lj6XkuK3nmoQxNDjmjIfnmoTmmK9sb2NrczpkZWFkbG9j
+ayBncmFwaOS6i+S7tijlj4PopotzeXMudHJhY2VfZXZlbnRzKSwxMuaMh+eahOaYr3NwaWTliJco
+5Y+D6KaLPHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJl
+Ij4JPC9zcGFuPnN5cy50cmFjZV9jb2x1bW5zKSZuYnNwOzwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9
+IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPmV4ZWMgc3Bf
+dHJhY2Vfc2V0ZXZlbnQgQFRyYWNlSUQsIDE0OCwgMSwgQG9uPC9kaXY+PGRpdj48c3BhbiBjbGFz
+cz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+ZXhlYyBz
+cF90cmFjZV9zZXRldmVudCBAVHJhY2VJRCwgMTQ4LCA0LCBAb248L2Rpdj48ZGl2PjxzcGFuIGNs
+YXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5leGVj
+IHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDExLCBAb248L2Rpdj48ZGl2PjxzcGFu
+IGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5l
+eGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDEyLCBAb248L2Rpdj48ZGl2Pjxz
+cGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bh
+bj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDE0LCBAb248L2Rpdj48ZGl2
+PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwv
+c3Bhbj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDI2LCBAb248L2Rpdj48
+ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+
+CTwvc3Bhbj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDQxLCBAb248L2Rp
+dj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnBy
+ZSI+CTwvc3Bhbj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDUxLCBAb248
+L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNl
+OnByZSI+CTwvc3Bhbj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDYwLCBA
+b248L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNw
+YWNlOnByZSI+CTwvc3Bhbj5leGVjIHNwX3RyYWNlX3NldGV2ZW50IEBUcmFjZUlELCAxNDgsIDY0
+LCBAb248L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRl
+LXNwYWNlOnByZSI+CTwvc3Bhbj4tLSDllZ/li5Xot5/ouaQmbmJzcDs8L2Rpdj48ZGl2PjxzcGFu
+IGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5l
+eGVjIHNwX3RyYWNlX3NldHN0YXR1cyBAVHJhY2VJRCwgMTwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9
+IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPi0tIOiomOmM
+hOS4i+i3n+i5pElE77yM5Lul5YKZ5b6M6Z2i5L2/55SoJm5ic3A7PC9kaXY+PGRpdj48c3BhbiBj
+bGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+c2Vs
+ZWN0IFRyYWNlSUQgPSBAVHJhY2VJRDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1z
+cGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPmdvdG8gZmluaXNoJm5ic3A7PC9k
+aXY+PGRpdj48c3BhbiBjbGFzcz0iQXBwbGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpw
+cmUiPgk8L3NwYW4+ZXJyb3I6Jm5ic3A7PC9kaXY+PGRpdj48c3BhbiBjbGFzcz0iQXBwbGUtdGFi
+LXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+c2VsZWN0IEVycm9yQ29kZT1A
+cmM8L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNw
+YWNlOnByZSI+CTwvc3Bhbj5maW5pc2g6Jm5ic3A7PC9kaXY+PGRpdj48c3BhbiBjbGFzcz0iQXBw
+bGUtdGFiLXNwYW4iIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+Z288L2Rpdj48ZGl2
+PmBgYDwvZGl2PjxkaXY+Mi4g55W255m855SfIERlYWRsb2NrIOW+jO+8jOWOu+afpeeciyBkZWFk
+bG9ja2RldGVjdC50cmMg5piv5ZOq5LqbIFNRTCDmnInllY/poYwgKOe1kOaenOS4reeahFRleHRE
+YXRh5YiX5Y2z5LulWE1M55qE5b2i5byP6L+U5Zue5q276Y6W55qE6Kmz57Sw5L+h5oGv44CCICkg
+Jm5ic3A7PC9kaXY+PGRpdj5gYGA8L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3Bh
+biIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5zZWxlY3QgZm5fdHJhY2VfZ2V0dGFi
+bGUoJ2U6XERiTG9nXGRlYWRsb2NrZGV0ZWN0LnRyYycsIDEpPC9kaXY+PGRpdj5gYGAgJm5ic3A7
+ICZuYnNwOzxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnBy
+ZSI+CTwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9
+IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj48L2Rpdj48ZGl2PjMuIOafpeipouOAgeaaq+WBnOWS
+jOWBnOatouacjeWLmeWZqOerr+i3n+i5pDwvZGl2PjxkaXY+5p+l6Kmi55uu5YmN5pyJ5ZOq5Lqb
+IFRyYWNlcyDmraPlnKjln7fooYw8L2Rpdj48ZGl2PmBgYDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9
+IkFwcGxlLXRhYi1zcGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPlNFTEVDVCAq
+IEZST00gc3lzLnRyYWNlcyZuYnNwOzwvZGl2PjxkaXY+YGBgPC9kaXY+PGRpdj7mmqvlgZzmn5Dl
+gIsgVHJhY2U8L2Rpdj48ZGl2PmBgYDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1z
+cGFuIiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPi0tIOesrOS4gOWAi+WPg+aVuOih
+qOekulRyYWNlSUQs5Y2z5q2l6amfMeS4reeahOi8uOWHuuWPg+aVuCjmiJbmmK/lvp4gc3lzLnRy
+YWNlcyDmn6XoqaLlvpfliLAp44CC56ys5LqM5YCL5Y+D5pW46KGo56S65bCH54uA5oWL5pS554K6
+MO+8jOWNs+aaq+WBnDwvZGl2PjxkaXY+PHNwYW4gY2xhc3M9IkFwcGxlLXRhYi1zcGFuIiBzdHls
+ZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPmV4ZWMgc3BfdHJhY2Vfc2V0c3RhdHVzIDIsIDA8
+L2Rpdj48ZGl2PmBgYDwvZGl2PjxkaXY+5Lit5q2i5p+Q5YCLIFRyYWNlPC9kaXY+PGRpdj5gYGA8
+L2Rpdj48ZGl2PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNl
+OnByZSI+CTwvc3Bhbj4tLSDnrKzkuIDlgIvlj4PmlbjooajnpLpUcmFjZUlELOWNs+atpempnzHk
+uK3nmoTovLjlh7rlj4Pmlbgo5oiW5piv5b6eIHN5cy50cmFjZXMg5p+l6Kmi5b6X5YiwKeOAgues
+rOS6jOWAi+WPg+aVuOihqOekuuWwh+eLgOaFi+aUueeCujLvvIzljbPlgZzmraI8L2Rpdj48ZGl2
+PjxzcGFuIGNsYXNzPSJBcHBsZS10YWItc3BhbiIgc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwv
+c3Bhbj5leGVjIHNwX3RyYWNlX3NldHN0YXR1cyAyLCAyPC9kaXY+PGRpdj5gYGA8L2Rpdj48ZGl2
+Pjxicj48L2Rpdj48ZGl2PjQuIOWcqCBEZWFkbG9jayDnmoTmg4Xms4HkuIvvvIzkuZ/lj6/ku6Xn
+m7TmjqXmn6XoqaLnm67liY3mraPlnKjln7fooYznmoQgU1FMPC9kaXY+PGRpdj5gYGA8L2Rpdj48
+ZGl2PlNFTEVDVCBzcWx0ZXh0LlRFWFQscmVxLnNlc3Npb25faWQsPC9kaXY+PGRpdj4mbmJzcDsg
+Jm5ic3A7IHJlcS5zdGF0dXMsPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IHJlcS5jb21tYW5kLDwv
+ZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyByZXEuY3B1X3RpbWUsPC9kaXY+PGRpdj4mbmJzcDsgJm5i
+c3A7IHJlcS50b3RhbF9lbGFwc2VkX3RpbWUsPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IHMuaG9z
+dF9uYW1lLDwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyBzLmxvZ2luX3RpbWUsPC9kaXY+PGRpdj4m
+bmJzcDsgJm5ic3A7IHMubG9naW5fbmFtZTwvZGl2PjxkaXY+RlJPTSBzeXMuZG1fZXhlY19yZXF1
+ZXN0cyByZXE8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgQ1JPU1MgQVBQTFkgc3lzLmRtX2V4ZWNf
+c3FsX3RleHQoc3FsX2hhbmRsZSkgQVMgc3FsdGV4dDwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyBJ
+Tk5FUiBKT0lOIHN5cy5kbV9leGVjX3Nlc3Npb25zIHMgT04gcmVxLnNlc3Npb25faWQgPSBzLnNl
+c3Npb25faWQ8L2Rpdj48ZGl2PndoZXJlIERCX05BTUUocmVxLmRhdGFiYXNlX2lkKSA9ICfos4fm
+lpnluqvlkI3nqLEnPC9kaXY+PGRpdj5gYGA8L2Rpdj48ZGl2PjwvZGl2PjxkaXY+PC9kaXY+">
+​</div>
+</div>
+<div>
+<br /></div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何查詢 Oracle 的版本]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/06/oracle/"/>
+    <updated>2009-06-06T10:05:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/06/oracle</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span class="Apple-style-span" style="color: rgb(51, 51, 51); font-size: 13px; line-height: 20px; ">下面兩個語法都可以達到此需求：<ul><li>select * from v$version</li><li>select * from product_component_version</li></ul></span></div>
+
+]]></content>
+  </entry>
+  
+</feed>

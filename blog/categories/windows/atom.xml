@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: windows | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/windows/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Windows 2008 單一網卡架 VPN Server]]></title>
+    <link href="http://scott0228.github.io/blog/2014/07/24/windows-2008-vpn-server/"/>
+    <updated>2014-07-24T21:11:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2014/07/24/windows-2008-vpn-server</id>
+    <content type="html"><![CDATA[<div class='post'>
+因為偶而需要去大陸出差，需要一個跳板可以突破 GFW ，之前都是利用 SSH Tunnel ，不過在 ipad 上無法使用，因此找了台主機來架 VPN Server。網路上找到的範例教學大多是利用兩張網卡，研究了好久才知道 Windows 2008 是要怎樣設定，步驟如下：<br />
+<br />
+<ol>
+<li>新增路由及遠端存取<br />
+<a href="http://3.bp.blogspot.com/-l-Snu9WyKHE/U9EBw-Ro4xI/AAAAAAAAT7s/fLjd7pyAm9c/s1600/2013-12-23_130215.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-l-Snu9WyKHE/U9EBw-Ro4xI/AAAAAAAAT7s/fLjd7pyAm9c/s1600/2013-12-23_130215.png" height="474" width="640" />&nbsp;</a> </li>
+<li>選擇自定設定 <br />
+<a href="http://4.bp.blogspot.com/-JGZ0bSMxHFc/U9EBxGO6j-I/AAAAAAAAT7w/Pd_nOB25Lq8/s1600/2013-12-23_130231.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-JGZ0bSMxHFc/U9EBxGO6j-I/AAAAAAAAT7w/Pd_nOB25Lq8/s1600/2013-12-23_130231.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>選取『VPN存取』及『NAT』<br />
+<a href="http://3.bp.blogspot.com/-sO4xyzG_Unw/U9EBxSJ2qdI/AAAAAAAAT74/oajUa930uHc/s1600/2013-12-23_130254.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/-sO4xyzG_Unw/U9EBxSJ2qdI/AAAAAAAAT74/oajUa930uHc/s1600/2013-12-23_130254.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>完成新增<br />
+<a href="http://1.bp.blogspot.com/-a54cZvCU7mk/U9EByMD1l8I/AAAAAAAAT8E/qYLkKUHQ2Wc/s1600/2013-12-23_130304.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-a54cZvCU7mk/U9EByMD1l8I/AAAAAAAAT8E/qYLkKUHQ2Wc/s1600/2013-12-23_130304.png" height="474" width="640" />&nbsp;</a>
+</li>
+<li>設定&nbsp; DHCP 發送位址範圍<br /><a href="http://1.bp.blogspot.com/-n-Zifmey518/U9ECoAJcR0I/AAAAAAAAT80/bd7-WeHZXkQ/s1600/2013-12-23_130425.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-n-Zifmey518/U9ECoAJcR0I/AAAAAAAAT80/bd7-WeHZXkQ/s1600/2013-12-23_130425.png" height="474" width="640" /></a>
+</li>
+<li>設定 NAT，選取區域連線 <br />
+<a href="http://1.bp.blogspot.com/-d8G54zIQxew/U9ECofMzKaI/AAAAAAAAT84/HblOjABppcE/s1600/2013-12-23_130450.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-d8G54zIQxew/U9ECofMzKaI/AAAAAAAAT84/HblOjABppcE/s1600/2013-12-23_130450.png" height="474" width="640" /></a>
+</li>
+<li>選取『連線到網際網路的公用介面』及『在這個介面上啟用NAT』<br />
+<a href="http://4.bp.blogspot.com/-wA4yBkNgKRg/U9ECoR8qBnI/AAAAAAAAT88/ptwKXl0TEZM/s1600/2013-12-23_130512.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-wA4yBkNgKRg/U9ECoR8qBnI/AAAAAAAAT88/ptwKXl0TEZM/s1600/2013-12-23_130512.png" height="474" width="640" />&nbsp;</a></li>
+<li>完成後，即可利用 PPTP 的方式 VPN 連線到此台電腦，利用此電腦的網路上網了 &nbsp;
+</li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[批次檔設定 classpath]]></title>
+    <link href="http://scott0228.github.io/blog/2009/09/22/classpath/"/>
+    <updated>2009-09-22T11:23:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/09/22/classpath</id>
+    <content type="html"><![CDATA[<div class='post'>
+windows 的批次檔以利用 for 來對目錄中的檔案進行處理，但是 for 在取得環境變數只會在一開始取，因此，如果當我們將批次檔寫成：<div><div>    set CLASSPATH=</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">% CLASSPATH%</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>並不會建立目前目錄中所有檔案的清單，相反的只會將 CLASSPATH 變數設為最後一個找到的檔案。因為 % CLASSPATH% 只有在 FOR 敘述第一次被讀入時才展開，此時 CLASSPATH 變數是空的。所以我們實際執行的 FOR 迴圈是:</div><div>    for %i in (*) do set LIST= %i</div><div>
+</div><div>可是當我照著微軟的說明，將 % 改為 ! ，還是得不到正確的結果：</div><div><div>    set CLASSPATH =</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">! CLASSPATH!</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>這部份我還沒找到為什麼不行。後來，在網路上找了一下，發現只要呼叫外部的批次檔或是其它 label 就不會有問題了：</div><div>    set CLASSPATH =</div><div>    FOR /f %%I IN (&#8216;dir /b *.jar&#8217;) DO <span class="Apple-style-span"  style="color:#FF0000;">call :cpappend</span> %%I</div><div><div>    echo %CLASSPATH%</div><div>    goto end</div><div>
+</div><div>    :cpappend</div><div>    set CLASSPATH=%CLASSPATH%;%1</div><div>    :end</div><div>
+</div><div>
+</div></div><div>
+</div></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vista + IIS + Access 出現 80004005 錯誤]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/25/vista-iis-access-80004005/"/>
+    <updated>2009-06-25T19:10:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/25/vista-iis-access-80004005</id>
+    <content type="html"><![CDATA[<div class='post'>
+<blockquote></blockquote>最近有個同事遇到一個問題，開發好的程式在 Vista 上的 IIS 會沒辦法讀取 access 裡面的資料，後來上網查了一下，發現這個問題還滿常發生的，要解決也很簡單，在命令模式下執行下面三行指令即可：<div><ul><li>%windir%\system32\inetsrv\appcmd set config /section:applicationPools /[name=&#8217;DefaultAppPool&#8217;].processModel.loadUserProfile:false</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant Users:(CI)(S,WD,AD,X)</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant &#8220;CREATOR OWNER&#8221;:(OI)(CI)(IO</li></ul><div>看起來因為 %windir%\serviceprofiles\networkservice\AppData\Local\Temp 這目錄的權限不足所造成的問題。</div><div>
+</div><div>參考資料：</div><div><a href="http://forums.iis.net/t/1148115.aspx">Access &amp; IIS7 Error : Database Engine error &#8216;80004005&#8217; - Unspecified Error</a></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[運用 Windows Time 讓 Windows 進行時間同步]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/08/windows-time-windows/"/>
+    <updated>2009-06-08T21:27:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/08/windows-time-windows</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span class="Apple-style-span"  style="font-size:medium;">一般我們要進行時間的同步，可以使用 </span><a href="http://www.stdtime.gov.tw/chinese/home.htm"><span class="Apple-style-span"  style="font-size:medium;">NTPClock</span></a><span class="Apple-style-span"  style="font-size:medium;"> 來進行同步。今天發現原來 Windows 有指令可以直接進行電腦時間的同步：</span><div><span class="Apple-style-span"  style="font-size:medium;"></span><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">:: 設定要同步的 NTP Server</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">w32tm /config /update /manualpeerlist:ntp.ntu.edu.tw</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">:: 開始進行同步</span></span></div><div><span class="Apple-style-span"  style="  color: rgb(255, 128, 0); font-weight: bold; letter-spacing: 2px; line-height: 20px; font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">w32tm /resync</span></span></div><div><span class="Apple-style-span"   style="font-family:新細明體, Geneva, Arial, Helvetica, sans-serif;color:#FF8000;"><span class="Apple-style-span" style=" letter-spacing: 2px; line-height: 20px;"><b><span class="Apple-style-span"  style="color: rgb(0, 0, 0);   font-weight: normal; letter-spacing: normal; line-height: normal; font-family:Georgia, fantasy;"><span class="Apple-style-span"  style="font-size:medium;">如此一來，就不用再去特別下載 NTPClock 了。</span></span></b></span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">
+</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">註：</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">Windows Time 這個服務要開啟才能用</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">
+</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><span class="Apple-style-span"  style="font-size:medium;">參考來源：</span></span></div><div><span class="Apple-style-span"  style="font-family:Georgia, -webkit-fantasy;"><a href="http://www.dotblogs.com.tw/tigerlin/archive/2009/06/08/8726.aspx"><span class="Apple-style-span"  style="font-size:medium;">w32tm 應用：簡單的 Script 讓 Windows 進行時間同步</span></a></span></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[運用 command 來批次改檔名]]></title>
+    <link href="http://scott0228.github.io/blog/2009/04/09/command/"/>
+    <updated>2009-04-09T21:58:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/04/09/command</id>
+    <content type="html"><![CDATA[<div class='post'>
+從網路上抓某些漫畫圖片回來，其裡面的命名會是 1.jpg, 2.jpg, 10.jpg, 11.jpg, 100.jpg&#8230; 等，使用看 <a href="http://www.nyam.pe.kr/">Imagine</a> 看時，看的順序會是 1, 10, 11, 12 &#8230; 等，而不是真正想看到順序。最近剛好看到<a href="http://plog.longwin.com.tw/my_note-unix/2009/04/07/awk-sprintf-mv-rename-filename-2009">使用 awk sprintf 修改 檔案名稱</a>，突然想到用在 Windows 環境下應該也是有處理的方式，找了一下 command 的寫法，可以用下面兩行指令來解決：
+<pre>
+for /F %G in ('dir /b ?.jpg') do ren %G 00%G
+for /F %G in ('dir /b ??.jpg') do ren %G 0%G
+</pre>
+第一行是針對一位數的 jpg 檔前面補兩個 0。
+第二行是針對二位數的 jpg 檔前面補一個 0。</div>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 環島 | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/huan-dao/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[我的練習曲 - 預計行程]]></title>
+    <link href="http://scott0228.github.io/blog/2008/03/04/blog-post_04/"/>
+    <updated>2008-03-04T20:39:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2008/03/04/blog-post_04</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>Day1 南港 =&gt; 基隆 =&gt; 礁溪  100 公里左右  
+Day2 礁溪 =&gt; 蘇澳     約 50 公里   
+Day3 蘇澳 =&gt; 新城     約 90km   
+Day4 新城 =&gt; 花蓮     30 km   
+Day5 花蓮 =&gt; 玉里     100 km   
+Day6 玉里 =&gt; 台東知本  100 km   
+Day7 台東知本 =&gt; 屏東楓港    88．45 km   
+Day8 屏東楓港 =&gt; 墾丁 50   
+Day9 墾丁 =&gt; 屏東楓港  50 km   
+Day10 屏東楓港 =&gt; 高雄路竹(芃朋家)  100 km   
+Day11 高雄路竹 =&gt; 台南新營(Cedric 同學)   
+Day12 台南新營 =&gt; 彰化溪洲(我家)   
+Day13 彰化溪州 =&gt; 苗栗頭份(Nancy 家)    100 km   
+Day14 苗栗頭份 =&gt; 中壢    90 km   
+Day15 中壢 =&gt; 台北    50 km</p></div>
+
+]]></content>
+  </entry>
+  
+</feed>

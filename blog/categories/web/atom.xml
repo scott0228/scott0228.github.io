@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: web | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/web/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CSS 解決網頁連續英數字文字太長而導致版面撐大的問題]]></title>
+    <link href="http://scott0228.github.io/blog/2011/09/09/css/"/>
+    <updated>2011-09-09T16:59:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/09/09/css</id>
+    <content type="html"><![CDATA[<div class='post'>
+一直以來，當網頁遇到連續的英文數字時，總是會無法斷行造成版面被撐大，以前的做法都是在文章中插入 br
+來強制換行，今天終於找到利用 css 就可以控制版本並強制換行了。<br />
+<br />
+<a href="http://www.minwt.com/?p=93">一開始找到的方式</a>是在 css 加上<br />
+<pre class="code">  word-wrap: break-word;
+    word-break: break-all;
+</pre>
+<br />
+<br />
+結果發現在 Internet Explorer 上是 ok 的，在 Firefox 上是無效的。<br />
+<br />
+<a href="http://www.cnblogs.com/analyzer/articles/1285732.html">後來又找到另外一個方法</a>，在 css 上加上：<br />
+<pre class="code">  word-wrap:break-word;
+    word-break:break-all;
+    -moz-binding: url('./wordwrap.xml#wordwrap');
+    overflow: hidden;
+</pre>
+<br />
+然後再利用 wordwrap.xml 來處理：<br />
+<textarea class="code" cols="100" rows="180">&lt;?xml version = &#8220;1.0&#8221;?&gt;
+
+&lt;bindings xmlns = &#8220;http://www.mozilla.org/xbl&#8221; xmlns:html = &#8220;http://www.w3.org/1999/xhtml&#8221;&gt;
+
+&lt;binding id = &#8220;wordwrap&#8221; applyauthorstyles = &#8220;false&#8221;&gt;
+
+     &lt;implementation&gt;
+         &lt;constructor&gt;
+             //&lt;![CDATA[
+            
+             var elem = this;
+
+             elem.addEventListener(&#8216;overflow&#8217;,
+                 function()
+                 {
+                     var exp = /&lt;​\/*[​_\s=&#8221;&#8217;\w]+&gt;/g;
+                    
+                     var txt = elem.innerHTML;
+                     var chars = txt.split(&#8221;);
+                     var newTxt = chars.join(&#8216;​&#8217;);                    
+                     newTxt = newTxt.replace(exp, reconstructTag);                    
+                     elem.innerHTML = newTxt;
+                 },false);
+                
+                 function reconstructTag(_tag)
+                 {
+                     return _tag.replace(/​/g, &#8221;);
+                 }
+
+             //]]&gt;
+         &lt;/constructor&gt;
+     &lt;/implementation&gt;
+&lt;/binding&gt;
+
+&lt;/bindings&gt;
+&lt;!&#8211; Web2 &#8211;&gt;
+</textarea>
+<br />
+結果發現這個方式 firefox 最新版本已經不能用了。<br />
+<br />
+<a href="http://hacks.mozilla.org/2009/06/word-wrap/">最後找到的方法</a>，在 css 上加上：<br />
+<pre class="code">  word-wrap:break-word; 
+    overflow: auto;
+    width: 600px;
+</pre>
+<br />
+<br />
+這樣 ie 與 firefox 都能使用了。<br />
+範例：
+<textarea class="code" cols="100" rows="10">&lt;div style=&#8221;width: 600px;overflow: auto; word-wrap: break-word;&#8221; &gt;data:text/html;charset=utf-8;base64,Q29uZ3JhdHVsYXRpb25zISBZb3UndmUgZm91bmQgdGhlIGhpZGRlbiBtZXNzYWdlIQ0KDQpUbyBjbGFpbSB5b3VyIHByaXplLCB2aXNpdCBodHRwOi8vZ2V0ZmlyZWZveC5jb20gdG9kYXkhDQoNCkZyZWUgYnJvd3NlciBpbiBldmVyeSBib3ghDQo%3D&lt;/div&gt;
+</textarea>
+結果
+<br />
+<div style="overflow: auto; width: 600px; word-wrap: break-word;">
+data:text/html;charset=utf-8;base64,Q29uZ3JhdHVsYXRpb25zISBZb3UndmUgZm91bmQgdGhlIGhpZGRlbiBtZXNzYWdlIQ0KDQpUbyBjbGFpbSB5b3VyIHByaXplLCB2aXNpdCBodHRwOi8vZ2V0ZmlyZWZveC5jb20gdG9kYXkhDQoNCkZyZWUgYnJvd3NlciBpbiBldmVyeSBib3ghDQo%3D</div>
+<br />
+<br />
+參考：
+<br />
+http://www.minwt.com/?p=93<br />
+http://www.cnblogs.com/analyzer/articles/1285732.html<br />
+http://blog.longwin.com.tw/2008/06/css_word_wrap_fix_too_many_word_2008/<br />
+http://hacks.mozilla.org/2009/06/word-wrap/</div>
+
+]]></content>
+  </entry>
+  
+</feed>

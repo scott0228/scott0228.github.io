@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小虫的胡言亂語</title>
+  <meta name="author" content="Scott Yang">
+
+  
+  <meta name="description" content="因為開發 Web application 的原故，常需要去監控 Http 連線內容， request 與 reponse，最早之前是使用海盜版的 HttpWatch，後來發現微軟有提供了一個地方產品：fiddler，也可以用來分析 http 封包。
+這程式其實算是一個 http proxy ， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://scott0228.github.io/posts/8/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="小虫的胡言亂語" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7310858-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小虫的胡言亂語</a></h1>
+  
+    <h2>小虫的各種記錄.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:scott0228.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/16/web-debugger/">Web Debugger</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-16T22:20:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/16/web-debugger/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+因為開發 Web application 的原故，常需要去監控 Http 連線內容， request 與 reponse，最早之前是使用海盜版的 <a href="http://www.httpwatch.com/">HttpWatch</a>，後來發現微軟有提供了一個地方產品：<a href="http://www.fiddlertool.com/">fiddler</a>，也可以用來分析 http 封包。
+這程式其實算是一個 http proxy ，當我們啟動後，他會監聽 8888 port 當 proxy ，並且自動把 windows 的 http 及 https 的 proxy 指到本機的 8888 port，因此它就可以監聽所有的 http request 及 response。有這這程式，我們就可以容易的為 ajax 的程式除錯，或是查看 http head 、request parameter、reponse content  的內容是不是正確。如果 Firefox 要透過它來進行除錯，就要手動設定 proxy 指到本機端的 8888 port 了。
+
+另外，因為預設 localhost 是不透過 proxy 來進行連線的，因此再本機測試的時候，可以加個點來讓瀏灠器透過 proxy 連線，如：
+http://localhost.:8080/
+
+目前這類相關 http debug 的產品看到的有：
+
+IE base：
+<ol><li><a href="http://www.ieinspector.com/httpanalyzer/index.html">IEInspector </a></li><li><a href="http://www.httpwatch.com/">HttpWatch</a></li></ol>Firefox base：
+<ol><li><a href="https://addons.mozilla.org/zh-TW/firefox/addon/3829">Live HTTP Headers</a></li><li><a href="http://jdgiotta.googlepages.com/guidedoghomepage">HTTPGuideDog</a></li><li style="text-align: left;"><a href="https://addons.mozilla.org/zh-TW/firefox/addon/6647">HttpFox</a> 與 httpwatch 相當類似，還滿好用的
+</li></ol></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/16/debugging-deadlocks-print-all-stack/">Debugging Deadlocks - Print All Stack Traces</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-16T21:58:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/16/debugging-deadlocks-print-all-stack/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+http://www.symphonious.net/2008/11/24/debugging-deadlocks-print-all-stack-traces/
+如何處理 Deadlock ，雖然最近沒在寫 thread 的程式，不過留著記錄，說不定哪天會用到。
+<pre class="code"><span class="java_keyword">private</span><span class="java_plain"> </span><span class="java_keyword">static</span><span class="java_plain"> </span><span class="java_type">void</span><span class="java_plain"> printAllStackTraces</span><span class="java_separator">()</span><span class="java_plain"> </span><span class="java_separator">{</span>
+<span class="java_plain">    </span><span class="java_type">Map</span><span class="java_plain"> liveThreads </span><span class="java_operator">=</span><span class="java_plain"> </span><span class="java_type">Thread</span><span class="java_separator">.</span><span class="java_plain">getAllStackTraces</span><span class="java_separator">();</span>
+<span class="java_plain">    </span><span class="java_keyword">for</span><span class="java_plain"> </span><span class="java_separator">(</span><span class="java_type">Iterator</span><span class="java_plain"> i </span><span class="java_operator">=</span><span class="java_plain"> liveThreads</span><span class="java_separator">.</span><span class="java_plain">keySet</span><span class="java_separator">().</span><span class="java_plain">iterator</span><span class="java_separator">();</span><span class="java_plain"> i</span><span class="java_separator">.</span><span class="java_plain">hasNext</span><span class="java_separator">();</span><span class="java_plain"> </span><span class="java_separator">)</span><span class="java_plain"> </span><span class="java_separator">{</span>
+<span class="java_plain">      </span><span class="java_type">Thread</span><span class="java_plain"> key </span><span class="java_operator">=</span><span class="java_plain"> </span><span class="java_separator">(</span><span class="java_type">Thread</span><span class="java_separator">)</span><span class="java_plain">i</span><span class="java_separator">.</span><span class="java_plain">next</span><span class="java_separator">();</span>
+<span class="java_plain">      </span><span class="java_type">System</span><span class="java_separator">.</span><span class="java_plain">err</span><span class="java_separator">.</span><span class="java_plain">println</span><span class="java_separator">(</span><span class="java_literal">"Thread "</span><span class="java_plain"> </span><span class="java_operator">+</span><span class="java_plain"> key</span><span class="java_separator">.</span><span class="java_plain">getName</span><span class="java_separator">());</span>
+<span class="java_plain">        </span><span class="java_type">StackTraceElement</span><span class="java_separator">[]</span><span class="java_plain"> trace </span><span class="java_operator">=</span><span class="java_plain"> </span><span class="java_separator">(</span><span class="java_type">StackTraceElement</span><span class="java_separator">[])</span><span class="java_plain">liveThreads</span><span class="java_separator">.</span><span class="java_plain">get</span><span class="java_separator">(</span><span class="java_plain">key</span><span class="java_separator">);</span>
+<span class="java_plain">        </span><span class="java_keyword">for</span><span class="java_plain"> </span><span class="java_separator">(</span><span class="java_type">int</span><span class="java_plain"> j </span><span class="java_operator">=</span><span class="java_plain"> </span><span class="java_literal">0</span><span class="java_separator">;</span><span class="java_plain"> j </span><span class="java_operator"><</span><span class="java_plain"> trace</span><span class="java_separator">.</span><span class="java_plain">length</span><span class="java_separator">;</span><span class="java_plain"> j</span><span class="java_operator">++</span><span class="java_separator">)</span><span class="java_plain"> </span><span class="java_separator">{</span>
+<span class="java_plain">            </span><span class="java_type">System</span><span class="java_separator">.</span><span class="java_plain">err</span><span class="java_separator">.</span><span class="java_plain">println</span><span class="java_separator">(</span><span class="java_literal">"\tat "</span><span class="java_plain"> </span><span class="java_operator">+</span><span class="java_plain"> trace</span><span class="java_separator">[</span><span class="java_plain">j</span><span class="java_separator">]);</span>
+<span class="java_plain">        </span><span class="java_separator">}</span>
+<span class="java_plain">    </span><span class="java_separator">}</span>
+<span class="java_separator">}</span>
+
+其內容是寫說用上面這 method 去印出 thread 中的相關資訊，以便發現是哪個 thread 造成的 lock。
+</pre></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/16/microsoft-office-document-image/">利用Microsoft Office Document Image Writer的ActiveX元件做OCR</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-16T20:30:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/16/microsoft-office-document-image/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+http://www.javaworld.com.tw/roller/qing/entry/%E5%88%A9%E7%94%A8microsoft_office_document_image_writer%E7%9A%84activex%E5%85%83%E4%BB%B6%E5%81%9Aocr
+網路上看到，留作記錄，改天再來試試</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/14/notepad/">Notepad++</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-14T23:48:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/14/notepad/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Notepad++ 是個好用又免費而且 Opensource 的文字編輯軟體，他的 plugin 功能也不少，只是始終覺的有些功能不足，像是沒有像 Ultraedit 的區塊模式(Column Mode)，列近發現原來 Notepad++ 也是有區塊模式的，使用方式如下：
+<ol><li>Alt+shift+方向鍵</li><li>Alt+mouse 左鍵</li><li>Edit->Column Editor => 插入文字
+</li></ol>雖然沒有像 Ultraedit 那麼方便，但也是夠用了，看樣子對我來說， 使用 Ultraedit 的優勢可能只有它對大檔案處理的速度而己。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/10/ip/">查詢 IP 對應的電腦</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-10T16:56:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/10/ip/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<span style="font-family:新細明體;">前陣子在公司常被別的電腦攻擊，而防毒軟體或防火牆只知道攻擊者的 IP 而不知道實際的電腦名稱，因而不好找到攻擊者的電腦請他修復。最近剛好找到 xp 的指令可以查，留個記錄：
+
+nbtstat：</span> <p><span style="font-family:新細明體;">nbtstat -a  電腦名稱：查該電腦所提供的網路共享資源名稱，與網路卡硬體位址</span></p> <p><span style="font-family:新細明體;">nbtstat -A IP：查該電腦所提供的網路共享資源名稱，與網路卡硬體位址</span></p> <p><span style="font-family:新細明體;">nbtstat -n ：查本機電腦所提供的網路共享資源名稱</span></p> <p><span style="font-family:新細明體;">nbstat -s  ：列出目前與本機電腦建立網站連線的遠端電腦名稱與資料量大小。</span></p> <p><span style="font-family:新細明體;">nbstat -S ：列出目前與本機電腦建立網站連線的遠端電腦IP名稱與資料量大小。</span></p><p>參考：http://www1.cpshs.hcc.edu.tw/leson/netadm/nbtstat.htm
+</p></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/07/jta/">JTA 的實作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-07T19:00:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/07/jta/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近為了加速開發，整合 JPA seam 進到公司既有的產品中，為了讓 jdbc 與 jpa 共用同一個 Transaction，便再將 JTA 整合進來，因為我們開發實作是使用 tomcat 與 jetty ，因此只能找一些 open source 的 JTA 實作，目前在網路上看到的有：
+<ol><li><a href="http://jotm.objectweb.org/">JOTM</a>
+目前已經停止開發了，在跟 tomcat 整合時，使用 xapool 似乎有問題，常會取不
+</li><li><a href="http://www.atomikos.com/Main/AtomikosCommunity">Atomikos</a>
+近幾個版本改為 open source，目前正在使用，感覺還滿不錯的
+</li><li><a href="http://www.jboss.org/jbosstm/">JBossTS</a>
+沒使用過，最近剛好看到。</li></ol>改天有空再來分享它們相對的設定方式</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/05/blog-post_05/">免費的驅動程式備份工具</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-05T20:02:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/05/blog-post_05/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<h3><small><small>DriverBackup：http://sourceforge.net/projects/drvback/</small></small></h3><h3>DriverMax：http://www.drivermax.com/</h3>雖然沒用過，但這對重灌系統應該很有用吧，先留記錄，以備不時之需。
+
+參考：http://blog.soft.idv.tw/?p=423</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/04/blog-post/">文件編碼自動偵測</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-04T22:19:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/04/blog-post/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+當我們拿到一個文字檔的時候，如果不知道他的編碼，就有可能顯示錯誤或是轉碼錯誤。之前看到的 solution 都不是 java 開發的，今天剛好看到，就記錄下來，以備以後不時之需：
+<ul><li><b><a name="1"><b>jchardet </b></a></b>：http://jchardet.sourceforge.net/
+看起來是乎是把 Mozilla Charset Detector 的演算法改用 java 撰寫。</li><li style="font-weight: bold;">cpdetector<span style="font-weight: normal;">：http://cpdetector.sourceforge.net/
+據說比 </span><b><a name="1"><b>jchardet </b></a></b><a style="font-weight: normal;" name="1">更</a><span style="font-weight: normal;">可靠，不過有時會出現奇怪的 exception </span></li><li style="font-weight: bold;">ROME 的 XML Charset Encoding detection 功能<span style="font-weight: normal;">：http://wiki.java.net/bin/view/Javawsxml/Rome05CharsetEncoding</span><span style="font-weight: normal;">
+</span></li></ul>以上是 java 相關的 implement ，如需其它語言可看後面的參考聯結。
+
+參考：
+http://blog.linux.org.tw/~jserv/archives/001672.html
+http://www.arachna.com/roller/spidaman/entry/character_set_encoding_detection_in
+http://william.cswiz.org/blog/archives/2008-10-28/charset-patch-part2/
+http://fredeaker.blogspot.com/2007/01/character-encoding-detection.html</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/04/eclipse-plugin/">Eclipse 常用 Plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-04T22:04:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/04/eclipse-plugin/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<ul><li><a href="http://m2eclipse.sonatype.org/">M2Eclipse</a>：Maven 的 plugin ，讓我們可以在 eclipse 整合 maven 開發。</li><li><a href="http://subclipse.tigris.org/">subclipse</a>：整個 svn 來進行程式碼管控
+</li><li><a href="http://eclipse-tools.sourceforge.net/implementors/">Implementors</a>：方更 trace 程式，當我們程式有多種 implement 時，可以利用這個 plug in 來追踨進 method 的實作者。</li><li><a href="http://findbugs.sourceforge.net/manual/eclipse.html">FindBug</a>：程式碼靜態分析，找出可能的錯誤或是不好的寫法。
+</li><li><a href="http://eclipse-cs.sourceforge.net/">CheckStyle</a>：同上。</li><li><a href="http://www.guh-software.de/jinto_en.html" target="_blank">JInto</a>：多國語言訊息編輯。</li><li><a href="http://www.sqlexplorer.org/" target="_blank">SQL Explorer</a>：查詢資料庫。</li><li><a href="http://myregexp.com/eclipsePlugin.html" target="_blank">Regex Util</a>：正規表達式。</li><li><a href="http://code.google.com/p/visualswing4eclipse/">visualswing4eclipse</a>：好用的 swing design 工具，跟 netbeans 的 matisse 有的拼。</li><li><a href="http://www.cloudgarden.com/jigloo/" target="_blank">Jigloo</a>：GUI builder。</li><li><a href="http://andrei.gmxhome.de/anyedit/index.html">AnyEdit</a>：為 eclipse 中的右鍵增加了不少實用的功能，如：跟外部檔案比較、space 跟tab 的轉換之類的。</li><li><a href="http://bastian-bergerhoff.com/eclipse/features/web/QuickREx/toc.html">QuickRex</a>：正規表達式的工具。
+</li></ul></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/12/04/java-decompiler/">Java Decompiler</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-04T21:51:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2008/12/04/java-decompiler/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+目前市面上找的到且 freee 的 Decompiler 有以下幾個：
+<ul><li>Jad：http://www.kpdus.com/jad.html
+C++ 開發，目前好像已經沒有在發展了，最後更新日是 2006，使用它為核心的工具還不少。
+</li><li>JODE：http://jode.sourceforge.net/
+java 開發，目前發展也停滯中，支援到JDK1.3。
+</li><li>jd-gui：http://java.decompiler.free.fr/
+C++ 開發，持續有在發展，支援到 JDK1.5
+</li></ul>個人覺的因為 jd-gui 有持續在開發，且支援到 jdk 1.5 ，應該會是目前最合用的 decompiler。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="9">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="7">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/android' style='font-size: 105.21739130434783%'>android(2)</a> <a href='/blog/categories/css' style='font-size: 102.6086956521739%'>css(1)</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>database(2)</a> <a href='/blog/categories/dot-net' style='font-size: 102.6086956521739%'>dot net(1)</a> <a href='/blog/categories/eclipse' style='font-size: 105.21739130434783%'>eclipse(2)</a> <a href='/blog/categories/git' style='font-size: 102.6086956521739%'>git(1)</a> <a href='/blog/categories/groovy' style='font-size: 102.6086956521739%'>groovy(1)</a> <a href='/blog/categories/html' style='font-size: 102.6086956521739%'>html(1)</a> <a href='/blog/categories/ios' style='font-size: 105.21739130434783%'>ios(2)</a> <a href='/blog/categories/ipad' style='font-size: 102.6086956521739%'>ipad(1)</a> <a href='/blog/categories/java' style='font-size: 160.0%'>java(23)</a> <a href='/blog/categories/javascript' style='font-size: 107.82608695652173%'>javascript(3)</a> <a href='/blog/categories/jquery' style='font-size: 102.6086956521739%'>jquery(1)</a> <a href='/blog/categories/linux' style='font-size: 110.43478260869566%'>linux(4)</a> <a href='/blog/categories/mac' style='font-size: 107.82608695652173%'>mac(3)</a> <a href='/blog/categories/network' style='font-size: 102.6086956521739%'>network(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.6086956521739%'>oracle(1)</a> <a href='/blog/categories/soft' style='font-size: 102.6086956521739%'>soft(1)</a> <a href='/blog/categories/svn' style='font-size: 102.6086956521739%'>svn(1)</a> <a href='/blog/categories/test' style='font-size: 102.6086956521739%'>test(1)</a> <a href='/blog/categories/titanium' style='font-size: 102.6086956521739%'>titanium(1)</a> <a href='/blog/categories/usb,-bing-du' style='font-size: 102.6086956521739%'>usb、病毒(1)</a> <a href='/blog/categories/virtualbox' style='font-size: 102.6086956521739%'>virtualbox(1)</a> <a href='/blog/categories/vnc' style='font-size: 102.6086956521739%'>vnc(1)</a> <a href='/blog/categories/vpn' style='font-size: 102.6086956521739%'>vpn(1)</a> <a href='/blog/categories/web' style='font-size: 102.6086956521739%'>web(1)</a> <a href='/blog/categories/windows' style='font-size: 131.30434782608697%'>windows(12)</a> <a href='/blog/categories/xcode' style='font-size: 102.6086956521739%'>xcode(1)</a> <a href='/blog/categories/xp' style='font-size: 102.6086956521739%'>xp(1)</a> <a href='/blog/categories/dan-che' style='font-size: 105.21739130434783%'>單車(2)</a> <a href='/blog/categories/huan-dao' style='font-size: 102.6086956521739%'>環島(1)</a> <a href='/blog/categories/cheng-shi' style='font-size: 110.43478260869566%'>程式(4)</a> <a href='/blog/categories/wang-lu' style='font-size: 115.65217391304348%'>網路(6)</a> <a href='/blog/categories/ruan-ti' style='font-size: 128.69565217391303%'>軟體(11)</a> </span>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/02/blog-shi-yong-ruan-ti/">Blog 使用軟體</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/01/kai-zhang/">開張</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/21/pdf/">PDF 簡轉繁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/05/sql-server-deadlock/">如何追查 SQL Server 的 Deadlock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/24/windows-2008-vpn-server/">Windows 2008 單一網卡架 VPN Server</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Scott Yang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'scott0228';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

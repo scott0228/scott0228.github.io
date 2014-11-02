@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oracle | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/oracle/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何查詢 Oracle 的版本]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/06/oracle/"/>
+    <updated>2009-06-06T10:05:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/06/oracle</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span class="Apple-style-span" style="color: rgb(51, 51, 51); font-size: 13px; line-height: 20px; ">下面兩個語法都可以達到此需求：<ul><li>select * from v$version</li><li>select * from product_component_version</li></ul></span></div>
+
+]]></content>
+  </entry>
+  
+</feed>

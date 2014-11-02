@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小虫的胡言亂語</title>
+  <meta name="author" content="Scott Yang">
+
+  
+  <meta name="description" content="base 元素可規定頁面中所有鏈接的基準 URL。
+通常情況下，瀏覽器會從當前文檔的 URL 中提取相應的元素來填寫相對 URL 中的空白。
+使用 base 標籤可以改變這一點。瀏覽器隨後將不再使用當前文檔的 URL，而使用指定的基本 URL 來解析所有的相對 URL。這其中包括 a、img、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://scott0228.github.io/posts/5/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="小虫的胡言亂語" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7310858-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">小虫的胡言亂語</a></h1>
+  
+    <h2>小虫的各種記錄.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:scott0228.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/20/ie8-bug/">IE8 正式版的 Bug?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-20T15:43:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/03/20/ie8-bug/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+base 元素可規定頁面中所有鏈接的基準 URL。
+通常情況下，瀏覽器會從當前文檔的 URL 中提取相應的元素來填寫相對 URL 中的空白。
+使用 base 標籤可以改變這一點。瀏覽器隨後將不再使用當前文檔的 URL，而使用指定的基本 URL 來解析所有的相對 URL。這其中包括 a、img、link、form 標籤中的 URL。
+
+但是在 IE8 裡面有個 bug，就算設定了 base標籤，它還是會使用當前的 URL 提取相應的元素，然後再用 base 設定的 url 去提取元素。如此一來，造成 server 不必要的負擔，不知道有沒有人有解決方式？還是這其實是我對標準的誤解？
+
+假設我有下面這個 index.html 放在 ui 的目錄：
+<textarea class="xml" name="code" rows="10" cols="70"><html>
+	<head>
+		<title>Document</title>
+		<base href="http://scott0228.blogspot.com/">
+		<link type="text/css" rel="stylesheet" media="screen" href="main.css">
+		<link type="text/css" rel="stylesheet" media="screen" href="main2.css">
+		<script type="text/javascript" src="mootools.js"></script>
+		<script type="text/javascript" src="mootools2.js"></script>
+		<script type="text/javascript" src="mootools3.js"></script>
+		<link type="text/css" rel="stylesheet" media="screen" href="main3.css">
+	</head>
+	<body>
+		<a href="scripts/">Scripts</a>
+		<img src="logo.png" alt="MD Logo" />
+	</body>
+</html>
+
+</textarea>
+當利用 IE8 去開 index.html 時，其會對 server 做以下的 request：
+<pre>
+http://scott0228.blogspot.com/ui/index.html
+http://scott0228.blogspot.com/main.css
+http://scott0228.blogspot.com/main2.css
+http://scott0228.blogspot.com/mootools.js
+http://scott0228.blogspot.com/ui/mootools2.js
+http://scott0228.blogspot.com/ui/mootools3.js
+http://scott0228.blogspot.com/ui/main3.css
+http://scott0228.blogspot.com/mootools2.js
+http://scott0228.blogspot.com/mootools3.js
+http://scott0228.blogspot.com/main3.css
+</pre>
+IE8 對於 base 的正確處理只會到第一個 script 之前，之後的 script 及 link 都會取兩次，一次是 base 的，一次是當前的 url
+目前 IE8 對於第一個 script 的 src 只取以 base 為基楚的檔案，第二個以後，及其之後的 link 都會取兩次，這樣會造成 server 的 loading 及程式的錯誤，不知道有法有辦法解決？</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/15/java-transaction-strategies/">Java Transaction Strategies</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-15T20:25:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/03/15/java-transaction-strategies/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Transaction Management 對於企業交易是相當重要的，今天剛好看到 IBM DeveloperWorks 上有一些文章，說明的滿不錯的，介紹給大家知道：
+http://www.ibm.com/developerworks/cn/java/j-ts1.html?ca=drs-tp4608
+裡面有參考了 <a href="http://www.infoq.com/minibooks/JTDS"><i>Java Transaction Design Strategies</i></a> ，個人覺的是本相當不錯的書，非常值得研究瞭解。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/11/partition-table-fix/">Partition Table Fix</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-11T11:34:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/03/11/partition-table-fix/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+今天有個同事拿了顆 sata 的硬碟給我，說因為裝了 ghost 9 後造成無法開機，本來想說用 <a href="http://www.partition-manager.com/">Partition Manage</a> 來改一下開機磁區就好，結果回應該該硬碟的磁區錯誤，可是在 xp 中還是看的到磁區，真是見鬼了。後來用 <a href="http://www.ptdd.com/">Partition Table Doctor</a> 去看，才發現原來裡面的磁區已經有問題，Ghost 產生的磁區蓋到既有的開機磁區，造磁碟分割軟體沒辦法使用。而 Partition Table Doctor 需要付費才有辦法修復，後來上網找到一個小軟體：<a href="http://www.cgsecurity.org/wiki/TestDisk">TestDisk</a>，可以用來針對分割磁區檢查、救援，不論是因為手賤誤刪了磁碟分區，或是因為安裝作業系統、感染病毒而不慎毀損或遺失硬碟分區表，他都有辦法幫你救回來。
+TestDisk 可以在多種作業系統下執行，也支援多種檔案系統，有需要人可以下載試試嚕。
+使用方法：
+<ol><li>將下載回來的 TestDisk 解壓縮，找到並執行置於「win」中的「testdisk_win.exe」。</li><li>在它的歡迎訊息之下的，選擇您要如何處理 Log 檔案。</li><li>選定硬碟後，選擇「Proceed」後按「Enter」。</li><li>選擇該硬碟的檔案系統類型，一般的Windows系統請選擇第一個[ Intel ]，然後按「Enter」即可。</li><li>按下「Analyse」開始分析現有分區結構和搜尋遺失的分區。另外還有「Advanced」選項可以將分區設定成開機磁區或改變分割區類型、「Geometry」選項可以修改分區結構參數及大小、「MBR Code」選項可以將主要開機磁區代碼寫入第一分割區。</li><li>TestDisk就會幫你找出所有磁碟分區，確定無誤後，以選擇「Save」後，按下「Enter」，最後再按「Quit」離開程式</li><li>重新開機後就可看到原本消失的磁碟分區了。</li></ol>PS. 進行『磁碟救援』並無法保證絕對能完整救回您硬碟裡的資料，相反的，進行『磁碟救援』很有可能會反而使得您硬碟裡的資料一去不復返。您應該將『磁碟救援』視為最後的救援手段。非必要請勿輕易嘗試！
+
+參考：
+<a href="http://www.cgsecurity.org/wiki/TestDisk_Step_By_Step">TestDisk Step By Step</a>官網的教學，圖、（英）文並茂。
+<a href="http://www.cgsecurity.org/wiki/Data_Recovery_Examples">Data Recovery Examples</a>官網還舉了一些範例。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/10/continuous-integration/">Continuous Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-10T15:04:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/03/10/continuous-integration/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>Continuous Integration 是我們在開發時的一個好方法，<a href="http://fontys.edu/Default.aspx">Fontys 大學</a> 的 Georg Fleischer 寫了一篇<a href="http://appl.fontysvenlo.org/results/2008/GF/index.html">有關持續整合的報告</a>。報告裡討論了用戶的需求和不同的產品如何滿足這些需求，並對於用戶和工具開發提供了不錯的參考資料。它裡面包涵了 12 種產品，算是相當有參考價值的一份報告。 </p></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/06/blog-post/">如何刪除不合法檔名的檔案</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-06T14:43:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/03/06/blog-post/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+之前曾經下載 portable 版的 open office ，結果解壓縮後有個檔案刪不掉，今天發現，原來只要利用 command 模式，用短檔名來刪除即可；那要怎麼做呢，方法如下：
+<ol><li>  <div>  使用 cmd 進入命令列模式
+ </div>  </li><li>  <div>  用 dir /x 察看檔案的 <strong>8.3 短檔名</strong>
+</div></li><li>直接 del 那個短檔名即可。</li></ol>參考：
+<a href="http://blog.miniasp.com/post/2008/01/How-to-delete-file-with-invalid-filename.aspx">http://blog.miniasp.com/post/2008/01/How-to-delete-file-with-invalid-filename.aspx</a></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/25/windows-su/">Windows 下的 Su</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-25T11:51:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/02/25/windows-su/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+最近因為用到 <a href="http://www.postgresql.org/">PostgreSQL</a> ，而 PostgresSQL 有個限制，不能以【擁有系統管理者權限的使用者】來執行，因此在 Linux 下，就需要以 su 來改變身份去執行，那 windows 下要怎麼辦呢？小弟找到了兩個方法：
+<ol><li>sysinternals 裡的 <a href="http://technet.microsoft.com/en-us/sysinternals/bb897553.aspx">psexec</a> </li><li>Windows 內建的 <a href="http://technet.microsoft.com/en-us/sysinternals/bb897553.aspx">runas</a></li></ol>小弟先在系統中建立了一個　postgres 的帳號，然後利用上述兩個軟體來執行。
+
+使用 psexec 的方法如下：
+psexec -u postgres -p postgres D:\pgsql\bin\postgres -D D:\pgsql\data
+
+使用 runas  的方法如下：
+%windir%\System32\runas.exe /user:<strong></strong><em>ComputerName</em><strong></strong>\postgres &#8220;D:\pgsql\bin\pg_ctl start -D D:\pgsql\data&#8221;
+
+使用 psexec 的好處是，可以直接將密碼放在參數上，這樣不用每次都去 keyin 密碼。而使用 runas 的話，每次都要輸入密碼，另外也可以加上 /savecred 參數來存儲存密碼（XP Home 是不能用的）。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/24/sockstat/">Sockstat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-24T10:32:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/02/24/sockstat/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+之前曾經介紹過如何查看<a href="http://scott0228.blogspot.com/2009/01/port.html"> port 被占住的方式</a>，只是在 Linux 下要下的指令比較長，今天剛好到有人介紹：<a href="http://people.debian.org.tw/%7Echihchun/2009/02/23/sockstat-for-linux/">sockstat</a>，原本是在 freebsd 下用來查看的工具，現在有人將他改寫成 Linux 版，因此 Linux  下也可以使用這好用的工具了。
+<pre>
+$ sockstat
+USER     PROCESS              PID      PROTO  SOURCE ADDRESS            FOREIGN ADDRESS           STATE
+chihchun conduit.real         7902     tcp4   *:3400                    *: *                      LISTEN
+chihchun dropboxd             7989     tcp4   10.11.12.231:49912        75.126.170.58:443         CLOSE_WAIT
+chihchun pidgin               8651     tcp4   10.11.12.231:46378        66.163.181.178:5050       ESTABLISHED
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            *: *                      LISTEN
+chihchun ssh                  22871    tcp4   127.0.0.1:6667            127.0.0.1:54522           ESTABLISHED
+chihchun ssh                  28346    tcp4   127.0.0.1:1100            *: *                      LISTEN
+chihchun ssh                  28346    tcp4   127.0.0.1:2500            *: *                      LISTEN
+</pre></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/22/junction-windows-symbolic-link/">好用工具：Junction ( Windows 版的 Symbolic Link )</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-22T20:11:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/02/22/junction-windows-symbolic-link/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Linux 上有個 <a href="http://linux.about.com/od/commands/l/blcmdl1_ln.htm" rel="nofollow" target="_blank">ln</a> 指令可任意建立 link ( 包括 hard links 與 symbolic links )，這是個很好用的東西，在 Vista 上也有個 <a href="http://en.wikipedia.org/wiki/NTFS_symbolic_link">mklink</a> 可以用來做相同的事，不過在 Windows XP 之前的環境卻沒有內建相對應的程式，而 <a href="http://technet.microsoft.com/en-us/sysinternals/bb896768.aspx" rel="nofollow" target="_blank">Junction</a> 就是一個可以替代的工具。
+其使用說明如下：
+<pre>
+Junction v1.05 - Windows junction creator and reparse point viewer
+Copyright (C) 2000-2007 Mark Russinovich
+Systems Internals - http://www.sysinternals.com
+
+The first usage is for displaying reparse point information, and the
+second usage is for creating or deleting a NTFS junction point:
+
+usage: junction [-s] [-q] <file or="" directory="">
+    -q     Don't print error messages (quiet)
+
+    -s     Recurse subdirectories
+
+usage: junction [-d] <junction directory=""> [<junction target="">]
+    -d     Delete the specified junction
+    example: junction d:\link c:\winnt
+</junction></junction></file></pre>
+新增：
+junction c:\Profiles\User1\MyDocs &#8220;d:\tmp\My Documents&#8221;
+刪除：
+junction -d c:\Profiles\User1\MyDocs
+
+如果不是透田 junction 去刪除 link，而是直接用檔案總管去刪除 link，會造成原來的資料被一併刪除，請特別注意。
+另外， 有個 <a href="http://sourceforge.net/projects/ntfslinkext/">NTFS Link ext </a>可以讓我們使用 GUI 的方式進行 link。
+
+參考：
+<a href="http://amanda_hoic.mysinablog.com/index.php?op=ViewArticle&amp;articleId=1276558">http://amanda_hoic.mysinablog.com/index.php?op=ViewArticle&amp;articleId=1276558</a></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/21/license-management-for-java/">License Management for Java</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-21T22:12:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/02/21/license-management-for-java/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+前陣子公司有打算將產品加上 License 的管控，當初的想法是取得 Mac Address 來加密比對，但沒有實際進行實作，今天剛好看到市面上已經有此相關的產品可以直接拿來套用了，因此先把它記下來：
+<ul><li><a href="http://www.smardec.com/products/license4j.html">License4J</a></li><li><a href="https://truelicense.dev.java.net/">truelicense</a></li></ul>truelicense 是 opensource 的，剛好可以拿來研究嚕。當然，這兩套程式都有提醒說，在使用的時候，記得使用 obfuscation 來為程式碼加密，否則有心人事還是可以很簡單的破解它。</div>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/07/jni/">JNI</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-07T21:51:00+08:00" pubdate data-updated="true"></time>
+        
+         | <a href="/blog/2009/02/07/jni/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>目前 java 與 dll 溝通的技術主要有以下幾種：</p>  <ul>   <li>jni（Java Native Interface）：     
+sun提供的java與系統中的原生方法交互的技術。 </li>    <li><a href="http://jnative.free.fr/">JNative</a>： 可調用 Linix/Windows 上的 dll</li>    <li><a href="https://jna.dev.java.net/">JNA ( Java Native Access )</a>： </li>    <li><a href="http://johannburkard.de/software/nativecall/">Nativecall</a>： </li>    <li><a href="http://jawinproject.sourceforge.net/">jawin（Java/Win32 integration project）</a>：      
+除了 com 之外，還可以 win32-dll 動態鏈接庫中的方法。 </li>    <li><a href="http://danadler.com/jacob/">jacob（Java-Com Bridge）</a>：      
+Jacob提供了java程序調用 Microsoft 的 com Object 中的方法的能力。 </li>     </ul>  <p>目前看起來好像是 JNative 比較方便。
+</p>參考文章：
+<a href="http://www.javaeye.com/topic/304594">JNI技術實踐小結</a></div>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="6">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="4">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/android' style='font-size: 105.21739130434783%'>android(2)</a> <a href='/blog/categories/css' style='font-size: 102.6086956521739%'>css(1)</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>database(2)</a> <a href='/blog/categories/dot-net' style='font-size: 102.6086956521739%'>dot net(1)</a> <a href='/blog/categories/eclipse' style='font-size: 105.21739130434783%'>eclipse(2)</a> <a href='/blog/categories/git' style='font-size: 102.6086956521739%'>git(1)</a> <a href='/blog/categories/groovy' style='font-size: 102.6086956521739%'>groovy(1)</a> <a href='/blog/categories/html' style='font-size: 102.6086956521739%'>html(1)</a> <a href='/blog/categories/ios' style='font-size: 105.21739130434783%'>ios(2)</a> <a href='/blog/categories/ipad' style='font-size: 102.6086956521739%'>ipad(1)</a> <a href='/blog/categories/java' style='font-size: 160.0%'>java(23)</a> <a href='/blog/categories/javascript' style='font-size: 107.82608695652173%'>javascript(3)</a> <a href='/blog/categories/jquery' style='font-size: 102.6086956521739%'>jquery(1)</a> <a href='/blog/categories/linux' style='font-size: 110.43478260869566%'>linux(4)</a> <a href='/blog/categories/mac' style='font-size: 107.82608695652173%'>mac(3)</a> <a href='/blog/categories/network' style='font-size: 102.6086956521739%'>network(1)</a> <a href='/blog/categories/oracle' style='font-size: 102.6086956521739%'>oracle(1)</a> <a href='/blog/categories/soft' style='font-size: 102.6086956521739%'>soft(1)</a> <a href='/blog/categories/svn' style='font-size: 102.6086956521739%'>svn(1)</a> <a href='/blog/categories/test' style='font-size: 102.6086956521739%'>test(1)</a> <a href='/blog/categories/titanium' style='font-size: 102.6086956521739%'>titanium(1)</a> <a href='/blog/categories/usb,-bing-du' style='font-size: 102.6086956521739%'>usb、病毒(1)</a> <a href='/blog/categories/virtualbox' style='font-size: 102.6086956521739%'>virtualbox(1)</a> <a href='/blog/categories/vnc' style='font-size: 102.6086956521739%'>vnc(1)</a> <a href='/blog/categories/vpn' style='font-size: 102.6086956521739%'>vpn(1)</a> <a href='/blog/categories/web' style='font-size: 102.6086956521739%'>web(1)</a> <a href='/blog/categories/windows' style='font-size: 131.30434782608697%'>windows(12)</a> <a href='/blog/categories/xcode' style='font-size: 102.6086956521739%'>xcode(1)</a> <a href='/blog/categories/xp' style='font-size: 102.6086956521739%'>xp(1)</a> <a href='/blog/categories/dan-che' style='font-size: 105.21739130434783%'>單車(2)</a> <a href='/blog/categories/huan-dao' style='font-size: 102.6086956521739%'>環島(1)</a> <a href='/blog/categories/cheng-shi' style='font-size: 110.43478260869566%'>程式(4)</a> <a href='/blog/categories/wang-lu' style='font-size: 115.65217391304348%'>網路(6)</a> <a href='/blog/categories/ruan-ti' style='font-size: 128.69565217391303%'>軟體(11)</a> </span>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/02/blog-shi-yong-ruan-ti/">Blog 使用軟體</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/01/kai-zhang/">開張</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/21/pdf/">PDF 簡轉繁</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/05/sql-server-deadlock/">如何追查 SQL Server 的 Deadlock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/24/windows-2008-vpn-server/">Windows 2008 單一網卡架 VPN Server</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Scott Yang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'scott0228';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

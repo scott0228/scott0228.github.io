@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 程式 | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/cheng-shi/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome 簡繁自動轉換 Extension]]></title>
+    <link href="http://scott0228.github.io/blog/2009/08/27/chrome-extension/"/>
+    <updated>2009-08-27T15:00:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/08/27/chrome-extension</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div><span class="Apple-style-span"  style="font-size:medium;">之前曾經在重灌狂人的 blog 上看到在</span><a href="http://briian.com/?p=6312"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換的書籤</span></a><span class="Apple-style-span"  style="font-size:medium;">，在 chrome 上用也是可行，不過總覺的還要多按個紐很麻煩，而且沒辦法處理 google reader ，因此就把那書籤裡面的 script 小修改做成了 chrome 的 extension，這樣就方便許多，看網頁會自動轉成繁體字。</span></div><div><span class="Apple-style-span"  style="font-size:medium;">
+</span></div><div><span class="Apple-style-span"  style="font-size:medium;">安裝方式：</span></div><div><ul><li><span class="Apple-style-span"  style="font-size:medium;">將 chrome 的捷徑加上 </span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="color:#333399;"><span class="Apple-style-span"  style="font-size:medium;">&#8211;enable-extensions</span></span></span><span class="Apple-style-span"  style=" color: rgb(153, 153, 153); font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;"> </span></span><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">來啟動 extension 功能</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">重新啟動 chome</span></span></li><li><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">下載 </span><a href="http://scott0228.googlepages.com/convert_traditional_chinese.crx"><span class="Apple-style-span"  style="font-size:medium;">簡繁轉換 extension</span></a><span class="Apple-style-span"  style="font-size:medium;"> 並安裝它</span></span></li></ul><div><span class="Apple-style-span"  style="font-family:Arial, Verdana, sans-serif;"><span class="Apple-style-span"  style="font-size:medium;">之後網頁就會自動轉成繁體了。</span></span></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java 如何偵測目前記憶體可能不足]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/25/java/"/>
+    <updated>2009-06-25T19:19:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/25/java</id>
+    <content type="html"><![CDATA[<p><div class='post'>
+今天有個同事說，他在操作 Netbeans 時，Netbeans 竟然提示他記憶體可能不足：<div><img src="http://4.bp.blogspot.com/_fZUSxw71alM/SkNdkI3-FPI/AAAAAAAAJqE/PP97Cicd0PI/s400/netbeans.png" style="cursor:pointer; cursor:hand;width: 400px; height: 215px;" border="0" alt="" id="BLOGGER_PHOTO_ID_5351223657685193970" /></div><div>不知道 Netbeans 是怎麼做的。後來上網查了一下， JDK 1.5 後提供了 java.lang.management.MemoryMXBean，可以讓我們偵測目前記憶體的用量及狀態：
+<textarea class="java" name="code" rows="10" cols="70">
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.CompilationMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryManagerMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;</p>
+
+<p>public class JDKMBean {</p>
+
+<pre><code>public static &lt;T&gt; void printMXBean(Class&lt;T&gt; t, Object object) {
+    Method[] methods = t.getMethods();
+    T instance = (T) object;
+    System.out.printf("%n---%s---%n", t.getName());
+    for (Method m : methods) {
+        if (m.getName().startsWith("get")) {
+            try {
+                Object rtValue = m.invoke(instance, new Object[0]);
+                System.out.printf("%s:%s%n", m.getName().substring(3),
+                        rtValue);
+            } catch (IllegalArgumentException e1) {
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            }
+        }
+    }
+}
+
+public static &lt;T&gt; void printMXBeans(Class&lt;T&gt; t, List&lt;T&gt; list) {
+    for (T bean : list) {
+        printMXBean(t, bean);
+    }
+}
+
+public static void main(String[] args) {
+    JDKMBean.printMXBean(OperatingSystemMXBean.class, ManagementFactory.getOperatingSystemMXBean());
+    JDKMBean.printMXBean(CompilationMXBean.class, ManagementFactory.getCompilationMXBean());
+    JDKMBean.printMXBean(ClassLoadingMXBean.class, ManagementFactory.getClassLoadingMXBean());
+    JDKMBean.printMXBean(MemoryMXBean.class, ManagementFactory.getMemoryMXBean());
+    JDKMBean.printMXBeans(MemoryManagerMXBean.class, ManagementFactory.getMemoryManagerMXBeans());
+    JDKMBean.printMXBeans(MemoryPoolMXBean.class, ManagementFactory.getMemoryPoolMXBeans());
+}
+</code></pre>
+
+<p>}
+</textarea>
+上面這程式可以列出目前記憶體的使用狀態。<br/></p>
+
+<p>參考資料：<br/>
+<a href="http://stackoverflow.com/questions/235560/how-do-you-detect-low-memory-situations-within-the-java-virtual-machine">How do you detect low memory situations within the java virtual machine?</a><br/>
+<a href="http://llying.javaeye.com/blog/384054">J2SE5.0新特性之監控與管理</a></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vista + IIS + Access 出現 80004005 錯誤]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/25/vista-iis-access-80004005/"/>
+    <updated>2009-06-25T19:10:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/25/vista-iis-access-80004005</id>
+    <content type="html"><![CDATA[<div class='post'>
+<blockquote></blockquote>最近有個同事遇到一個問題，開發好的程式在 Vista 上的 IIS 會沒辦法讀取 access 裡面的資料，後來上網查了一下，發現這個問題還滿常發生的，要解決也很簡單，在命令模式下執行下面三行指令即可：<div><ul><li>%windir%\system32\inetsrv\appcmd set config /section:applicationPools /[name=&#8217;DefaultAppPool&#8217;].processModel.loadUserProfile:false</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant Users:(CI)(S,WD,AD,X)</li><li>icacls %windir%\serviceprofiles\networkservice\AppData\Local\Temp /grant &#8220;CREATOR OWNER&#8221;:(OI)(CI)(IO</li></ul><div>看起來因為 %windir%\serviceprofiles\networkservice\AppData\Local\Temp 這目錄的權限不足所造成的問題。</div><div>
+</div><div>參考資料：</div><div><a href="http://forums.iis.net/t/1148115.aspx">Access &amp; IIS7 Error : Database Engine error &#8216;80004005&#8217; - Unspecified Error</a></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[數字拆解問題]]></title>
+    <link href="http://scott0228.github.io/blog/2009/04/11/blog-post/"/>
+    <updated>2009-04-11T22:27:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/04/11/blog-post</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span style="color: rgb(0, 0, 0);" >最近在找工作，有家公司寄了一個題目給我，要我作答，題目不難，有興趣可以看看：
+
+<span style="color: rgb(0, 0, 153);">#數字拆解</span>
+<span style="color: rgb(0, 0, 153);">題目是這樣的：</span>
+<span style="color: rgb(0, 0, 153);">3 = 2+1 = 1+1+1 所以3有三種拆法</span>
+<span style="color: rgb(0, 0, 153);">4 = 3 + 1 = 2 + 2 = 2 + 1 + 1 = 1 + 1 + 1 + 1 共五種</span>
+<span style="color: rgb(0, 0, 153);">5 = 4 + 1 = 3 + 2 = 3 + 1 + 1 = 2 + 2 + 1 = 2 + 1 + 1 + 1 = 1 + 1 +1 +1 +1</span>
+  
+<span style="color: rgb(0, 0, 153);">共七種</span>
+<span style="color: rgb(0, 0, 153);">依此類推，請問一個指定數字NUM的拆解方法個數有多少個？</span>
+
+<span style="color: rgb(0, 0, 153);">#建議方案(也可使用其他方法)</span>
+<span style="color: rgb(0, 0, 153);">6 = 5 + [1] = 4 + [1+1] = 3 + [1+1+1] = 2 + [1+1+1+1] = 1 + [1+1+1+1]</span>
+<span style="color: rgb(0, 0, 153);">                        = 2 + [2+1+1]</span>
+<span style="color: rgb(0, 0, 153);">            = 3 + [2+1]</span>
+<span style="color: rgb(0, 0, 153);">    4 + [2] = 2 + [2+2]</span></span>
+<span style="color: rgb(0, 0, 153);">      </span><span style="color: rgb(0, 0, 153);" >3 + [3]
+*括弧內數字為固定數字,最大數字繼續拆解
+*拆解過程中,數字須由大到小
+
+#請計算出Num=40共多少解法,需花多少時間(<wbr>須印出所有合法解法)
+ num = 40, count = 37337, time = 1.188</span>
+
+想不到他的最後答案竟然是錯的，還真是有一點點心機。過兩天再把答案 po 上來。</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>小虫</div>
+<div class='content'>
+作者已經移除這則留言。</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

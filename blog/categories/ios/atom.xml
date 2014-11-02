@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ios | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 7.1 無法利用 http 佈署企業 app]]></title>
+    <link href="http://scott0228.github.io/blog/2014/03/18/ios-71-http-app/"/>
+    <updated>2014-03-18T21:34:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2014/03/18/ios-71-http-app</id>
+    <content type="html"><![CDATA[<div class='post'>
+目前開發企業內部使用之 app ，iOS 7 之前，用企業 provision 可以將程式打包成 ipa 檔，利用&nbsp;itms-services:// 開頭的網址搭配一個描述檔 (plist) 來安裝 ipa 檔，如<br />
+<span style="color: #666666;">itms-services://?action=download-manifest&amp;url=http://www.test.com/app.plist</span><br />
+<br />
+可是到了 iOS 7.1 之後，就會發生：無法安裝應用程式，因為「www.test.com」的憑證無效。<br />
+<br />
+<a href="http://stackoverflow.com/questions/20276907/enterprise-app-deployment-doesnt-work-on-ios-7-1">上網查了一下</a>，才發現原來 iOS 7.1 之後 plist 檔一定要在認可的 https 協定下載，目前可行的方法有：<br />
+<br />
+<ol>
+<li>為網站購買 SSL 憑證，改走 https 的方式進行安裝</li>
+<li>使用 openssl 自簽憑證，iDevice 上要先匯入自簽根憑證才可使用</li>
+<li>將 plist 檔放在別人提供的 https 空間(如 dropbox)，再利用此種模式下載安裝</li>
+</ol>
+<div>
+第一種方式就不用講了，第二種方式的處理方式如下：</div>
+<div>
+<ol>
+<li>產生自簽根金鑰<br /><span style="color: #999999;">openssl genrsa -out myCA.key 2048</span></li>
+<li>產生自簽根憑證<br /><span style="color: #666666;">openssl req -x509 -new -key myCA.key -out myCA.cer -days 3650 -subj /CN=&#8221;小虫CA&#8221;</span></li>
+<li>產生網站金鑰<br /><span style="color: #666666;">openssl genrsa -out mycert1.key 2048</span></li>
+<li>產生 CSR<br /><span style="color: #666666;">openssl req -new -out mycert1.req -key mycert1.key -subj /CN=www.test.com</span></li>
+<li>利用自簽根金鑰<br /><span style="color: #666666;">openssl x509 -req -in mycert1.req -out mycert1.cer -CAkey myCA.key -CA myCA.cer -days 365 -CAcreateserial -CAserial serial</span></li>
+<li>網站使用 mycert1.key 及 mycert1.cer 來加密，iDevice 先匯入&nbsp;myCA.cer 即可利用 https 連線到網站上了</li>
+<li>再利用以下網址即可進行網路安裝 ipa<br /><span style="color: #666666;">itms-services://?action=download-manifest&amp;url=</span><span style="color: red;">https</span><span style="color: #666666;">://www.test.com/app.plist</span></li>
+</ol>
+<div>
+第三種方式，可以將 plist 放置 Dropbox 上，步驟如下：</div>
+</div>
+<div>
+<ol>
+<li>將 plist 檔放置 dropbox 下</li>
+<li>取得 plist 檔的分享路徑，如<span style="color: #666666;"><br />https://www.dropbox.com/s/jwwu4p1kctqenva/app.plist</span></li>
+<li>將&nbsp;<span style="color: #666666;">www.dropbox.com </span>改為 <span style="color: #666666;">dl.dropboxusercontent.com</span>，如<br /><span style="color: #666666;">https://dl.dropboxusercontent.com/s/jwwu4p1kctqenva/app.plist</span></li>
+<li>將 app 安裝的網址改為使用第三點的 link 即可，如：<br /><span style="color: #666666;">itms-services://?action=download-manifest&amp;url=</span><span style="color: red;">https://dl.dropboxusercontent.com/s/jwwu4p1kctqenva/app.plist</span><br /></li>
+</ol>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone 如何利用 socks proxy 上網(不需 jailbreak)]]></title>
+    <link href="http://scott0228.github.io/blog/2012/03/03/iphone-socks-proxy-jailbreak/"/>
+    <updated>2012-03-03T21:42:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/03/03/iphone-socks-proxy-jailbreak</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span style="font-size: small;">iPhone iPad 本身上網的設定並沒有可以利用 socks proxy 的方式，所以我們可以利用自動組態檔的方式來處理，方法如下：</span><br />
+<ol>
+<li><span style="font-size: small;">在電腦(如 <span style="color: red;">192.168.11.1</span>)建立一個 socks proxy ，如利用 ssh：<br /><code>ssh -N -g -D <span style="color: blue;">1080</span> 某主機ip</code></span></li>
+<li><span style="font-size: small;"><code>在一台 web server 上放置一各自動組態檔，內容如下：<br />function FindProxyForURL(url, host) {<br />　　return "SOCKS </code><span style="color: red;">192.168.11.1</span><code>:<span style="color: blue;">1080</span>";<br />}<br />紅字的部份是對應 proxy 主機的 ip</code></span></li>
+<li><span style="font-size: small;"><code>在 iphone 上使用此自動組態檔即可，如：<br />http://192.168.11.1/mysupersecretproxy.pac</code></span></li>
+</ol>
+<span style="font-size: small;"><br /></span><br />
+<span style="font-size: small;"><br /></span><br />
+<span style="font-size: small;">參考：</span><br />
+<span style="font-size: small;">http://snipplr.com/view/16563/how-to-connect-to-a-socks-proxy-from-an-unjailbroken-iphoneipod-touch/</span><br />
+<span style="font-size: small;">http://thireus.dareyourmind.net/index.php/thireus-home-news/8-general-announcement/112-pac&#8211;ssh-tunneling&#8211;iphone&#8211;success-</span><br />
+<span style="font-size: small;">http://thireus.dareyourmind.net/index.php/iphone-hacks/115-how-to-get-socks-proxy-ssh-tunneling-to-work-on-a-jailbroken-iphoneipod-touchipad</span></div>
+
+]]></content>
+  </entry>
+  
+</feed>

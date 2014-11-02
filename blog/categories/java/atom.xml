@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Titanium sdk 如何利用 andriodvm 來加速測試開發]]></title>
+    <link href="http://scott0228.github.io/blog/2013/02/03/titanium-sdk-andriodvm/"/>
+    <updated>2013-02-03T11:33:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2013/02/03/titanium-sdk-andriodvm</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近利用 Titanium studio 來開發 android app ，發現 android 模擬器真是非常的慢，上網找了一下資料發現 <a href="http://androvm.org/">AndroidVM</a>&nbsp;這個好物，它利用 <a href="https://www.virtualbox.org/">VirtualBox</a> 來執行，整個速度真是快的不得了。<br />
+<br />
+安裝檔案：<br />
+<br />
+<ol>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+<li><a href="http://androvm.org/blog/download/">AndroidVM</a><br />vbox86p : 手機版, 預設解析度 480×800 <br />vbox86t : Tablet 版，預設解析度 1024×600 <br />vbox86tp : Tablet 版，但有電話的功能，預設解析度 1024×600 <br />gapps : 代表包含 Google 相關服務 (有 Google Play) <br />houdini: 代表包含 Arm emulation (AndroidVM 是跑在 x86 上，所以反過來需要去模擬 Arm)</li>
+</ol>
+<div>
+安裝步驟可參考：<a href="http://www.javaworld.com.tw/roller/ingramchen/entry/android_development_with_androvm">Android Development with AndroVM</a></div>
+<div>
+<br /></div>
+<div>
+那在 Titanium Studio 中要如何直接部署它並且在上面 Debug 呢？</div>
+<div>
+首先，連結 androidVM<br />
+<br />
+要修改 Titanium SDK 的 source code：</div>
+<div>
+<b style="color: #333333; font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;">~/Library/Application Support/Titanium/mobilesdk/osx/</b><b style="font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;"><span style="color: red;">2.1.4.GA</span></b><b style="color: #333333; font-family: Arial, Helvetica, FreeSans, sans-serif; font-size: 13px; line-height: 13.328125px;">/android/builder.py</b></div>
+<script src="https://gist.github.com/cacbce9e96357dc5b4f6.js"></script>
+將 run_adb(self, *args) 的第三行&nbsp;<span style="background-color: ghostwhite; color: #999988; font-family: Consolas, 'Liberation Mono', Courier, monospace; font-size: 13px; font-style: italic; line-height: 22px; text-indent: 10px; white-space: pre;">command.extend(self.device_args) </span>註解掉，即可利用 Titanium Studio 的 Android Device 功能直接佈署到 device 中進行測試及除錯了。<br />
+如果要查看 AndroidVM 中 Titanium 的 log，可以在 Console 環境下執行：<br /><span style="font-family: Consolas, Bitstream Vera Sans Mono, Courier New, Courier, monospace; font-size: x-small;"><span style="line-height: 15.1875px; white-space: pre-wrap;">adb logcat | grep -G &#8216;\(TiAPI\)\|\(TiApp\)&#8217;</span></span><br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-NJN7v2hW06c/UQ3Z2rwPERI/AAAAAAAAROE/WTuVXye3GTY/s1600/2013-02-03_1130.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-NJN7v2hW06c/UQ3Z2rwPERI/AAAAAAAAROE/WTuVXye3GTY/s1600/2013-02-03_1130.png" /></a></div>
+<code class="bash string" style="background-image: none !important; border-bottom-left-radius: 0px !important; border-bottom-right-radius: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border: 0px !important; bottom: auto !important; box-sizing: content-box !important; color: rgb(0, 51, 102) !important; float: none !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 13px; height: auto !important; left: auto !important; line-height: 15.1875px; margin: 0px !important; min-height: auto !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; white-space: pre-wrap; width: auto !important;"><br /></code></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[利用 Groovy + jsoup 來擷取網頁內容]]></title>
+    <link href="http://scott0228.github.io/blog/2013/01/04/groovy-jsoup/"/>
+    <updated>2013-01-04T23:03:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2013/01/04/groovy-jsoup</id>
+    <content type="html"><![CDATA[<div class='post'>
+今天一位朋有希望我幫它把某人在 yahoo 拍賣上的物品清單抓下來，剛好讓我試試利用 Groovy 及 <a href="http://jsoup.org/">jsoup</a> 來處理：<br />
+<br />
+<script src="https://gist.github.com/8509315763d8f1ef0d1c.js"></script>
+參考：<br />
+http://blog.lyhdev.com/2012/12/groovy-jsoup-java-html-parser.html</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何在 OSX 中開啟多個  Eclipse]]></title>
+    <link href="http://scott0228.github.io/blog/2012/11/19/osx-eclipse/"/>
+    <updated>2012-11-19T08:34:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/11/19/osx-eclipse</id>
+    <content type="html"><![CDATA[<div class='post'>
+<br />
+在 OSX 環境中，預設 Eclipse 只能開啟一個，當我們需要同時間開啟兩個 workspace 時，就需要以指令的方式去開啟另外一個 Eclipse instance：<br />
+<br />
+<ol>
+<li>開啟 Terminal&nbsp;</li>
+<li>切換到 Eclipse 安裝路徑<br />cd /Application/eclipse<br /></li>
+<li>下指令開啟 Eclipse<br />./eclipse &amp;<br />或是<br />open -n Eclipse.app</li>
+</ol>
+<br />
+參考：<br />
+http://stackoverflow.com/questions/118243/open-multiple-eclipse-workspaces-on-the-mac</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[批次檔設定 classpath]]></title>
+    <link href="http://scott0228.github.io/blog/2009/09/22/classpath/"/>
+    <updated>2009-09-22T11:23:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/09/22/classpath</id>
+    <content type="html"><![CDATA[<div class='post'>
+windows 的批次檔以利用 for 來對目錄中的檔案進行處理，但是 for 在取得環境變數只會在一開始取，因此，如果當我們將批次檔寫成：<div><div>    set CLASSPATH=</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">% CLASSPATH%</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>並不會建立目前目錄中所有檔案的清單，相反的只會將 CLASSPATH 變數設為最後一個找到的檔案。因為 % CLASSPATH% 只有在 FOR 敘述第一次被讀入時才展開，此時 CLASSPATH 變數是空的。所以我們實際執行的 FOR 迴圈是:</div><div>    for %i in (*) do set LIST= %i</div><div>
+</div><div>可是當我照著微軟的說明，將 % 改為 ! ，還是得不到正確的結果：</div><div><div>    set CLASSPATH =</div><div>    for %i in (*) do set LIST=<span class="Apple-style-span"  style="color:#FF0000;">! CLASSPATH!</span>;%i</div><div>    echo % CLASSPATH%</div><div>
+</div><div>這部份我還沒找到為什麼不行。後來，在網路上找了一下，發現只要呼叫外部的批次檔或是其它 label 就不會有問題了：</div><div>    set CLASSPATH =</div><div>    FOR /f %%I IN (&#8216;dir /b *.jar&#8217;) DO <span class="Apple-style-span"  style="color:#FF0000;">call :cpappend</span> %%I</div><div><div>    echo %CLASSPATH%</div><div>    goto end</div><div>
+</div><div>    :cpappend</div><div>    set CLASSPATH=%CLASSPATH%;%1</div><div>    :end</div><div>
+</div><div>
+</div></div><div>
+</div></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java 如何偵測目前記憶體可能不足]]></title>
+    <link href="http://scott0228.github.io/blog/2009/06/25/java/"/>
+    <updated>2009-06-25T19:19:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/06/25/java</id>
+    <content type="html"><![CDATA[<p><div class='post'>
+今天有個同事說，他在操作 Netbeans 時，Netbeans 竟然提示他記憶體可能不足：<div><img src="http://4.bp.blogspot.com/_fZUSxw71alM/SkNdkI3-FPI/AAAAAAAAJqE/PP97Cicd0PI/s400/netbeans.png" style="cursor:pointer; cursor:hand;width: 400px; height: 215px;" border="0" alt="" id="BLOGGER_PHOTO_ID_5351223657685193970" /></div><div>不知道 Netbeans 是怎麼做的。後來上網查了一下， JDK 1.5 後提供了 java.lang.management.MemoryMXBean，可以讓我們偵測目前記憶體的用量及狀態：
+<textarea class="java" name="code" rows="10" cols="70">
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.CompilationMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryManagerMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;</p>
+
+<p>public class JDKMBean {</p>
+
+<pre><code>public static &lt;T&gt; void printMXBean(Class&lt;T&gt; t, Object object) {
+    Method[] methods = t.getMethods();
+    T instance = (T) object;
+    System.out.printf("%n---%s---%n", t.getName());
+    for (Method m : methods) {
+        if (m.getName().startsWith("get")) {
+            try {
+                Object rtValue = m.invoke(instance, new Object[0]);
+                System.out.printf("%s:%s%n", m.getName().substring(3),
+                        rtValue);
+            } catch (IllegalArgumentException e1) {
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            }
+        }
+    }
+}
+
+public static &lt;T&gt; void printMXBeans(Class&lt;T&gt; t, List&lt;T&gt; list) {
+    for (T bean : list) {
+        printMXBean(t, bean);
+    }
+}
+
+public static void main(String[] args) {
+    JDKMBean.printMXBean(OperatingSystemMXBean.class, ManagementFactory.getOperatingSystemMXBean());
+    JDKMBean.printMXBean(CompilationMXBean.class, ManagementFactory.getCompilationMXBean());
+    JDKMBean.printMXBean(ClassLoadingMXBean.class, ManagementFactory.getClassLoadingMXBean());
+    JDKMBean.printMXBean(MemoryMXBean.class, ManagementFactory.getMemoryMXBean());
+    JDKMBean.printMXBeans(MemoryManagerMXBean.class, ManagementFactory.getMemoryManagerMXBeans());
+    JDKMBean.printMXBeans(MemoryPoolMXBean.class, ManagementFactory.getMemoryPoolMXBeans());
+}
+</code></pre>
+
+<p>}
+</textarea>
+上面這程式可以列出目前記憶體的使用狀態。<br/></p>
+
+<p>參考資料：<br/>
+<a href="http://stackoverflow.com/questions/235560/how-do-you-detect-low-memory-situations-within-the-java-virtual-machine">How do you detect low memory situations within the java virtual machine?</a><br/>
+<a href="http://llying.javaeye.com/blog/384054">J2SE5.0新特性之監控與管理</a></div></p>
+]]></content>
+  </entry>
+  
+</feed>

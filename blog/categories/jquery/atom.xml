@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jquery | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Improve your jQuery - 25 excellent tips]]></title>
+    <link href="http://scott0228.github.io/blog/2009/01/09/improve-your-jquery-25-excellent-tips/"/>
+    <updated>2009-01-09T21:33:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2009/01/09/improve-your-jquery-25-excellent-tips</id>
+    <content type="html"><![CDATA[<div class='post'>
+最近開發網頁，都儘量使用 jQuery 來減少程式碼的撰寫，今天剛好看到網路上這篇文章，值得推薦：<a href="http://www.tvidesign.co.uk/blog/improve-your-jquery-25-excellent-tips.aspx#tip2">Improve your jQuery - 25 excellent tips</a>，裡面有一些小技巧讓你的程式跑的更快。</div>
+
+]]></content>
+  </entry>
+  
+</feed>

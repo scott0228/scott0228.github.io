@@ -4,7 +4,7 @@
   <title><![CDATA[Category: soft | 小虫的胡言亂語]]></title>
   <link href="http://scott0228.github.io/blog/categories/soft/atom.xml" rel="self"/>
   <link href="http://scott0228.github.io/"/>
-  <updated>2014-11-02T11:56:42+08:00</updated>
+  <updated>2014-11-02T12:45:41+08:00</updated>
   <id>http://scott0228.github.io/</id>
   <author>
     <name><![CDATA[Scott Yang]]></name>
@@ -22,7 +22,8 @@
 
 <ul>
 <li><a href="http://octopress.org">octopress</a>: 主程式</li>
-<li><a href="https://github.com/tommy351/Octopress-Theme-Slash">Octopress-Theme-Slash</a>: 模版</li>
+<li><a href="https://github.com/octothemes/classic-dark">Octopress Themes - Classic Dark Theme</a>: 模版</li>
+<li><a href="https://github.com/tokkonopapa/octopress-tagcloud">octopress-tagcloud</a>: 標籤雲邊欄</li>
 <li><a href="http://macdown.uranusjr.com">MacDown</a>: MarkDown 編輯器</li>
 </ul>
 
@@ -32,8 +33,11 @@
 <ul>
 <li><a href="http://wwssllabcd.github.io/blog/2012/08/01/how-to-install-octopress-on-window/">Octopress 安裝教學、心得筆記 </a></li>
 <li><a href="http://tommy351.github.io/Octopress-Theme-Slash/index_tw.html">Slash — 專為Octopress 設計的極簡主題</a></li>
+<li><a href="http://neohsu.github.io/blog/2012/06/27/tag-cloud-for-octopress/">Tag Cloud for Octopress</a></li>
 <li><a href="http://free.com.tw/macdown-editor/">MacDown 免費、開放原始碼 Markdown 編輯器</a></li>
 <li><a href="http://www.cjwind.idv.tw/set-up-existing-octopress-blog/">Clone 已有 Octopress blog</a></li>
+<li><a href="http://www.bravo-kernel.com/2014/08/how-to-fix-octopress-build-warning-layout-nil-requested/">How to fix Octopress build warning Layout nil requested</a></li>
+<li><a href="http://approache.com/blog/migrating-from-blogger-to-octopress/">Migrating From Blogger to Octopress</a></li>
 </ul>
 
 ]]></content>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ipad | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/ipad/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iPhone 如何利用 socks proxy 上網(不需 jailbreak)]]></title>
+    <link href="http://scott0228.github.io/blog/2012/03/03/iphone-socks-proxy-jailbreak/"/>
+    <updated>2012-03-03T21:42:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2012/03/03/iphone-socks-proxy-jailbreak</id>
+    <content type="html"><![CDATA[<div class='post'>
+<span style="font-size: small;">iPhone iPad 本身上網的設定並沒有可以利用 socks proxy 的方式，所以我們可以利用自動組態檔的方式來處理，方法如下：</span><br />
+<ol>
+<li><span style="font-size: small;">在電腦(如 <span style="color: red;">192.168.11.1</span>)建立一個 socks proxy ，如利用 ssh：<br /><code>ssh -N -g -D <span style="color: blue;">1080</span> 某主機ip</code></span></li>
+<li><span style="font-size: small;"><code>在一台 web server 上放置一各自動組態檔，內容如下：<br />function FindProxyForURL(url, host) {<br />　　return "SOCKS </code><span style="color: red;">192.168.11.1</span><code>:<span style="color: blue;">1080</span>";<br />}<br />紅字的部份是對應 proxy 主機的 ip</code></span></li>
+<li><span style="font-size: small;"><code>在 iphone 上使用此自動組態檔即可，如：<br />http://192.168.11.1/mysupersecretproxy.pac</code></span></li>
+</ol>
+<span style="font-size: small;"><br /></span><br />
+<span style="font-size: small;"><br /></span><br />
+<span style="font-size: small;">參考：</span><br />
+<span style="font-size: small;">http://snipplr.com/view/16563/how-to-connect-to-a-socks-proxy-from-an-unjailbroken-iphoneipod-touch/</span><br />
+<span style="font-size: small;">http://thireus.dareyourmind.net/index.php/thireus-home-news/8-general-announcement/112-pac&#8211;ssh-tunneling&#8211;iphone&#8211;success-</span><br />
+<span style="font-size: small;">http://thireus.dareyourmind.net/index.php/iphone-hacks/115-how-to-get-socks-proxy-ssh-tunneling-to-work-on-a-jailbroken-iphoneipod-touchipad</span></div>
+
+]]></content>
+  </entry>
+  
+</feed>

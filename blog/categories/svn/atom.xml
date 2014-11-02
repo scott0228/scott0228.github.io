@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: svn | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/svn/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T12:45:41+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Git 與 subversion 透過 http proxy]]></title>
+    <link href="http://scott0228.github.io/blog/2011/09/23/git-subversion-http-proxy/"/>
+    <updated>2011-09-23T11:53:00+08:00</updated>
+    <id>http://scott0228.github.io/blog/2011/09/23/git-subversion-http-proxy</id>
+    <content type="html"><![CDATA[<div class='post'>
+小弟公司對外都要透過 proxy 才能存取，而我又常需要抓取外部 svn 或 github 中的程式碼下來參考，因此研究了一下如何設定 proxy 讓 git 與 svn 使用。<br />
+<br />
+<br />
+環境：<br />
+<ul>
+<li>MacBook Pro with OSX Lion 10.7.1</li>
+<li>svn, version 1.6.16</li>
+<li>git version 1.7.4.4</li>
+</ul>
+Subversion<br />
+<br />
+編輯 ~/.subversion/servers 檔案，設定 globe 的&nbsp;http-proxy-host 與&nbsp;http-proxy-port<br />
+<textarea clas="code" style="height: 82px; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; width: 639px;">http-proxy-exceptions = 10.60.36.157
+http-proxy-host = 10.60.36.146
+http-proxy-port = 3128
+</textarea><br />
+在 svn checkout 時改用 http 或 https 協定即可：<br />
+svn checkout <span class="Apple-style-span" style="color: red;">http</span>://flot.googlecode.com/svn/trunk/ flot-read-only<br />
+<br />
+Git<br />
+<br />
+設定好環境變數 http_proxy 與 https_proxy 即可。<br />
+<textarea clas="code" style="height: 53px; margin-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; width: 640px;">export http_proxy=http://10.60.36.146:3128
+export https_proxy=http://10.60.36.146:3128
+</textarea>
+<br />
+<br />
+在 git clone 時改用 http 或 https 協定即可：<br />
+<br />
+git clone <span class="Apple-style-span" style="color: red;">http</span>://github.com/carlhuda/janus.git ~/.vim<br />
+<br />
+<br />
+參考<br />
+http://realchecko.blogspot.com/2007/05/git-over-http-proxy.html<br />
+<br /></div>
+
+]]></content>
+  </entry>
+  
+</feed>
