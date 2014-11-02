@@ -17,3 +17,4 @@ categories: soft
 * [Octopress 安裝教學、心得筆記 ](http://wwssllabcd.github.io/blog/2012/08/01/how-to-install-octopress-on-window/)
 * [Slash — 專為Octopress 設計的極簡主題](http://tommy351.github.io/Octopress-Theme-Slash/index_tw.html)
 * [MacDown 免費、開放原始碼 Markdown 編輯器](http://free.com.tw/macdown-editor/)
+* [Clone 已有 Octopress blog](http://www.cjwind.idv.tw/set-up-existing-octopress-blog/)
