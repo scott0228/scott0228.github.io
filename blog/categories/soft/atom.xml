@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: soft | 小虫的胡言亂語]]></title>
+  <link href="http://scott0228.github.io/blog/categories/soft/atom.xml" rel="self"/>
+  <link href="http://scott0228.github.io/"/>
+  <updated>2014-11-02T10:41:36+08:00</updated>
+  <id>http://scott0228.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Yang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Blog 使用軟體]]></title>
+    <link href="http://scott0228.github.io/blog/2014/11/02/blog-shi-yong-ruan-ti/"/>
+    <updated>2014-11-02T10:27:24+08:00</updated>
+    <id>http://scott0228.github.io/blog/2014/11/02/blog-shi-yong-ruan-ti</id>
+    <content type="html"><![CDATA[<p>目前部落格是使用 github 架設，使用了以下的軟體：</p>
+
+<ul>
+<li><a href="http://octopress.org">octopress</a>: 主程式</li>
+<li><a href="https://github.com/tommy351/Octopress-Theme-Slash">Octopress-Theme-Slash</a>: 模版</li>
+<li><a href="http://macdown.uranusjr.com">MacDown</a>: MarkDown 編輯器</li>
+</ul>
+
+
+<p>相關教學</p>
+
+<ul>
+<li><a href="http://wwssllabcd.github.io/blog/2012/08/01/how-to-install-octopress-on-window/">Octopress 安裝教學、心得筆記 </a></li>
+<li><a href="http://tommy351.github.io/Octopress-Theme-Slash/index_tw.html">Slash — 專為Octopress 設計的極簡主題</a></li>
+<li><a href="http://free.com.tw/macdown-editor/">MacDown 免費、開放原始碼 Markdown 編輯器</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
