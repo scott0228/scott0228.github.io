@@ -1,0 +1,6 @@
+[submodule "source/_includes/.themes/venice"]
+	path = source/_includes/.themes/venice
+	url = git://github.com/octothemes/venice.git
+[submodule ".themes/venice"]
+	path = .themes/venice
+	url = git://github.com/octothemes/venice.git
